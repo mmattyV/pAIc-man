@@ -1,0 +1,7 @@
+name: paic-man
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - pip=25.1
+  - setuptools

@@ -643,6 +643,7 @@ def loadAgent(pacman, nographics):
     else:
         pythonPathDirs = pythonPathStr.split(';')
     pythonPathDirs.append('.')
+    pythonPathDirs.append('helpers')  # Also look in the helpers directory
 
     for moduleDir in pythonPathDirs:
         if not os.path.isdir(moduleDir):
@@ -651,14 +652,20 @@ def loadAgent(pacman, nographics):
             moduleDir) if f.endswith('gents.py')]
         for modulename in moduleNames:
             try:
-                module = __import__(modulename[:-3])
+                # Adjust the import path for modules in subdirectories
+                if moduleDir == 'helpers':
+                    module_path = 'helpers.' + modulename[:-3]
+                    module = __import__(module_path, fromlist=[pacman])
+                else:
+                    module = __import__(modulename[:-3])
+                
+                if pacman in dir(module):
+                    if nographics and modulename == 'keyboardAgents.py':
+                        raise Exception(
+                            'Using the keyboard requires graphics (not text display)')
+                    return getattr(module, pacman)
             except ImportError:
                 continue
-            if pacman in dir(module):
-                if nographics and modulename == 'keyboardAgents.py':
-                    raise Exception(
-                        'Using the keyboard requires graphics (not text display)')
-                return getattr(module, pacman)
     raise Exception('The agent ' + pacman +
                     ' is not specified in any *Agents.py.')
 

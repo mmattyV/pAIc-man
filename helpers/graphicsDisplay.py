@@ -532,7 +532,7 @@ class PacmanGraphics:
                     if (not sIsWall) and (eIsWall):
                         # horizontal line
                         line(add(screen, (0, self.gridSize*(1)*WALL_RADIUS)), add(screen,
-                                                                                   (self.gridSize*0.5+1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
+                                                                                  (self.gridSize*0.5+1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
                     if (sIsWall) and (eIsWall) and (not seIsWall):
                         # outer circle
                         circle(add(screen2, (self.gridSize*2*WALL_RADIUS, self.gridSize*(2)*WALL_RADIUS)),
@@ -554,7 +554,7 @@ class PacmanGraphics:
                     if (not sIsWall) and (wIsWall):
                         # horizontal line
                         line(add(screen, (0, self.gridSize*(1)*WALL_RADIUS)), add(screen,
-                                                                                   (self.gridSize*(-0.5)-1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
+                                                                                  (self.gridSize*(-0.5)-1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
                     if (sIsWall) and (wIsWall) and (not swIsWall):
                         # outer circle
                         circle(add(screen2, (self.gridSize*(-2)*WALL_RADIUS, self.gridSize*(2)*WALL_RADIUS)),

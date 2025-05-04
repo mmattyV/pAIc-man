@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fixed pAIcMan Client - A corrected implementation that works with the gRPC server
+pAIcMan Client - A client implementation that works with the gRPC server
 """
 import grpc
 import uuid

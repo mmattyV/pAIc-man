@@ -34,6 +34,9 @@ logging.basicConfig(
 )
 logger = logging.getLogger("pacman-server")
 
+# Constants
+SCARED_DURATION = 400  # Ticks ghosts remain scared (e.g., 400 ticks * 0.01s/tick = 4 seconds)
+
 class GameSession:
     """Represents a game session"""
     def __init__(self, game_id: str, layout_name: str, max_players: int):
@@ -273,14 +276,24 @@ class GameSession:
                 # Update position
                 self.player_positions[player_id] = new_pos
 
-                # If this is Pacman, check for food consumption
+                # If this is Pacman, check for food/capsule consumption
                 if role == pacman_pb2.PACMAN:
                     self.check_food_consumption(new_pos)
+                    # Check for capsule consumption
+                    if new_pos in self.capsules:
+                        self.capsules.remove(new_pos)
+                        self.tick_capsule_eaten = new_pos
+                        logger.info(f"Player {player_id} (Pacman) ate capsule at {new_pos}")
+                        # Make all ghosts scared
+                        for ghost_id, ghost_role in self.player_roles.items():
+                            if ghost_role == pacman_pb2.GHOST:
+                                self.scared_timers[ghost_id] = SCARED_DURATION
+                                logger.debug(f"Ghost {ghost_id} scared timer set to {SCARED_DURATION}")
 
-    def check_food_consumption(self, pos):
-        """Check if Pacman is eating food or capsules"""
+    def check_food_consumption(self, pacman_pos):
+        """Check if Pacman has eaten food at the given position."""
         # Convert to integer coordinates for grid access
-        x, y = int(round(pos[0])), int(round(pos[1]))
+        x, y = int(round(pacman_pos[0])), int(round(pacman_pos[1]))
 
         # Eat food pellet
         if self.food[x][y]:
@@ -298,18 +311,6 @@ class GameSession:
             if remaining_food == 0:
                 self.score += 500  # Bonus for clearing the level
                 self.status = pacman_pb2.FINISHED
-
-        # Eat power capsule
-        capsule_pos = (x, y)
-        if capsule_pos in self.capsules:
-            self.capsules.remove(capsule_pos)
-            self.score += 50
-            self.tick_capsule_eaten = capsule_pos # Record capsule eaten this tick
-
-            # Make all ghosts scared
-            for player_id, role in self.player_roles.items():
-                if role == pacman_pb2.GHOST:
-                    self.scared_timers[player_id] = 40  # Scared for 40 frames (4 seconds at 10fps)
 
     def check_collisions(self):
         """Check for collisions between Pacman and ghosts"""

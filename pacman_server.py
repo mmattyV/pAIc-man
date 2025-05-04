@@ -39,7 +39,7 @@ class GameSession:
     def __init__(self, game_id: str, layout_name: str, max_players: int):
         self.game_id = game_id
         self.layout_name = layout_name
-        self.max_players = max_players
+        self.max_players = 2
         self.current_players = 0
         self.lock = threading.RLock()
         self.player_streams = {}
@@ -194,8 +194,8 @@ class GameSession:
     def update_loop(self):
         """Game state update loop that runs continuously in a separate thread"""
         try:
-            # Update at 10 fps
-            update_interval = 0.1
+            # Update at 60 fps
+            update_interval = 0.0167
 
             # Track the last time we processed each player's action
             last_action_time = {}
@@ -556,7 +556,7 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer):
                             break
                         elif action.action_type == pacman_pb2.MOVE:
                             # Process the player's move using the game logic
-                            logger.debug(f"Player {player_id} moved {action.direction} in game {game_id}")
+                            logger.info(f"Player {player_id} moved {action.direction} in game {game_id}")
                             game.process_player_action(player_id, action.action_type, action.direction)
                 except Exception as e:
                     logger.error(f"Error processing player actions: {e}", exc_info=True)

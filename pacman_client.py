@@ -468,6 +468,7 @@ class PacmanGUI:
             # Initialize display (before joining the game)
             self.display = PacmanGraphics(1.0)
             self.display.initialize(self.adapter.game_state.data)
+            self.root.focus_force()
 
             # Join the game (this starts the streaming)
             if self.client.join_game(game_id, layout_name):
@@ -487,6 +488,8 @@ class PacmanGUI:
         """Send a move command to the server"""
         if self.client.running:
             self.client.send_move(direction)
+            # add logging
+            logger.info(f"Sent move: {direction}")
 
     def leave_game(self):
         """Leave the current game"""

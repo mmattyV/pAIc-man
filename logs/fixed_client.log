@@ -165,3 +165,522 @@ AttributeError: type object 'Queue' has no attribute 'Empty'. Did you mean: 'emp
 2025-05-04 15:04:51,436 - fixed-client - INFO - Found 1 games
 2025-05-04 15:04:53,508 - fixed-client - INFO - Joined game bdf71990-90d2-4a2e-96a6-6312509f8952
 2025-05-04 15:04:53,508 - fixed-client - INFO - Sending JOIN action for game bdf71990-90d2-4a2e-96a6-6312509f8952
+2025-05-04 15:06:22,045 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:06:22,049 - fixed-client - INFO - Connected to server
+2025-05-04 15:06:23,345 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 15:06:23,355 - fixed-client - INFO - Created game with ID: 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:06:23,356 - fixed-client - INFO - Found 1 games
+2025-05-04 15:06:25,287 - fixed-client - INFO - Joined game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:06:25,287 - fixed-client - INFO - Sending JOIN action for game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:24,773 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:07:24,778 - fixed-client - INFO - Connected to server
+2025-05-04 15:07:29,479 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:07:29,480 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:07:29,481 - fixed-client - INFO - Connected to server
+2025-05-04 15:07:29,488 - fixed-client - INFO - Found 1 games
+2025-05-04 15:07:36,622 - fixed-client - INFO - Joined game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:36,623 - fixed-client - INFO - Sending JOIN action for game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:44,714 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:07:44,716 - fixed-client - INFO - Connected to server
+2025-05-04 15:07:46,528 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:07:46,528 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:07:46,528 - fixed-client - INFO - Connected to server
+2025-05-04 15:07:46,531 - fixed-client - INFO - Found 1 games
+2025-05-04 15:07:54,237 - fixed-client - INFO - Joined game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:54,237 - fixed-client - INFO - Sending JOIN action for game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:56,270 - fixed-client - INFO - Game thread for 8fa34bf4-324e-4afa-8ef5-06e77f9cab67 ended
+2025-05-04 15:07:56,275 - fixed-client - INFO - Left game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:56,275 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:07:59,397 - fixed-client - INFO - Sending LEAVE action for game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:59,399 - fixed-client - INFO - Game thread for 8fa34bf4-324e-4afa-8ef5-06e77f9cab67 ended
+2025-05-04 15:07:59,403 - fixed-client - INFO - Left game 8fa34bf4-324e-4afa-8ef5-06e77f9cab67
+2025-05-04 15:07:59,404 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:08:19,725 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:08:19,728 - fixed-client - INFO - Connected to server
+2025-05-04 15:08:21,129 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:08:21,129 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:08:21,130 - fixed-client - INFO - Connected to server
+2025-05-04 15:08:21,133 - fixed-client - INFO - Found 0 games
+2025-05-04 15:08:22,092 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 15:08:22,095 - fixed-client - INFO - Created game with ID: 5c8c21d2-bad0-4d0b-bf03-5d66ad3d3d7f
+2025-05-04 15:08:22,095 - fixed-client - INFO - Found 1 games
+2025-05-04 15:08:25,580 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:08:25,582 - fixed-client - INFO - Connected to server
+2025-05-04 15:08:30,404 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:08:32,260 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:08:32,263 - fixed-client - INFO - Connected to server
+2025-05-04 15:08:34,865 - fixed-client - INFO - Found 1 games
+2025-05-04 15:08:37,083 - fixed-client - INFO - Found 1 games
+2025-05-04 15:08:38,804 - fixed-client - INFO - Joined game 5c8c21d2-bad0-4d0b-bf03-5d66ad3d3d7f
+2025-05-04 15:08:38,804 - fixed-client - INFO - Sending JOIN action for game 5c8c21d2-bad0-4d0b-bf03-5d66ad3d3d7f
+2025-05-04 15:08:41,676 - fixed-client - INFO - Joined game 5c8c21d2-bad0-4d0b-bf03-5d66ad3d3d7f
+2025-05-04 15:08:41,676 - fixed-client - INFO - Sending JOIN action for game 5c8c21d2-bad0-4d0b-bf03-5d66ad3d3d7f
+2025-05-04 15:14:35,797 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:14:35,803 - fixed-client - INFO - Connected to server
+2025-05-04 15:14:39,997 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:14:39,997 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:14:39,998 - fixed-client - INFO - Connected to server
+2025-05-04 15:14:40,010 - fixed-client - INFO - Found 0 games
+2025-05-04 15:14:41,043 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 15:14:41,050 - fixed-client - INFO - Created game with ID: 297ade4c-7929-4127-a983-52fc754c05fc
+2025-05-04 15:14:41,051 - fixed-client - INFO - Found 1 games
+2025-05-04 15:14:42,923 - fixed-client - INFO - Joined game 297ade4c-7929-4127-a983-52fc754c05fc
+2025-05-04 15:14:42,924 - fixed-client - INFO - Sending JOIN action for game 297ade4c-7929-4127-a983-52fc754c05fc
+2025-05-04 15:14:58,434 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:14:58,437 - fixed-client - INFO - Connected to server
+2025-05-04 15:15:00,712 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:15:00,713 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:15:00,714 - fixed-client - INFO - Connected to server
+2025-05-04 15:15:00,721 - fixed-client - INFO - Found 1 games
+2025-05-04 15:15:02,821 - fixed-client - INFO - Joined game 297ade4c-7929-4127-a983-52fc754c05fc
+2025-05-04 15:15:02,821 - fixed-client - INFO - Sending JOIN action for game 297ade4c-7929-4127-a983-52fc754c05fc
+2025-05-04 15:26:56,180 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:26:56,183 - fixed-client - INFO - Connected to server
+2025-05-04 15:26:58,176 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:26:58,178 - fixed-client - INFO - Connected to server
+2025-05-04 15:27:01,094 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:27:01,094 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:27:01,095 - fixed-client - INFO - Connected to server
+2025-05-04 15:27:01,101 - fixed-client - INFO - Found 0 games
+2025-05-04 15:27:01,942 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:27:01,942 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:27:01,943 - fixed-client - INFO - Connected to server
+2025-05-04 15:27:01,947 - fixed-client - INFO - Found 0 games
+2025-05-04 15:27:03,225 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 15:27:03,227 - fixed-client - INFO - Created game with ID: c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:27:03,228 - fixed-client - INFO - Found 1 games
+2025-05-04 15:27:05,077 - fixed-client - INFO - Joined game c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:27:05,077 - fixed-client - INFO - Sending JOIN action for game c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:27:05,185 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:05,406 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:06,044 - fixed-client - WARNING - Already in a game. Call leave_game() first.
+2025-05-04 15:27:11,857 - fixed-client - WARNING - Already in a game. Call leave_game() first.
+2025-05-04 15:27:12,584 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:12,741 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:12,836 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:13,354 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:18,767 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:19,157 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:19,387 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:19,784 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:21,914 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:22,078 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:22,331 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:22,661 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:22,818 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:22,993 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:25,127 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:27:25,127 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:27:25,128 - fixed-client - INFO - Connected to server
+2025-05-04 15:27:25,132 - fixed-client - INFO - Found 1 games
+2025-05-04 15:27:28,227 - fixed-client - INFO - Joined game c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:27:28,227 - fixed-client - INFO - Sending JOIN action for game c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:27:29,524 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:29,995 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:34,096 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:34,096 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:34,595 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:37,746 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:38,087 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:38,270 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:38,502 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:38,618 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:38,703 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:38,796 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:38,927 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:40,131 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:40,143 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:40,393 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:40,725 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:41,278 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:41,753 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:41,927 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:42,185 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:42,285 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:42,542 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:42,770 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:42,952 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:43,144 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:43,349 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:43,569 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:43,869 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:44,070 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:45,119 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:45,279 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:45,514 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:46,096 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:47,579 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:47,811 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:47,835 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:48,077 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:27:49,570 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:27:49,976 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:50,260 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:50,493 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:50,794 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:27:51,060 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:51,293 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:51,610 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:27:52,320 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:04,214 - fixed-client - INFO - Found 1 games
+2025-05-04 15:28:14,150 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:14,194 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:14,310 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:14,714 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:14,843 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:15,062 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:15,327 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:15,568 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:15,696 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:15,797 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:15,895 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:15,994 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:16,082 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:17,567 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:17,576 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:17,702 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:18,297 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:29,707 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:29,807 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:29,969 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:29,991 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:30,088 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:30,307 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:30,358 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:30,536 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:31,505 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:31,574 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:31,600 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:31,710 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:31,865 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:31,877 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:31,966 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:32,124 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:32,218 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:32,311 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:32,442 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:32,675 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:32,749 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:33,101 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:33,367 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:33,602 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:33,818 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:34,003 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:34,204 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:34,501 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:34,710 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:34,951 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:37,938 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:37,972 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:38,076 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:38,594 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:38,857 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:40,168 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:40,511 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:40,670 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:40,843 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:41,026 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:41,159 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:41,267 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:41,362 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:41,473 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:41,535 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:41,701 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:41,868 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:42,028 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:42,202 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:42,368 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:42,539 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:42,721 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:42,912 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:43,123 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:43,624 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:43,708 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:43,792 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:43,851 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:44,102 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:44,603 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:44,686 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:44,770 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:44,854 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:44,938 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:45,022 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:45,106 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:45,189 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:45,690 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:45,773 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:45,856 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:45,939 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:46,022 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:46,106 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:46,189 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:46,274 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:46,356 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:46,439 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:46,453 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:46,953 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:47,087 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:47,253 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:47,353 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:47,458 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:47,606 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:47,720 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:47,859 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:47,952 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,025 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,105 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,191 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,269 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,359 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,429 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,511 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,603 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:48,671 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:49,249 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,347 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,421 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,496 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,588 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,670 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,756 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,840 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:49,931 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:50,010 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:50,106 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:50,192 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:50,279 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:50,371 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:50,676 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:50,839 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:50,979 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,105 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,202 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,361 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,461 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,545 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,625 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,737 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,820 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:51,905 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:52,227 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:52,413 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:28:52,807 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,070 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,135 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,192 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,280 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,374 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,462 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,538 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,626 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:53,804 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:53,902 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:53,979 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:54,063 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:54,070 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:54,153 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:54,264 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:54,491 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:54,625 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:54,744 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:54,919 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:55,090 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:28:55,244 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:55,375 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:55,530 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:55,903 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:56,172 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:56,258 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:28:56,261 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:56,444 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:28:56,791 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:29:01,868 - fixed-client - INFO - Sending LEAVE action for game c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:29:01,869 - fixed-client - INFO - Game thread for c21a3a51-2841-45b1-abae-066e626c9025 ended
+2025-05-04 15:29:01,871 - fixed-client - INFO - Left game c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:29:01,871 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:29:03,436 - fixed-client - INFO - Game thread for c21a3a51-2841-45b1-abae-066e626c9025 ended
+2025-05-04 15:29:03,442 - fixed-client - INFO - Left game c21a3a51-2841-45b1-abae-066e626c9025
+2025-05-04 15:29:03,443 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:29:19,570 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:29:19,572 - fixed-client - INFO - Connected to server
+2025-05-04 15:29:22,022 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:29:22,022 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:29:22,023 - fixed-client - INFO - Connected to server
+2025-05-04 15:29:22,029 - fixed-client - INFO - Found 0 games
+2025-05-04 15:29:23,221 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 15:29:23,227 - fixed-client - INFO - Created game with ID: a9ef0213-61d3-413b-8722-cd7a3b33e180
+2025-05-04 15:29:23,228 - fixed-client - INFO - Found 1 games
+2025-05-04 15:29:24,902 - fixed-client - INFO - Joined game a9ef0213-61d3-413b-8722-cd7a3b33e180
+2025-05-04 15:29:24,903 - fixed-client - INFO - Sending JOIN action for game a9ef0213-61d3-413b-8722-cd7a3b33e180
+2025-05-04 15:29:26,623 - fixed-client - INFO - Found 1 games
+2025-05-04 15:29:34,453 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:29:34,457 - fixed-client - INFO - Connected to server
+2025-05-04 15:29:39,380 - fixed-client - INFO - Found 1 games
+2025-05-04 15:29:39,674 - fixed-client - INFO - Found 1 games
+2025-05-04 15:29:45,068 - fixed-client - INFO - Joined game a9ef0213-61d3-413b-8722-cd7a3b33e180
+2025-05-04 15:29:45,068 - fixed-client - INFO - Sending JOIN action for game a9ef0213-61d3-413b-8722-cd7a3b33e180
+2025-05-04 15:29:54,507 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:29:54,589 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:29:57,531 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:00,504 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:00,782 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:00,874 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:01,224 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:01,425 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:01,795 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:02,142 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:02,464 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:02,629 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:02,875 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:03,052 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:03,288 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:03,488 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:03,699 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:03,881 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:04,060 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:04,179 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:04,474 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:04,665 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:04,744 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:04,839 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:04,931 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:05,032 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:05,106 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:05,206 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:05,274 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:05,383 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:05,441 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:05,558 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:05,741 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:05,916 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:06,088 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:06,366 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:06,579 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:06,805 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:07,015 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:07,177 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:07,360 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:07,543 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:07,779 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:07,959 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:08,130 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:08,325 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:08,530 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:08,846 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:09,175 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:10,376 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:10,725 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:10,813 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:10,909 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:10,975 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:11,075 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:11,143 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:11,232 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:11,308 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:11,396 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:11,476 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:11,559 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:11,638 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:11,714 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:11,776 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:11,882 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:11,943 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:12,047 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:12,104 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:12,233 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:12,273 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:12,448 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:12,498 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:12,658 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:13,299 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:13,792 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:16,647 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:16,877 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:17,063 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:17,564 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:17,648 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:17,732 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:17,826 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:17,909 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:17,993 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:18,078 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:18,164 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:18,239 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:18,366 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:18,857 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:19,259 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:20,661 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:20,881 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:21,295 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:21,455 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:21,675 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:21,865 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:22,225 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:22,443 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:22,809 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:23,059 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:23,559 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:23,639 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:23,723 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:23,808 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:23,893 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:23,976 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,059 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,143 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,226 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,309 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,393 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,476 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,559 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:24,622 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:25,126 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:25,210 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:25,289 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:25,359 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:25,809 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:26,030 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:26,530 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:26,615 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:26,699 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:26,775 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:27,276 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:27,360 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:27,442 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:27,526 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:27,609 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:27,692 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:27,693 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:28,194 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:28,725 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:29,026 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:29,258 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:29,476 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:29,976 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:30,060 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:30,142 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:30,431 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:30,676 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:30,877 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:31,092 - fixed-client - INFO - Sent move: 1
+2025-05-04 15:30:31,242 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:31,446 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:31,592 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:31,861 - fixed-client - INFO - Sent move: 4
+2025-05-04 15:30:31,899 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:32,115 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:32,266 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:32,611 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:32,825 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:32,958 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:33,115 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:33,275 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:33,442 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:33,758 - fixed-client - INFO - Sent move: 3
+2025-05-04 15:30:33,948 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:34,175 - fixed-client - INFO - Sent move: 2
+2025-05-04 15:30:34,178 - fixed-client - INFO - Game a9ef0213-61d3-413b-8722-cd7a3b33e180 finished
+2025-05-04 15:30:34,178 - fixed-client - INFO - Game thread for a9ef0213-61d3-413b-8722-cd7a3b33e180 ended
+2025-05-04 15:30:34,178 - fixed-client - INFO - Game a9ef0213-61d3-413b-8722-cd7a3b33e180 finished
+2025-05-04 15:30:34,178 - fixed-client - INFO - Game thread for a9ef0213-61d3-413b-8722-cd7a3b33e180 ended
+2025-05-04 15:30:34,271 - fixed-client - INFO - Sending LEAVE action for game a9ef0213-61d3-413b-8722-cd7a3b33e180
+2025-05-04 15:30:34,280 - fixed-client - INFO - Sending LEAVE action for game a9ef0213-61d3-413b-8722-cd7a3b33e180

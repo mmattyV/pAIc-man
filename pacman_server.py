@@ -52,6 +52,10 @@ class GameSession:
         # Game state variables
         self.score = 0
 
+        # Track items eaten in the current tick for broadcast
+        self.tick_food_eaten = None
+        self.tick_capsule_eaten = None
+
         # Initialize the game layout
         self.layout = layout.getLayout(layout_name)
         if not self.layout:
@@ -194,16 +198,17 @@ class GameSession:
     def update_loop(self):
         """Game state update loop that runs continuously in a separate thread"""
         try:
-            # Update at 60 fps
-            update_interval = 0.0167
-
-            # Track the last time we processed each player's action
+            update_interval = 0.01
             last_action_time = {}
 
             while self.running:
                 # Only process updates if game is active
                 if self.status == pacman_pb2.IN_PROGRESS:
                     with self.lock:
+                        # Reset tick-specific events
+                        self.tick_food_eaten = None
+                        self.tick_capsule_eaten = None
+
                         # 1. Process player actions/movements
                         for player_id, role in list(self.player_roles.items()):
                             if player_id not in self.player_positions:
@@ -281,6 +286,7 @@ class GameSession:
         if self.food[x][y]:
             self.food[x][y] = False
             self.score += 10
+            self.tick_food_eaten = (x, y)  # Record food eaten this tick
 
             # Check win condition - all food eaten
             remaining_food = 0
@@ -298,6 +304,7 @@ class GameSession:
         if capsule_pos in self.capsules:
             self.capsules.remove(capsule_pos)
             self.score += 50
+            self.tick_capsule_eaten = capsule_pos # Record capsule eaten this tick
 
             # Make all ghosts scared
             for player_id, role in self.player_roles.items():
@@ -429,6 +436,16 @@ class GameSession:
                 )
                 agents.append(agent)
 
+        # Prepare food_eaten field if applicable
+        food_eaten_pos = None
+        if self.tick_food_eaten:
+            food_eaten_pos = pacman_pb2.Position(x=self.tick_food_eaten[0], y=self.tick_food_eaten[1])
+
+        # Prepare capsule_eaten field if applicable
+        capsule_eaten_pos = None
+        if self.tick_capsule_eaten:
+            capsule_eaten_pos = pacman_pb2.Position(x=self.tick_capsule_eaten[0], y=self.tick_capsule_eaten[1])
+
         # Return the complete game state
         return pacman_pb2.GameState(
             game_id=self.game_id,
@@ -438,7 +455,9 @@ class GameSession:
             capsules=capsule_positions,
             walls=wall_positions,
             score=self.score,
-            winner_id=self.pacman_player if self.status == pacman_pb2.FINISHED and self.score > 0 else ""
+            winner_id=self.pacman_player if self.status == pacman_pb2.FINISHED and self.score > 0 else "",
+            food_eaten=food_eaten_pos,
+            capsule_eaten=capsule_eaten_pos
         )
 
     def get_info(self) -> pacman_pb2.GameInfo:

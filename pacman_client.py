@@ -48,11 +48,29 @@ class GameStateAdapter:
         self.game_state.initialize(self.layout, self.layout.getNumGhosts())
         self.data = self.game_state.data
 
-    def update_from_proto(self, proto_state):
+    def update_from_proto(self, proto_state: pacman_pb2.GameState) -> Optional[GameState]:
         """Update the game state from a protobuf message"""
         try:
             # Update score
             self.data.score = proto_state.score
+
+            # Update based on food/capsule eaten in this specific tick
+            if proto_state.HasField('food_eaten'):
+                self.data._foodEaten = (int(proto_state.food_eaten.x), int(proto_state.food_eaten.y))
+                logger.debug(f"Received food eaten at: {self.data._foodEaten}")
+            else:
+                self.data._foodEaten = None
+
+            if proto_state.HasField('capsule_eaten'):
+                self.data._capsuleEaten = (int(proto_state.capsule_eaten.x), int(proto_state.capsule_eaten.y))
+                logger.debug(f"Received capsule eaten at: {self.data._capsuleEaten}")
+            else:
+                self.data._capsuleEaten = None
+
+            # Update layout only if it's the first time or changed (unlikely)
+            # Assuming layout (walls) doesn't change mid-game
+            if self.data.layout is None:
+                self.data.layout = self.layout
 
             # Clear food grid and update from proto
             width = self.layout.width

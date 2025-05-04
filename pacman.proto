@@ -84,6 +84,8 @@ message GameState {
   int32 score = 6;                 // Current score
   GameStatus status = 7;           // Game status
   string winner_id = 8;            // ID of winning player (if game is finished)
+  optional Position food_eaten = 9;    // Position of food eaten this tick (if any)
+  optional Position capsule_eaten = 10; // Position of capsule eaten this tick (if any)
 }
 
 // State of an agent (Pacman or ghost)

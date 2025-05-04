@@ -14,21 +14,21 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cpacman.proto\x12\x06pacman\"\x07\n\x05\x45mpty\"6\n\nGameConfig\x12\x13\n\x0blayout_name\x18\x01 \x01(\t\x12\x13\n\x0bmax_players\x18\x02 \x01(\x05\"F\n\x0bGameSession\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\",\n\tGamesList\x12\x1f\n\x05games\x18\x01 \x03(\x0b\x32\x10.pacman.GameInfo\"\x82\x01\n\x08GameInfo\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x13\n\x0blayout_name\x18\x02 \x01(\t\x12\x17\n\x0f\x63urrent_players\x18\x03 \x01(\x05\x12\x13\n\x0bmax_players\x18\x04 \x01(\x05\x12\"\n\x06status\x18\x05 \x01(\x0e\x32\x12.pacman.GameStatus\"\x94\x01\n\x0cPlayerAction\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\x0f\n\x07game_id\x18\x02 \x01(\t\x12\'\n\x0b\x61\x63tion_type\x18\x03 \x01(\x0e\x32\x12.pacman.ActionType\x12)\n\tdirection\x18\x04 \x01(\x0e\x32\x11.pacman.DirectionH\x00\x88\x01\x01\x42\x0c\n\n_direction\"\xeb\x01\n\tGameState\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\"\n\x06\x61gents\x18\x02 \x03(\x0b\x32\x12.pacman.AgentState\x12\x1e\n\x04\x66ood\x18\x03 \x03(\x0b\x32\x10.pacman.Position\x12\"\n\x08\x63\x61psules\x18\x04 \x03(\x0b\x32\x10.pacman.Position\x12\x1f\n\x05walls\x18\x05 \x03(\x0b\x32\x10.pacman.Position\x12\r\n\x05score\x18\x06 \x01(\x05\x12\"\n\x06status\x18\x07 \x01(\x0e\x32\x12.pacman.GameStatus\x12\x11\n\twinner_id\x18\x08 \x01(\t\"\xcb\x01\n\nAgentState\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\x12%\n\nagent_type\x18\x02 \x01(\x0e\x32\x11.pacman.AgentType\x12\"\n\x08position\x18\x03 \x01(\x0b\x32\x10.pacman.Position\x12$\n\tdirection\x18\x04 \x01(\x0e\x32\x11.pacman.Direction\x12\x11\n\tis_scared\x18\x05 \x01(\x08\x12\x14\n\x0cscared_timer\x18\x06 \x01(\x05\x12\x11\n\tplayer_id\x18\x07 \x01(\t\" \n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02*8\n\nGameStatus\x12\x0b\n\x07WAITING\x10\x00\x12\x0f\n\x0bIN_PROGRESS\x10\x01\x12\x0c\n\x08\x46INISHED\x10\x02*+\n\nActionType\x12\x08\n\x04JOIN\x10\x00\x12\t\n\x05LEAVE\x10\x01\x12\x08\n\x04MOVE\x10\x02*?\n\tDirection\x12\x08\n\x04STOP\x10\x00\x12\t\n\x05NORTH\x10\x01\x12\t\n\x05SOUTH\x10\x02\x12\x08\n\x04\x45\x41ST\x10\x03\x12\x08\n\x04WEST\x10\x04*\"\n\tAgentType\x12\n\n\x06PACMAN\x10\x00\x12\t\n\x05GHOST\x10\x01\x32\xab\x01\n\nPacmanGame\x12\x37\n\x08PlayGame\x12\x14.pacman.PlayerAction\x1a\x11.pacman.GameState(\x01\x30\x01\x12\x35\n\nCreateGame\x12\x12.pacman.GameConfig\x1a\x13.pacman.GameSession\x12-\n\tListGames\x12\r.pacman.Empty\x1a\x11.pacman.GamesListb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cpacman.proto\x12\x06pacman\"\x07\n\x05\x45mpty\"6\n\nGameConfig\x12\x13\n\x0blayout_name\x18\x01 \x01(\t\x12\x13\n\x0bmax_players\x18\x02 \x01(\x05\"F\n\x0bGameSession\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x15\n\rerror_message\x18\x03 \x01(\t\",\n\tGamesList\x12\x1f\n\x05games\x18\x01 \x03(\x0b\x32\x10.pacman.GameInfo\"\x82\x01\n\x08GameInfo\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x13\n\x0blayout_name\x18\x02 \x01(\t\x12\x17\n\x0f\x63urrent_players\x18\x03 \x01(\x05\x12\x13\n\x0bmax_players\x18\x04 \x01(\x05\x12\"\n\x06status\x18\x05 \x01(\x0e\x32\x12.pacman.GameStatus\"\x94\x01\n\x0cPlayerAction\x12\x11\n\tplayer_id\x18\x01 \x01(\t\x12\x0f\n\x07game_id\x18\x02 \x01(\t\x12\'\n\x0b\x61\x63tion_type\x18\x03 \x01(\x0e\x32\x12.pacman.ActionType\x12)\n\tdirection\x18\x04 \x01(\x0e\x32\x11.pacman.DirectionH\x00\x88\x01\x01\x42\x0c\n\n_direction\"\xe5\x02\n\tGameState\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\"\n\x06\x61gents\x18\x02 \x03(\x0b\x32\x12.pacman.AgentState\x12\x1e\n\x04\x66ood\x18\x03 \x03(\x0b\x32\x10.pacman.Position\x12\"\n\x08\x63\x61psules\x18\x04 \x03(\x0b\x32\x10.pacman.Position\x12\x1f\n\x05walls\x18\x05 \x03(\x0b\x32\x10.pacman.Position\x12\r\n\x05score\x18\x06 \x01(\x05\x12\"\n\x06status\x18\x07 \x01(\x0e\x32\x12.pacman.GameStatus\x12\x11\n\twinner_id\x18\x08 \x01(\t\x12)\n\nfood_eaten\x18\t \x01(\x0b\x32\x10.pacman.PositionH\x00\x88\x01\x01\x12,\n\rcapsule_eaten\x18\n \x01(\x0b\x32\x10.pacman.PositionH\x01\x88\x01\x01\x42\r\n\x0b_food_eatenB\x10\n\x0e_capsule_eaten\"\xcb\x01\n\nAgentState\x12\x10\n\x08\x61gent_id\x18\x01 \x01(\t\x12%\n\nagent_type\x18\x02 \x01(\x0e\x32\x11.pacman.AgentType\x12\"\n\x08position\x18\x03 \x01(\x0b\x32\x10.pacman.Position\x12$\n\tdirection\x18\x04 \x01(\x0e\x32\x11.pacman.Direction\x12\x11\n\tis_scared\x18\x05 \x01(\x08\x12\x14\n\x0cscared_timer\x18\x06 \x01(\x05\x12\x11\n\tplayer_id\x18\x07 \x01(\t\" \n\x08Position\x12\t\n\x01x\x18\x01 \x01(\x02\x12\t\n\x01y\x18\x02 \x01(\x02*8\n\nGameStatus\x12\x0b\n\x07WAITING\x10\x00\x12\x0f\n\x0bIN_PROGRESS\x10\x01\x12\x0c\n\x08\x46INISHED\x10\x02*+\n\nActionType\x12\x08\n\x04JOIN\x10\x00\x12\t\n\x05LEAVE\x10\x01\x12\x08\n\x04MOVE\x10\x02*?\n\tDirection\x12\x08\n\x04STOP\x10\x00\x12\t\n\x05NORTH\x10\x01\x12\t\n\x05SOUTH\x10\x02\x12\x08\n\x04\x45\x41ST\x10\x03\x12\x08\n\x04WEST\x10\x04*\"\n\tAgentType\x12\n\n\x06PACMAN\x10\x00\x12\t\n\x05GHOST\x10\x01\x32\xab\x01\n\nPacmanGame\x12\x37\n\x08PlayGame\x12\x14.pacman.PlayerAction\x1a\x11.pacman.GameState(\x01\x30\x01\x12\x35\n\nCreateGame\x12\x12.pacman.GameConfig\x1a\x13.pacman.GameSession\x12-\n\tListGames\x12\r.pacman.Empty\x1a\x11.pacman.GamesListb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'pacman_pb2', _globals)
 if _descriptor._USE_C_DESCRIPTORS == False:
   DESCRIPTOR._options = None
-  _globals['_GAMESTATUS']._serialized_start=969
-  _globals['_GAMESTATUS']._serialized_end=1025
-  _globals['_ACTIONTYPE']._serialized_start=1027
-  _globals['_ACTIONTYPE']._serialized_end=1070
-  _globals['_DIRECTION']._serialized_start=1072
-  _globals['_DIRECTION']._serialized_end=1135
-  _globals['_AGENTTYPE']._serialized_start=1137
-  _globals['_AGENTTYPE']._serialized_end=1171
+  _globals['_GAMESTATUS']._serialized_start=1091
+  _globals['_GAMESTATUS']._serialized_end=1147
+  _globals['_ACTIONTYPE']._serialized_start=1149
+  _globals['_ACTIONTYPE']._serialized_end=1192
+  _globals['_DIRECTION']._serialized_start=1194
+  _globals['_DIRECTION']._serialized_end=1257
+  _globals['_AGENTTYPE']._serialized_start=1259
+  _globals['_AGENTTYPE']._serialized_end=1293
   _globals['_EMPTY']._serialized_start=24
   _globals['_EMPTY']._serialized_end=31
   _globals['_GAMECONFIG']._serialized_start=33
@@ -42,11 +42,11 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_PLAYERACTION']._serialized_start=341
   _globals['_PLAYERACTION']._serialized_end=489
   _globals['_GAMESTATE']._serialized_start=492
-  _globals['_GAMESTATE']._serialized_end=727
-  _globals['_AGENTSTATE']._serialized_start=730
-  _globals['_AGENTSTATE']._serialized_end=933
-  _globals['_POSITION']._serialized_start=935
-  _globals['_POSITION']._serialized_end=967
-  _globals['_PACMANGAME']._serialized_start=1174
-  _globals['_PACMANGAME']._serialized_end=1345
+  _globals['_GAMESTATE']._serialized_end=849
+  _globals['_AGENTSTATE']._serialized_start=852
+  _globals['_AGENTSTATE']._serialized_end=1055
+  _globals['_POSITION']._serialized_start=1057
+  _globals['_POSITION']._serialized_end=1089
+  _globals['_PACMANGAME']._serialized_start=1296
+  _globals['_PACMANGAME']._serialized_end=1467
 # @@protoc_insertion_point(module_scope)

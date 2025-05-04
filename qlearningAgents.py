@@ -64,11 +64,11 @@ class QLearningAgent(ReinforcementAgent):
         """
         # Get legal actions for the state
         legalActions = self.getLegalActions(state)
-        
+
         # If there are no legal actions, return 0.0
         if not legalActions:
             return 0.0
-        
+
         # Return the maximum Q-value over all legal actions
         return max([self.getQValue(state, action) for action in legalActions])
 
@@ -80,17 +80,17 @@ class QLearningAgent(ReinforcementAgent):
         """
         # Get legal actions for the state
         legalActions = self.getLegalActions(state)
-        
+
         # If there are no legal actions, return None
         if not legalActions:
             return None
-        
+
         # Find the maximum Q-value
         maxQValue = self.computeValueFromQValues(state)
-        
+
         # Get all actions that achieve the maximum Q-value
         bestActions = [action for action in legalActions if self.getQValue(state, action) == maxQValue]
-        
+
         # Break ties randomly for better behavior
         return random.choice(bestActions)
 
@@ -109,11 +109,11 @@ class QLearningAgent(ReinforcementAgent):
         action = None
         # Get legal actions for the state
         legalActions = self.getLegalActions(state)
-        
+
         # If there are no legal actions, return None
         if not legalActions:
             return None
-        
+
         # Epsilon-greedy policy: with probability epsilon, choose a random action,
         # otherwise choose the best action according to the current policy
         if util.flipCoin(self.epsilon):
@@ -133,10 +133,10 @@ class QLearningAgent(ReinforcementAgent):
         """
         # Get the current Q-value for the state-action pair
         currentQValue = self.getQValue(state, action)
-        
+
         # Compute the maximum Q-value for the next state
         maxQNextState = self.computeValueFromQValues(nextState)
-        
+
         # Update the Q-value using the Q-learning formula
         self.values[(state, action)] = (1 - self.alpha) * currentQValue + \
                                       self.alpha * (reward + self.discount * maxQNextState)
@@ -200,14 +200,14 @@ class ApproximateQAgent(PacmanQAgent):
         """
         # Initialize Q-value to 0
         qValue = 0.0
-        
+
         # Get the feature vector for this state-action pair
         featureVector = self.featExtractor.getFeatures(state, action)
-        
+
         # Calculate Q(state, action) = w * featureVector
         for feature, value in featureVector.items():
             qValue += self.weights[feature] * value
-        
+
         return qValue
 
     def update(self, state, action, nextState, reward: float):
@@ -216,16 +216,16 @@ class ApproximateQAgent(PacmanQAgent):
         """
         # Get the current Q-value
         currentQValue = self.getQValue(state, action)
-        
+
         # Calculate the maximum Q-value for the next state
         maxQNextState = self.computeValueFromQValues(nextState)
-        
+
         # Calculate the temporal difference (difference between target and current Q-value)
         difference = (reward + self.discount * maxQNextState) - currentQValue
-        
+
         # Get the feature vector for this state-action pair
         featureVector = self.featExtractor.getFeatures(state, action)
-        
+
         # Update each weight based on the formula:
         # w_i ← w_i + α * difference * f_i(s, a)
         for feature, value in featureVector.items():

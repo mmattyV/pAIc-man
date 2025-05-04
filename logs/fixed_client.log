@@ -1,0 +1,144 @@
+2025-05-04 13:55:55,797 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 13:55:55,801 - fixed-client - INFO - Connected to server
+2025-05-04 13:55:59,423 - fixed-client - INFO - Disconnected from server
+2025-05-04 13:55:59,424 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 13:55:59,425 - fixed-client - INFO - Connected to server
+2025-05-04 13:55:59,435 - fixed-client - INFO - Found 0 games
+2025-05-04 13:56:01,823 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 13:56:01,827 - fixed-client - INFO - Created game with ID: 35ee993a-0df0-4d24-8edc-6c0e0c226621
+2025-05-04 13:56:01,828 - fixed-client - INFO - Found 1 games
+2025-05-04 13:56:04,839 - fixed-client - INFO - Joined game 35ee993a-0df0-4d24-8edc-6c0e0c226621
+2025-05-04 13:56:04,848 - fixed-client - INFO - Sending JOIN action for game 35ee993a-0df0-4d24-8edc-6c0e0c226621
+2025-05-04 13:56:04,954 - grpc._channel - ERROR - Exception iterating requests!
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_client.py", line 228, in generate_actions
+    action = self.action_queue.get(timeout=0.1)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/queue.py", line 179, in get
+    raise Empty
+_queue.Empty
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/site-packages/grpc/_channel.py", line 276, in consume_request_iterator
+    request = next(request_iterator)
+              ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pedrogarcia/pAIc-man/pacman_client.py", line 231, in generate_actions
+    except Queue.Empty:
+           ^^^^^^^^^^^
+AttributeError: type object 'Queue' has no attribute 'Empty'. Did you mean: 'empty'?
+2025-05-04 13:56:04,958 - fixed-client - ERROR - Error in game thread: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNKNOWN
+	details = "Exception iterating requests!"
+	debug_error_string = "None"
+>
+2025-05-04 13:56:04,958 - fixed-client - INFO - Game thread for 35ee993a-0df0-4d24-8edc-6c0e0c226621 ended
+2025-05-04 14:00:23,792 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:00:23,797 - fixed-client - INFO - Connected to server
+2025-05-04 14:00:30,305 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:00:30,307 - fixed-client - INFO - Connected to server
+2025-05-04 14:00:35,266 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:00:35,279 - fixed-client - INFO - Created game with ID: 5929637b-a09e-43e7-86a8-968f5a0cc7ea
+2025-05-04 14:00:35,280 - fixed-client - INFO - Found 1 games
+2025-05-04 14:00:36,896 - fixed-client - INFO - Joined game 5929637b-a09e-43e7-86a8-968f5a0cc7ea
+2025-05-04 14:00:36,897 - fixed-client - INFO - Sending JOIN action for game 5929637b-a09e-43e7-86a8-968f5a0cc7ea
+2025-05-04 14:05:50,232 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:05:50,234 - fixed-client - INFO - Connected to server
+2025-05-04 14:05:52,192 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:05:52,201 - fixed-client - INFO - Created game with ID: bdd7c0f3-2bde-4dd0-98c2-74302a4f9918
+2025-05-04 14:05:52,202 - fixed-client - INFO - Found 1 games
+2025-05-04 14:05:53,738 - fixed-client - INFO - Joined game bdd7c0f3-2bde-4dd0-98c2-74302a4f9918
+2025-05-04 14:05:53,738 - fixed-client - INFO - Sending JOIN action for game bdd7c0f3-2bde-4dd0-98c2-74302a4f9918
+2025-05-04 14:07:39,387 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:07:39,389 - fixed-client - INFO - Connected to server
+2025-05-04 14:07:51,583 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:07:51,585 - fixed-client - INFO - Connected to server
+2025-05-04 14:07:54,358 - fixed-client - INFO - Disconnected from server
+2025-05-04 14:07:54,358 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:07:54,359 - fixed-client - INFO - Connected to server
+2025-05-04 14:07:54,365 - fixed-client - INFO - Found 0 games
+2025-05-04 14:07:56,989 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:07:56,995 - fixed-client - INFO - Created game with ID: 414f2975-e461-4c93-a6f1-7f0ca650e61a
+2025-05-04 14:07:56,997 - fixed-client - INFO - Found 1 games
+2025-05-04 14:08:00,738 - fixed-client - INFO - Joined game 414f2975-e461-4c93-a6f1-7f0ca650e61a
+2025-05-04 14:08:00,738 - fixed-client - INFO - Sending JOIN action for game 414f2975-e461-4c93-a6f1-7f0ca650e61a
+2025-05-04 14:08:09,637 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:08:09,639 - fixed-client - INFO - Connected to server
+2025-05-04 14:08:12,989 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:08:12,998 - fixed-client - INFO - Created game with ID: dd4982b8-d915-417b-b9bb-069d5727daab
+2025-05-04 14:08:12,999 - fixed-client - INFO - Found 1 games
+2025-05-04 14:08:21,839 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:08:21,844 - fixed-client - INFO - Connected to server
+2025-05-04 14:08:27,623 - fixed-client - INFO - Disconnected from server
+2025-05-04 14:08:27,624 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:08:27,624 - fixed-client - INFO - Connected to server
+2025-05-04 14:08:27,634 - fixed-client - INFO - Found 1 games
+2025-05-04 14:08:38,602 - fixed-client - INFO - Joined game dd4982b8-d915-417b-b9bb-069d5727daab
+2025-05-04 14:08:38,603 - fixed-client - INFO - Sending JOIN action for game dd4982b8-d915-417b-b9bb-069d5727daab
+2025-05-04 14:08:42,573 - fixed-client - INFO - Found 1 games
+2025-05-04 14:08:49,045 - fixed-client - INFO - Joined game dd4982b8-d915-417b-b9bb-069d5727daab
+2025-05-04 14:08:49,046 - fixed-client - INFO - Sending JOIN action for game dd4982b8-d915-417b-b9bb-069d5727daab
+2025-05-04 14:08:54,656 - fixed-client - INFO - Found 1 games
+2025-05-04 14:08:56,054 - fixed-client - INFO - Found 1 games
+2025-05-04 14:09:26,110 - fixed-client - WARNING - Already in a game. Call leave_game() first.
+2025-05-04 14:09:29,240 - fixed-client - INFO - Found 1 games
+2025-05-04 14:09:32,063 - fixed-client - WARNING - Already in a game. Call leave_game() first.
+2025-05-04 14:09:37,923 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:09:37,927 - fixed-client - INFO - Connected to server
+2025-05-04 14:09:40,354 - fixed-client - INFO - Disconnected from server
+2025-05-04 14:09:40,354 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:09:40,356 - fixed-client - INFO - Connected to server
+2025-05-04 14:09:40,363 - fixed-client - INFO - Found 1 games
+2025-05-04 14:09:44,598 - fixed-client - INFO - Joined game dd4982b8-d915-417b-b9bb-069d5727daab
+2025-05-04 14:09:44,598 - fixed-client - INFO - Sending JOIN action for game dd4982b8-d915-417b-b9bb-069d5727daab
+2025-05-04 14:21:30,366 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:21:30,370 - fixed-client - INFO - Connected to server
+2025-05-04 14:21:32,004 - fixed-client - INFO - Disconnected from server
+2025-05-04 14:21:32,005 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:21:32,005 - fixed-client - INFO - Connected to server
+2025-05-04 14:21:32,013 - fixed-client - INFO - Found 0 games
+2025-05-04 14:21:36,403 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:21:36,409 - fixed-client - INFO - Created game with ID: 34f11317-de92-4d31-8c96-7130d7b4724d
+2025-05-04 14:21:36,410 - fixed-client - INFO - Found 1 games
+2025-05-04 14:21:38,184 - fixed-client - INFO - Joined game 34f11317-de92-4d31-8c96-7130d7b4724d
+2025-05-04 14:21:38,184 - fixed-client - INFO - Sending JOIN action for game 34f11317-de92-4d31-8c96-7130d7b4724d
+2025-05-04 14:21:38,185 - fixed-client - INFO - Game thread for 34f11317-de92-4d31-8c96-7130d7b4724d ended
+2025-05-04 14:21:38,288 - fixed-client - INFO - Sending LEAVE action for game 34f11317-de92-4d31-8c96-7130d7b4724d
+2025-05-04 14:24:20,283 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:24:20,286 - fixed-client - INFO - Connected to server
+2025-05-04 14:24:24,985 - fixed-client - INFO - Disconnected from server
+2025-05-04 14:24:24,985 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:24:24,986 - fixed-client - INFO - Connected to server
+2025-05-04 14:24:24,992 - fixed-client - INFO - Found 0 games
+2025-05-04 14:24:28,402 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:24:28,407 - fixed-client - INFO - Created game with ID: ebd88eb9-d3c5-43cc-9214-81026cd08175
+2025-05-04 14:24:28,408 - fixed-client - INFO - Found 1 games
+2025-05-04 14:24:30,620 - fixed-client - INFO - Joined game ebd88eb9-d3c5-43cc-9214-81026cd08175
+2025-05-04 14:24:30,620 - fixed-client - INFO - Sending JOIN action for game ebd88eb9-d3c5-43cc-9214-81026cd08175
+2025-05-04 14:24:30,630 - fixed-client - ERROR - Error updating UI: list indices must be integers or slices, not NoneType
+2025-05-04 14:29:09,021 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:29:09,024 - fixed-client - INFO - Connected to server
+2025-05-04 14:29:12,457 - fixed-client - INFO - Disconnected from server
+2025-05-04 14:29:12,458 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:29:12,458 - fixed-client - INFO - Connected to server
+2025-05-04 14:29:12,462 - fixed-client - INFO - Found 0 games
+2025-05-04 14:29:13,324 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:29:13,330 - fixed-client - INFO - Created game with ID: a1688fdf-43bf-4126-b089-41ee90507bf8
+2025-05-04 14:29:13,331 - fixed-client - INFO - Found 1 games
+2025-05-04 14:29:26,657 - fixed-client - INFO - Joined game a1688fdf-43bf-4126-b089-41ee90507bf8
+2025-05-04 14:29:26,657 - fixed-client - INFO - Sending JOIN action for game a1688fdf-43bf-4126-b089-41ee90507bf8
+2025-05-04 14:29:26,668 - fixed-client - ERROR - Error updating UI: list indices must be integers or slices, not NoneType
+2025-05-04 14:50:57,982 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:50:57,985 - fixed-client - INFO - Connected to server
+2025-05-04 14:51:06,347 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:51:06,349 - fixed-client - INFO - Connected to server
+2025-05-04 14:51:14,959 - fixed-client - INFO - Disconnected from server
+2025-05-04 14:51:14,959 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 14:51:14,960 - fixed-client - INFO - Connected to server
+2025-05-04 14:51:14,970 - fixed-client - INFO - Found 0 games
+2025-05-04 14:51:16,240 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 14:51:16,246 - fixed-client - INFO - Created game with ID: 54485418-41a2-45eb-9795-ca4bc0c9496c
+2025-05-04 14:51:16,248 - fixed-client - INFO - Found 1 games
+2025-05-04 14:51:17,664 - fixed-client - INFO - Joined game 54485418-41a2-45eb-9795-ca4bc0c9496c
+2025-05-04 14:51:17,664 - fixed-client - INFO - Sending JOIN action for game 54485418-41a2-45eb-9795-ca4bc0c9496c

@@ -36,7 +36,6 @@ logger = logging.getLogger("pacman-gui-client")
 
 class PacmanGameAdapter:
     """Adapts gRPC GameState messages to Pacman GameState objects"""
-
     def __init__(self, layout_name="mediumClassic"):
         # Load the layout
         self.layout = layout.getLayout(layout_name)

@@ -1,9 +1,10 @@
 # pAIcMan: CS262 Final Project .cursorrules
 
 ## General Python Guidelines
-- Target Python 3.10+ and use PEP 484 type hints throughout.  
-- Adhere to consistent formatting (e.g. Black) and linting (e.g. Ruff or Flake8).  
-- Organize code into logical packages/modules (e.g. `server`, `client`, `common`).  
+- Target Python 3.10+ and use PEP 484 type hints throughout.
+- Adhere to consistent formatting (e.g. Black) and linting (e.g. Ruff or Flake8).
+- Organize code into logical packages/modules (e.g. `server`, `client`, `common`).
+- When you write code give me the full code that is used for production rather than skeleton code.
 
 ## gRPC & Proto Definitions
 - Define a `.proto` file that declares:

@@ -5,3 +5,5 @@ dependencies:
   - python=3.9
   - pip=25.1
   - setuptools
+  - grpcio
+  - grpcio-tools

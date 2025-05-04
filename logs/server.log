@@ -57,3 +57,6 @@ Traceback (most recent call last):
     raise rpc_error
 grpc.RpcError
 2025-05-04 03:26:41,739 - pacman-server - INFO - PlayGame stream ended for player a37b681a in game 3224d69c-02d5-4287-a014-8d61b766c88f
+2025-05-04 13:55:49,562 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data/server
+2025-05-04 13:55:49,562 - pacman-server - INFO - Started game tick loop
+2025-05-04 13:55:49,564 - pacman-server - INFO - Server started on port 50051

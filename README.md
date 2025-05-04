@@ -7,3 +7,5 @@ Multiplayer pac-man built on a distributed system with AI agents playing the gho
 - Activate the environment with `conda activate paic-man`
 - Run the game with `python pacman.py`
 
+- Update the environment with `conda env update --file environment.yml --prune`
+

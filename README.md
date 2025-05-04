@@ -126,3 +126,5 @@ The project uses a client-server architecture with gRPC for communication:
 - Check logs in the `logs` directory (server.log and client.log) for detailed error information
 - If you receive protobuf-related errors, regenerate the gRPC code using the command in step 5 above
 
+- Update the environment with `conda env update --file environment.yml --prune`
+

@@ -1,0 +1,43 @@
+# pAIcMan: CS262 Final Project .cursorrules
+
+## General Python Guidelines
+- Target Python 3.10+ and use PEP 484 type hints throughout.  
+- Adhere to consistent formatting (e.g. Black) and linting (e.g. Ruff or Flake8).  
+- Organize code into logical packages/modules (e.g. `server`, `client`, `common`).  
+
+## gRPC & Proto Definitions
+- Define a `.proto` file that declares:
+  - Messages for game creation, listing sessions, player actions, and game state.
+  - A service with RPCs for creating games, listing games, and bidirectional streaming for gameplay.
+- Regenerate stubs automatically as part of the build or setup.
+
+## Server Guidelines
+- Structure the server as an asynchronous loop running at a fixed tick rate (e.g. 60 Hz).
+- Encapsulate game logic (movement, collisions, scoring) in clean, testable functions.
+- Incorporate logical clocks (Lamport or vector) for state synchronization.
+- Plan for replication or failover to achieve 2-fault tolerance.
+
+## Client Guidelines
+- Use asynchronous streams for the bidirectional gameplay RPC.
+- Send only simple action messages and always render based on server-confirmed state.
+- Handle reconnects and retries gracefully to mask transient network issues.
+
+## Reliability & Error Handling
+- Implement retry policies with exponential backoff for transient gRPC errors.
+- Validate all incoming and outgoing messages; surface meaningful error codes.
+- Log key events and errors for debugging and monitoring.
+
+## Testing & Continuous Integration
+- Write unit tests for:
+  - Message serialization/deserialization.
+  - Core service methods.
+  - Game-loop logic and edge cases.
+- Automate formatting, linting, type checks, and test runs in a CI pipeline (e.g. GitHub Actions).
+
+## Documentation & Developer Experience
+- Use consistent docstring style (e.g. Google or NumPy) for all public APIs.
+- Include a concise README that explains:
+  - How to install dependencies.
+  - How to generate and update gRPC code.
+  - How to start server and client components.
+- Keep setup and usage instructions up to date.

@@ -151,6 +151,7 @@ class GameState:
         """
         return self.data.agentStates[0].copy()
 
+
     def getPacmanPosition(self):
         return self.data.agentStates[0].getPosition()
 
@@ -658,7 +659,7 @@ def loadAgent(pacman, nographics):
                     module = __import__(module_path, fromlist=[pacman])
                 else:
                     module = __import__(modulename[:-3])
-                
+
                 if pacman in dir(module):
                     if nographics and modulename == 'keyboardAgents.py':
                         raise Exception(

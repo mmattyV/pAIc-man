@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package pacman;
+
+service PacmanGame {
+  // Bidirectional streaming for player actions and game state updates
+  rpc PlayGame (stream PlayerAction) returns (stream GameState);
+
+  // Create a new game session
+  rpc CreateGame (GameConfig) returns (GameSession);
+
+  // List available games
+  rpc ListGames (Empty) returns (GamesList);
+}
+
+// Empty message for requests that don't need parameters
+message Empty {}
+
+// Game configuration for creating new games
+message GameConfig {
+  string layout_name = 1;
+  int32 max_players = 2;  // Should be 4 (1 Pacman + 3 Ghosts)
+}
+
+// Game session information returned after creating a game
+message GameSession {
+  string game_id = 1;
+  bool success = 2;
+  string error_message = 3;
+}
+
+// List of available games
+message GamesList {
+  repeated GameInfo games = 1;
+}
+
+// Information about an available game
+message GameInfo {
+  string game_id = 1;
+  string layout_name = 2;
+  int32 current_players = 3;
+  int32 max_players = 4;
+  GameStatus status = 5;
+}
+
+// Game status enum
+enum GameStatus {
+  WAITING = 0;    // Waiting for players to join
+  IN_PROGRESS = 1;  // Game is active
+  FINISHED = 2;   // Game has ended
+}
+
+// Player action sent from client to server
+message PlayerAction {
+  string player_id = 1;    // Unique ID for this player
+  string game_id = 2;      // ID of the game to join/play
+  ActionType action_type = 3;  // Type of action (join, move, leave)
+  optional Direction direction = 4;     // Direction to move (for MOVE actions)
+}
+
+// Types of actions a player can take
+enum ActionType {
+  JOIN = 0;   // Join a game
+  LEAVE = 1;  // Leave a game
+  MOVE = 2;   // Move in a direction
+}
+
+// Direction enum that matches Pacman's movement options
+enum Direction {
+  STOP = 0;
+  NORTH = 1;
+  SOUTH = 2;
+  EAST = 3;
+  WEST = 4;
+}
+
+// Game state sent from server to client
+message GameState {
+  string game_id = 1;
+  repeated AgentState agents = 2;  // All agents (Pacman and ghosts)
+  repeated Position food = 3;      // Remaining food pellets
+  repeated Position capsules = 4;  // Power pellets
+  repeated Position walls = 5;     // Wall positions
+  int32 score = 6;                 // Current score
+  GameStatus status = 7;           // Game status
+  string winner_id = 8;            // ID of winning player (if game is finished)
+}
+
+// State of an agent (Pacman or ghost)
+message AgentState {
+  string agent_id = 1;       // Unique ID for this agent
+  AgentType agent_type = 2;  // Pacman or ghost
+  Position position = 3;     // Current position
+  Direction direction = 4;   // Current direction
+  bool is_scared = 5;        // Whether ghost is in scared state
+  int32 scared_timer = 6;    // Time remaining in scared state
+  string player_id = 7;      // ID of controlling player
+}
+
+// Types of agents
+enum AgentType {
+  PACMAN = 0;
+  GHOST = 1;
+}
+
+// Position in the game grid
+message Position {
+  float x = 1;
+  float y = 2;
+}

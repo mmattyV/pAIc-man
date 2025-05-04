@@ -1,0 +1,59 @@
+2025-05-04 03:06:19,838 - pacman-server - INFO - PacmanServicer initialized on port 50052 with data directory ./data/raft_50052
+2025-05-04 03:06:19,838 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data/raft_50051
+2025-05-04 03:06:19,838 - pacman-server - INFO - Started game tick loop (this node is the leader)
+2025-05-04 03:06:19,840 - pacman-server - INFO - Server started on port 50051
+2025-05-04 03:06:19,840 - pacman-server - INFO - Server started on port 50052
+2025-05-04 03:06:20,322 - pacman-server - INFO - PacmanServicer initialized on port 50053 with data directory ./data/raft_50053
+2025-05-04 03:06:20,324 - pacman-server - INFO - Server started on port 50053
+2025-05-04 03:06:20,854 - pacman-server - INFO - PacmanServicer initialized on port 50054 with data directory ./data/raft_50054
+2025-05-04 03:06:20,855 - pacman-server - INFO - Server started on port 50054
+2025-05-04 03:06:21,382 - pacman-server - INFO - PacmanServicer initialized on port 50055 with data directory ./data/raft_50055
+2025-05-04 03:06:21,383 - pacman-server - INFO - Server started on port 50055
+2025-05-04 03:07:46,954 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 03:07:46,954 - pacman-server - INFO - Started game tick loop
+2025-05-04 03:07:46,955 - pacman-server - INFO - Server started on port 50051
+2025-05-04 03:08:01,846 - pacman-server - INFO - Server stopping...
+2025-05-04 03:08:24,907 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data/server
+2025-05-04 03:08:24,907 - pacman-server - INFO - Started game tick loop
+2025-05-04 03:08:24,908 - pacman-server - INFO - Server started on port 50051
+2025-05-04 03:09:43,183 - pacman-server - INFO - Server stopping...
+2025-05-04 03:09:54,283 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data/server
+2025-05-04 03:09:54,283 - pacman-server - INFO - Started game tick loop
+2025-05-04 03:09:54,285 - pacman-server - INFO - Server started on port 50051
+2025-05-04 03:10:30,779 - pacman-server - INFO - Created new game: c8467caf-bbff-4c68-82bd-68eff7a8ce7f, layout: default, max players: 2
+2025-05-04 03:12:50,066 - pacman-server - INFO - Player d5e95d43 joined game c8467caf-bbff-4c68-82bd-68eff7a8ce7f
+2025-05-04 03:22:21,838 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data/server
+2025-05-04 03:22:21,839 - pacman-server - INFO - Started game tick loop
+2025-05-04 03:22:21,841 - pacman-server - INFO - Server started on port 50051
+2025-05-04 03:22:52,784 - pacman-server - INFO - Created new game: 525c856d-e9d4-42a3-a92b-e0c95f7449e0, layout: mediumClassic, max players: 2
+2025-05-04 03:23:11,660 - pacman-server - INFO - Player d190601a joined game 525c856d-e9d4-42a3-a92b-e0c95f7449e0
+2025-05-04 03:23:11,784 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 246, in process_actions
+    for action in request_iterator:
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 03:23:12,663 - pacman-server - INFO - PlayGame stream ended for player d190601a in game 525c856d-e9d4-42a3-a92b-e0c95f7449e0
+2025-05-04 03:26:03,788 - pacman-server - INFO - Created new game: 3224d69c-02d5-4287-a014-8d61b766c88f, layout: mediumClassic, max players: 2
+2025-05-04 03:26:15,632 - pacman-server - INFO - Player a37b681a joined game 3224d69c-02d5-4287-a014-8d61b766c88f
+2025-05-04 03:26:41,213 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 246, in process_actions
+    for action in request_iterator:
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 03:26:41,739 - pacman-server - INFO - PlayGame stream ended for player a37b681a in game 3224d69c-02d5-4287-a014-8d61b766c88f

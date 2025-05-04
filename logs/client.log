@@ -1,0 +1,49 @@
+2025-05-04 03:08:37,271 - pacman-client - INFO - PacmanClient initialized with player_id: fcd1c237
+2025-05-04 03:08:37,271 - pacman-client - INFO - Connecting to server at 192.168.1.x:50051
+2025-05-04 03:08:57,374 - pacman-client - ERROR - Error creating game: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "DNS resolution failed for 192.168.1.x:50051: C-ares status is not ARES_SUCCESS qtype=A name=192.168.1.x is_balancer=0: Domain name not found"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"DNS resolution failed for 192.168.1.x:50051: C-ares status is not ARES_SUCCESS qtype=A name=192.168.1.x is_balancer=0: Domain name not found", grpc_status:14, created_time:"2025-05-04T03:08:57.374111-04:00"}"
+>
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_client.py", line 83, in create_game
+    response = self.stub.CreateGame(config)
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_channel.py", line 1181, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_channel.py", line 1006, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "DNS resolution failed for 192.168.1.x:50051: C-ares status is not ARES_SUCCESS qtype=A name=192.168.1.x is_balancer=0: Domain name not found"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"DNS resolution failed for 192.168.1.x:50051: C-ares status is not ARES_SUCCESS qtype=A name=192.168.1.x is_balancer=0: Domain name not found", grpc_status:14, created_time:"2025-05-04T03:08:57.374111-04:00"}"
+>
+2025-05-04 03:10:12,242 - pacman-client - INFO - PacmanClient initialized with player_id: b63ab232
+2025-05-04 03:10:12,243 - pacman-client - INFO - Connecting to server at localhost:50051
+2025-05-04 03:10:30,780 - pacman-client - INFO - Created game with ID: c8467caf-bbff-4c68-82bd-68eff7a8ce7f
+2025-05-04 03:10:43,107 - pacman-client - ERROR - Error joining game: __call__() missing 1 required positional argument: 'request_iterator'
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_client.py", line 138, in join_game
+    action_stream = self.stub.PlayGame()
+TypeError: __call__() missing 1 required positional argument: 'request_iterator'
+2025-05-04 03:12:36,709 - pacman-client - INFO - PacmanClient initialized with player_id: d5e95d43
+2025-05-04 03:12:36,709 - pacman-client - INFO - Connecting to server at localhost:50051
+2025-05-04 03:12:43,101 - pacman-client - INFO - Found 1 available games
+2025-05-04 03:12:50,066 - pacman-client - INFO - Joined game c8467caf-bbff-4c68-82bd-68eff7a8ce7f
+2025-05-04 03:13:29,977 - pacman-client - ERROR - Error in game state stream: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2025-05-04T03:13:29.974648-04:00"}"
+>
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_client.py", line 98, in _game_state_handler
+    for game_state in game_state_stream:
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_channel.py", line 543, in __next__
+    return self._next()
+  File "/Users/pedrogarcia/.pyenv/versions/3.9.18/lib/python3.9/site-packages/grpc/_channel.py", line 969, in _next
+    raise self
+grpc._channel._MultiThreadedRendezvous: <_MultiThreadedRendezvous of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Socket closed"
+	debug_error_string = "UNKNOWN:Error received from peer  {grpc_message:"Socket closed", grpc_status:14, created_time:"2025-05-04T03:13:29.974648-04:00"}"
+>
+2025-05-04 03:13:29,979 - pacman-client - INFO - Left the game

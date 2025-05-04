@@ -1,0 +1,9 @@
+2025-05-04 03:22:29,765 - pacman-gui-client - INFO - PacmanGUIClient initialized with player_id: d190601a
+2025-05-04 03:22:29,765 - pacman-gui-client - INFO - Connecting to server at localhost:50051
+2025-05-04 03:22:36,160 - pacman-gui-client - INFO - Found 0 available games
+2025-05-04 03:22:52,785 - pacman-gui-client - INFO - Created game with ID: 525c856d-e9d4-42a3-a92b-e0c95f7449e0
+2025-05-04 03:25:52,432 - pacman-gui-client - INFO - PacmanGUIClient initialized with player_id: a37b681a
+2025-05-04 03:25:52,432 - pacman-gui-client - INFO - Connecting to server at localhost:50051
+2025-05-04 03:25:56,907 - pacman-gui-client - INFO - Found 0 available games
+2025-05-04 03:26:03,790 - pacman-gui-client - INFO - Created game with ID: 3224d69c-02d5-4287-a014-8d61b766c88f
+2025-05-04 03:26:15,632 - pacman-gui-client - INFO - Joined game 3224d69c-02d5-4287-a014-8d61b766c88f with GUI

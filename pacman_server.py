@@ -333,7 +333,25 @@ class GameSession:
     def process_player_action(self, player_id, action_type, direction):
         """Process a player action (movement or other command)"""
         if action_type == pacman_pb2.MOVE:
-            self.player_actions[player_id] = direction
+            # Get the player's role
+            role = self.player_roles.get(player_id)
+
+            # Only allow players to move characters matching their role
+            if role == pacman_pb2.PACMAN and player_id == self.pacman_player:
+                # This player is Pacman, allow them to move
+                self.player_actions[player_id] = direction
+                logger.info(f"Pacman player {player_id} moved: {direction}")
+            elif role == pacman_pb2.GHOST:
+                # This player is a ghost, allow them to move their ghost
+                # Find which ghost this player controls
+                ghost_players = [pid for pid, r in self.player_roles.items()
+                                if r == pacman_pb2.GHOST and pid in self.player_positions]
+                if player_id in ghost_players:
+                    # Let them move their ghost
+                    self.player_actions[player_id] = direction
+                    logger.info(f"Ghost player {player_id} moved: {direction}")
+            else:
+                logger.warning(f"Player {player_id} tried to move but has invalid role: {role}")
 
     def broadcast_game_state(self):
         """Send current game state to all connected players"""

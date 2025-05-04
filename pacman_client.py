@@ -118,8 +118,22 @@ class GameStateAdapter:
                     break
 
             if agent_states:  # Only update if we have valid agent states
+                moved_idx = 0 # Default to pacman if no move detected? Or keep previous? Let's default 0 for now.
+                logger.debug(f"Comparing {len(self.data.agentStates)} old vs {len(agent_states)} new states.")
+                for idx, (old, new) in enumerate(zip(self.data.agentStates, agent_states)):
+                    pos_changed = old.getPosition() != new.getPosition()
+                    dir_changed = old.getDirection() != new.getDirection()
+                    if pos_changed or dir_changed:
+                        moved_idx = idx
+                        logger.info(f"Detected move for agent index {idx}. Pos changed: {pos_changed}, Dir changed: {dir_changed}")
+                        logger.debug(f"Old: {old.getPosition()} {old.getDirection()} | New: {new.getPosition()} {new.getDirection()}")
+                        break
+                # Add a log if no move was detected after the loop
+                if moved_idx == 0 and idx > 0: # Check if we defaulted after iterating
+                    logger.warning(f"No agent move detected after checking {idx+1} agents, defaulting moved_idx to 0.")
                 self.data.agentStates = agent_states
-                self.data._agentMoved = 0
+                self.data._agentMoved = moved_idx
+                logger.debug(f"Setting _agentMoved to: {moved_idx}") # Log the final index being set
 
             return self.game_state
         except Exception as e:
@@ -470,6 +484,12 @@ class PacmanGUI:
             self.display.initialize(self.adapter.game_state.data)
             self.root.focus_force()
 
+
+            # Add a status label for player role
+            self.role_var = tk.StringVar(value="Role: Unknown")
+            role_label = tk.Label(self.root, textvariable=self.role_var)
+            role_label.pack(side=tk.TOP)
+
             # Join the game (this starts the streaming)
             if self.client.join_game(game_id, layout_name):
                 self.status_var.set(f"Joined game {game_id}")
@@ -487,9 +507,14 @@ class PacmanGUI:
     def send_move(self, direction):
         """Send a move command to the server"""
         if self.client.running:
+            # Get the player's current role
+            current_role = self.role_var.get() if hasattr(self, 'role_var') else "Unknown"
+
+            # Log movement with role information
+            logger.info(f"Sending {current_role} move: {direction}")
+
+            # Send the move to the server
             self.client.send_move(direction)
-            # add logging
-            logger.info(f"Sent move: {direction}")
 
     def leave_game(self):
         """Leave the current game"""
@@ -508,6 +533,12 @@ class PacmanGUI:
                 while not self.client.game_state_queue.empty():
                     game_state = self.client.game_state_queue.get_nowait()
                     print(f"Received state with {len(game_state.agents)} agents, {len(game_state.food)} food items")
+
+                    for agent in game_state.agents:
+                        if agent.player_id == self.client.player_id:
+                            role = "Pacman" if agent.agent_type == pacman_pb2.PACMAN else "Ghost"
+                            self.role_var.set(f"Role: {role}")
+                            break
 
                     # Convert to Pacman format
                     pacman_state = self.adapter.update_from_proto(game_state)

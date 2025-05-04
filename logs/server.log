@@ -557,3 +557,1349 @@ grpc.RpcError
 2025-05-04 15:30:35,183 - pacman-server - INFO - PlayGame stream ended for player f9bae3e3 in game a9ef0213-61d3-413b-8722-cd7a3b33e180
 2025-05-04 15:30:35,184 - pacman-server - INFO - PlayGame stream ended for player df2db7bf in game a9ef0213-61d3-413b-8722-cd7a3b33e180
 2025-05-04 15:32:18,310 - pacman-server - INFO - Server stopping...
+2025-05-04 15:54:30,700 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 15:54:30,704 - pacman-server - INFO - Server started on port 50051
+2025-05-04 15:54:46,582 - pacman-server - INFO - Created new game session 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:54:46,583 - pacman-server - INFO - Created new game: 0634d46e-345d-43cd-94d5-b85a819c392d, layout: mediumClassic, max players: 4
+2025-05-04 15:54:50,727 - pacman-server - INFO - Player c0e1a12e joined as PACMAN
+2025-05-04 15:54:50,727 - pacman-server - INFO - Player c0e1a12e joined game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:54:52,925 - pacman-server - INFO - Player 0851f73e joined as GHOST
+2025-05-04 15:54:52,925 - pacman-server - INFO - Player 0851f73e joined game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:54:58,009 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 556, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 15:54:58,011 - pacman-server - INFO - Player 0851f73e is now PACMAN
+2025-05-04 15:54:59,006 - pacman-server - INFO - PlayGame stream ended for player c0e1a12e in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:02,131 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:02,131 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:02,264 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:02,264 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:02,520 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:02,520 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:02,763 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:02,763 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:02,897 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:02,897 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:03,064 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,065 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:03,164 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,164 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:03,287 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,287 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:03,396 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,396 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:03,497 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,497 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:03,612 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,613 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:03,747 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,747 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:03,830 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,830 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:03,914 - pacman-server - INFO - Player 0851f73e moved 2 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:03,914 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 2
+2025-05-04 15:55:04,101 - pacman-server - INFO - Player 0851f73e moved 2 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,101 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 2
+2025-05-04 15:55:04,231 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,231 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:04,317 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,317 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:04,414 - pacman-server - INFO - Player 0851f73e moved 2 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,414 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 2
+2025-05-04 15:55:04,464 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,464 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:04,597 - pacman-server - INFO - Player 0851f73e moved 2 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,597 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 2
+2025-05-04 15:55:04,598 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,598 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:04,680 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,681 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:04,816 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,816 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:04,847 - pacman-server - INFO - Player 0851f73e moved 2 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,847 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 2
+2025-05-04 15:55:04,880 - pacman-server - INFO - Player 0851f73e moved 1 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,880 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 1
+2025-05-04 15:55:04,914 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:04,914 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:05,044 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:05,044 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:05,044 - pacman-server - INFO - Player 0851f73e moved 2 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:05,044 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 2
+2025-05-04 15:55:05,044 - pacman-server - INFO - Player 0851f73e moved 1 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:05,044 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 1
+2025-05-04 15:55:05,127 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:05,127 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:05,279 - pacman-server - INFO - Player 0851f73e moved 2 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:05,279 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 2
+2025-05-04 15:55:11,483 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:11,483 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:11,567 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:11,568 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:16,066 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:16,066 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:16,297 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:16,297 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:16,462 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:16,462 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:16,614 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:16,615 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:16,772 - pacman-server - INFO - Player 0851f73e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:16,772 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 4
+2025-05-04 15:55:18,132 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:18,132 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:18,340 - pacman-server - INFO - Player 0851f73e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:18,340 - pacman-server - INFO - Stored move for player 0851f73e with role 0: 3
+2025-05-04 15:55:20,797 - pacman-server - INFO - Player c0e1a12e joined as GHOST
+2025-05-04 15:55:20,798 - pacman-server - INFO - Player c0e1a12e joined game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:21,255 - pacman-server - INFO - Player c0e1a12e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:21,255 - pacman-server - INFO - Stored move for player c0e1a12e with role 1: 4
+2025-05-04 15:55:21,438 - pacman-server - INFO - Player c0e1a12e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:21,438 - pacman-server - INFO - Stored move for player c0e1a12e with role 1: 3
+2025-05-04 15:55:21,638 - pacman-server - INFO - Player c0e1a12e moved 4 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:21,638 - pacman-server - INFO - Stored move for player c0e1a12e with role 1: 4
+2025-05-04 15:55:21,921 - pacman-server - INFO - Player c0e1a12e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:21,921 - pacman-server - INFO - Stored move for player c0e1a12e with role 1: 3
+2025-05-04 15:55:22,131 - pacman-server - INFO - Player c0e1a12e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:22,131 - pacman-server - INFO - Stored move for player c0e1a12e with role 1: 3
+2025-05-04 15:55:22,371 - pacman-server - INFO - Player c0e1a12e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:22,371 - pacman-server - INFO - Stored move for player c0e1a12e with role 1: 3
+2025-05-04 15:55:22,598 - pacman-server - INFO - Player c0e1a12e moved 3 in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:22,598 - pacman-server - INFO - Stored move for player c0e1a12e with role 1: 3
+2025-05-04 15:55:25,073 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 556, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 15:55:25,073 - pacman-server - INFO - Player c0e1a12e is now PACMAN
+2025-05-04 15:55:26,072 - pacman-server - INFO - PlayGame stream ended for player 0851f73e in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:26,591 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 556, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 15:55:27,596 - pacman-server - INFO - PlayGame stream ended for player c0e1a12e in game 0634d46e-345d-43cd-94d5-b85a819c392d
+2025-05-04 15:55:29,646 - pacman-server - INFO - Server stopping...
+2025-05-04 15:55:55,753 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 15:55:55,756 - pacman-server - INFO - Server started on port 50051
+2025-05-04 15:56:01,034 - pacman-server - INFO - Created new game session b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:01,034 - pacman-server - INFO - Created new game: b4af1e65-b28d-45fb-a64a-f1fb8297453e, layout: mediumClassic, max players: 4
+2025-05-04 15:56:03,127 - pacman-server - INFO - Player c9d1b6a2 joined as PACMAN
+2025-05-04 15:56:03,128 - pacman-server - INFO - Player c9d1b6a2 joined game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:19,797 - pacman-server - INFO - Player 7c5fd59a joined as GHOST
+2025-05-04 15:56:19,797 - pacman-server - INFO - Player 7c5fd59a joined game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:28,179 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:28,179 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:28,800 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:28,800 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:29,037 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:29,037 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:29,283 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:29,284 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:30,413 - pacman-server - INFO - Player c9d1b6a2 moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:30,414 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 4
+2025-05-04 15:56:30,454 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:30,454 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:30,885 - pacman-server - INFO - Player c9d1b6a2 moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:30,885 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 4
+2025-05-04 15:56:31,253 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:31,253 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:31,502 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:31,502 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:31,712 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:31,712 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:31,949 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:31,949 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:32,299 - pacman-server - INFO - Player c9d1b6a2 moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:32,299 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 4
+2025-05-04 15:56:32,506 - pacman-server - INFO - Player c9d1b6a2 moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:32,506 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 4
+2025-05-04 15:56:32,702 - pacman-server - INFO - Player c9d1b6a2 moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:32,702 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 4
+2025-05-04 15:56:32,916 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:32,916 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:33,132 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:33,132 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:34,116 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:34,116 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:34,400 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:34,401 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:34,916 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:34,916 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:35,156 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:35,156 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:35,403 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:35,403 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:35,596 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:35,597 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:35,818 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:35,818 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:47,916 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:47,917 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:49,268 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:49,269 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:49,534 - pacman-server - INFO - Player c9d1b6a2 moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:49,534 - pacman-server - INFO - Stored move for player c9d1b6a2 with role 0: 3
+2025-05-04 15:56:50,240 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,240 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:50,471 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,471 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:50,623 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,624 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:50,723 - pacman-server - INFO - Player 7c5fd59a moved 2 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,724 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 2
+2025-05-04 15:56:50,724 - pacman-server - INFO - Player 7c5fd59a moved 1 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,724 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 1
+2025-05-04 15:56:50,806 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,806 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:50,910 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,910 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:50,918 - pacman-server - INFO - Player 7c5fd59a moved 2 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,918 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 2
+2025-05-04 15:56:50,994 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:50,994 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:51,108 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,108 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:51,118 - pacman-server - INFO - Player 7c5fd59a moved 2 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,119 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 2
+2025-05-04 15:56:51,198 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,199 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:51,303 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,303 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:51,315 - pacman-server - INFO - Player 7c5fd59a moved 2 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,315 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 2
+2025-05-04 15:56:51,403 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,404 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:51,507 - pacman-server - INFO - Player 7c5fd59a moved 3 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,508 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 3
+2025-05-04 15:56:51,518 - pacman-server - INFO - Player 7c5fd59a moved 2 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,519 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 2
+2025-05-04 15:56:51,602 - pacman-server - INFO - Player 7c5fd59a moved 4 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:51,602 - pacman-server - INFO - Stored move for player 7c5fd59a with role 1: 4
+2025-05-04 15:56:54,781 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 556, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 15:56:55,104 - pacman-server - INFO - PlayGame stream ended for player 7c5fd59a in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 15:56:55,780 - pacman-server - INFO - PlayGame stream ended for player c9d1b6a2 in game b4af1e65-b28d-45fb-a64a-f1fb8297453e
+2025-05-04 16:07:18,461 - pacman-server - INFO - Server stopping...
+2025-05-04 16:07:20,415 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 16:07:20,417 - pacman-server - INFO - Server started on port 50051
+2025-05-04 16:07:36,215 - pacman-server - INFO - Created new game session ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:07:36,216 - pacman-server - INFO - Created new game: ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0, layout: mediumClassic, max players: 4
+2025-05-04 16:07:38,097 - pacman-server - INFO - Created new game session 08183032-4824-4f87-af21-cfd2898101b2
+2025-05-04 16:07:38,097 - pacman-server - INFO - Created new game: 08183032-4824-4f87-af21-cfd2898101b2, layout: mediumClassic, max players: 4
+2025-05-04 16:07:46,644 - pacman-server - INFO - Player 5123c882 joined as PACMAN
+2025-05-04 16:07:46,644 - pacman-server - INFO - Player 5123c882 joined game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:07:48,892 - pacman-server - INFO - Player 250411dc joined as GHOST
+2025-05-04 16:07:48,892 - pacman-server - INFO - Player 250411dc joined game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:07:57,084 - pacman-server - INFO - Player 5123c882 moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:07:57,084 - pacman-server - INFO - Pacman player 5123c882 moved: 3
+2025-05-04 16:07:57,604 - pacman-server - INFO - Player 5123c882 moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:07:57,604 - pacman-server - INFO - Pacman player 5123c882 moved: 3
+2025-05-04 16:07:59,205 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:07:59,205 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:01,426 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:01,426 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:02,826 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:02,826 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:03,378 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:03,379 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:03,689 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:03,689 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:03,930 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:03,930 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:04,131 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:04,131 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:04,351 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:04,351 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:06,930 - pacman-server - INFO - Player 5123c882 moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:06,930 - pacman-server - INFO - Pacman player 5123c882 moved: 4
+2025-05-04 16:08:07,332 - pacman-server - INFO - Player 5123c882 moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:07,333 - pacman-server - INFO - Pacman player 5123c882 moved: 3
+2025-05-04 16:08:07,553 - pacman-server - INFO - Player 5123c882 moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:07,553 - pacman-server - INFO - Pacman player 5123c882 moved: 3
+2025-05-04 16:08:16,803 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:16,804 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:17,135 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:17,135 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:17,419 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:17,419 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:17,666 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:17,667 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:18,069 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:18,069 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:19,080 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:19,080 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:19,517 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:19,517 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:19,867 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:19,867 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:20,168 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:20,168 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:20,485 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:20,485 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:20,869 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:20,869 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:21,197 - pacman-server - INFO - Player 250411dc moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:21,198 - pacman-server - INFO - Ghost player 250411dc moved: 4
+2025-05-04 16:08:21,847 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:21,847 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:22,454 - pacman-server - INFO - Player 250411dc moved 1 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:22,454 - pacman-server - INFO - Ghost player 250411dc moved: 1
+2025-05-04 16:08:23,213 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:23,213 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:23,935 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:23,935 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:24,197 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:24,198 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:24,393 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:24,393 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:24,895 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:24,895 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:24,976 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:24,976 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,060 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,061 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,144 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,144 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,227 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,227 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,313 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,313 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,394 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,394 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,478 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,478 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,561 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,561 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:25,643 - pacman-server - INFO - Player 250411dc moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:25,644 - pacman-server - INFO - Ghost player 250411dc moved: 2
+2025-05-04 16:08:26,180 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:26,180 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:26,471 - pacman-server - INFO - Player 250411dc moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:26,471 - pacman-server - INFO - Ghost player 250411dc moved: 3
+2025-05-04 16:08:42,979 - pacman-server - INFO - Player 5123c882 moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:42,980 - pacman-server - INFO - Pacman player 5123c882 moved: 3
+2025-05-04 16:08:43,583 - pacman-server - INFO - Player 5123c882 moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:43,583 - pacman-server - INFO - Pacman player 5123c882 moved: 3
+2025-05-04 16:08:43,686 - pacman-server - INFO - Player 5123c882 moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:43,686 - pacman-server - INFO - Pacman player 5123c882 moved: 4
+2025-05-04 16:08:43,752 - pacman-server - INFO - Player 5123c882 moved 3 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:43,753 - pacman-server - INFO - Pacman player 5123c882 moved: 3
+2025-05-04 16:08:43,850 - pacman-server - INFO - Player 5123c882 moved 1 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:43,850 - pacman-server - INFO - Pacman player 5123c882 moved: 1
+2025-05-04 16:08:43,988 - pacman-server - INFO - Player 5123c882 moved 4 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:43,988 - pacman-server - INFO - Pacman player 5123c882 moved: 4
+2025-05-04 16:08:44,127 - pacman-server - INFO - Player 5123c882 moved 2 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:44,127 - pacman-server - INFO - Pacman player 5123c882 moved: 2
+2025-05-04 16:08:48,633 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:08:48,635 - pacman-server - INFO - Player 250411dc is now PACMAN
+2025-05-04 16:08:49,167 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:08:49,168 - pacman-server - INFO - PlayGame stream ended for player 250411dc in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:08:49,621 - pacman-server - INFO - PlayGame stream ended for player 5123c882 in game ffbd7972-b8ba-4db9-ace7-a37e4ed1b5a0
+2025-05-04 16:15:20,847 - pacman-server - INFO - Server stopping...
+2025-05-04 16:15:25,228 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 16:15:25,230 - pacman-server - INFO - Server started on port 50051
+2025-05-04 16:15:36,984 - pacman-server - INFO - Created new game session 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:36,985 - pacman-server - INFO - Created new game: 4d9ac52b-a57c-4ff2-9958-0f28375ace56, layout: mediumClassic, max players: 4
+2025-05-04 16:15:40,916 - pacman-server - INFO - Player fcd9a9da joined as PACMAN
+2025-05-04 16:15:40,916 - pacman-server - INFO - Player fcd9a9da joined game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:45,147 - pacman-server - INFO - Player 249c43ae joined as GHOST
+2025-05-04 16:15:45,147 - pacman-server - INFO - Player 249c43ae joined game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:50,664 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:50,664 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:15:51,301 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:51,302 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:15:52,859 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:52,859 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:53,199 - pacman-server - INFO - Player 249c43ae moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:53,199 - pacman-server - INFO - Ghost player 249c43ae moved: 4
+2025-05-04 16:15:54,138 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:54,138 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:54,683 - pacman-server - INFO - Player 249c43ae moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:54,683 - pacman-server - INFO - Ghost player 249c43ae moved: 4
+2025-05-04 16:15:55,135 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:55,136 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:55,365 - pacman-server - INFO - Player 249c43ae moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:55,365 - pacman-server - INFO - Ghost player 249c43ae moved: 4
+2025-05-04 16:15:55,572 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:55,572 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:55,698 - pacman-server - INFO - Player 249c43ae moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:55,698 - pacman-server - INFO - Ghost player 249c43ae moved: 4
+2025-05-04 16:15:55,816 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:55,816 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:55,916 - pacman-server - INFO - Player 249c43ae moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:55,916 - pacman-server - INFO - Ghost player 249c43ae moved: 4
+2025-05-04 16:15:56,239 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:56,240 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:56,472 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:56,472 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:56,639 - pacman-server - INFO - Player 249c43ae moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:56,639 - pacman-server - INFO - Ghost player 249c43ae moved: 3
+2025-05-04 16:15:58,713 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:58,713 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:15:59,100 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:59,100 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:15:59,288 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:59,288 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:15:59,478 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:59,478 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:15:59,654 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:59,655 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:15:59,900 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:15:59,900 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:00,086 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:00,086 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:00,263 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:00,263 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:00,386 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:00,386 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:00,687 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:00,687 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:00,946 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:00,946 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:01,137 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:01,137 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:01,306 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:01,306 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:01,812 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:01,812 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:01,897 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:01,897 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:01,980 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:01,980 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:02,066 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:02,066 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:02,150 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:02,150 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:02,232 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:02,233 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:02,314 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:02,314 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:02,333 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:02,333 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:02,834 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:02,834 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:02,918 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:02,919 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:03,002 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:03,002 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:03,572 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:03,572 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:03,755 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:03,755 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:04,256 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:04,256 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:04,348 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:04,348 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:04,431 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:04,431 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:04,481 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:04,482 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:04,981 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:04,981 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:05,065 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:05,065 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:05,149 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:05,149 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:05,235 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:05,235 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:05,316 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:05,316 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:05,815 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:05,816 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:05,900 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:05,900 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:05,979 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:05,979 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:06,064 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:06,064 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:06,149 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:06,149 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:06,233 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:06,233 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:06,316 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:06,316 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:06,316 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:06,316 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:06,682 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:06,683 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:07,199 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:07,199 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:07,385 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:07,386 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:07,549 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:07,550 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:07,716 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:07,716 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:07,988 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:07,988 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:08,306 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:08,306 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:08,515 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:08,515 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:08,752 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:08,752 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:08,950 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:08,950 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:09,132 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:09,133 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:09,333 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:09,333 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:09,561 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:09,561 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,067 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,067 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,149 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,149 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,234 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,234 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,312 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,312 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,396 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,396 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,480 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,480 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,566 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,566 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,650 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,650 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,733 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,733 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:10,799 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:10,799 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:11,299 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:11,300 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:11,383 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:11,383 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:11,465 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:11,465 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:11,499 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:11,499 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,001 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,002 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,084 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,084 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,167 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,167 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,252 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,252 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,336 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,336 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,419 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,420 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,503 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,503 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,587 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,587 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:12,633 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,633 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:12,633 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:12,633 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:13,182 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:13,182 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:13,584 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:13,584 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:13,756 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:13,756 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,253 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,253 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,337 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,337 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,421 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,421 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,505 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,505 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,589 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,589 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,673 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,673 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,766 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,766 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,849 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,849 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:14,933 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:14,933 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:15,016 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:15,016 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:15,099 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:15,100 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:19,566 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:19,566 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:19,903 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:19,903 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:20,133 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:20,133 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:20,383 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:20,383 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:20,549 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:20,549 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:20,739 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:20,739 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:20,896 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:20,896 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:21,049 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:21,049 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:21,550 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:21,550 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:21,633 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:21,633 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:21,716 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:21,716 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:21,800 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:21,800 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:21,883 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:21,883 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:21,966 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:21,966 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:22,050 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:22,050 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:22,133 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:22,133 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:22,207 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:22,207 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:22,412 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:22,412 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:22,568 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:22,568 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:22,738 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:22,738 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:22,966 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:22,966 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:23,117 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:23,117 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:23,465 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:23,466 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:23,633 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:23,633 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:23,799 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:23,801 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:24,006 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:24,006 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:24,172 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:24,172 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:24,382 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:24,383 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:24,572 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:24,572 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:24,730 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:24,730 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:24,897 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:24,897 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:25,068 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:25,068 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:25,249 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:25,249 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:25,407 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:25,407 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:25,600 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:25,600 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:25,755 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:25,755 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:25,949 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:25,949 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:26,123 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:26,123 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:26,304 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:26,304 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:26,556 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:26,556 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:26,764 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:26,764 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:26,999 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:27,000 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:27,073 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:27,073 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:27,239 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:27,240 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:27,449 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:27,449 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:27,649 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:27,650 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:27,836 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:27,836 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:27,999 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:27,999 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:28,185 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:28,186 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:28,355 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:28,355 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:28,496 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:28,496 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:28,665 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:28,666 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:28,833 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:28,833 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:28,933 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:28,933 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:29,204 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:29,204 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:29,414 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:29,414 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:29,599 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:29,600 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:29,783 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:29,783 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:29,969 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:29,969 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:30,205 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:30,205 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:30,407 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:30,407 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:30,587 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:30,587 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:30,833 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:30,833 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:31,047 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:31,047 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:31,245 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:31,245 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:31,432 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:31,433 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:31,823 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:31,823 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:32,066 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:32,066 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:32,115 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:32,116 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:32,304 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:32,304 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:32,483 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:32,483 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:32,653 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:32,653 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:32,840 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:32,840 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:33,022 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:33,023 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:33,206 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:33,206 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:33,366 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:33,366 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:33,572 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:33,572 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:33,749 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:33,749 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:33,999 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:34,000 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:34,166 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:34,166 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:34,350 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:34,350 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:34,487 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:34,487 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:34,680 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:34,680 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:34,913 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:34,913 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:35,040 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:35,040 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:35,220 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:35,220 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:35,420 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:35,420 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:35,583 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:35,584 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:35,755 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:35,755 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:35,949 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:35,949 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:36,704 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:36,704 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:36,888 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:36,888 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:37,106 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:37,106 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:37,296 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:37,296 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:37,506 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:37,506 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:37,684 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:37,684 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:40,578 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:40,578 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:40,798 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:40,798 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:41,045 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:41,046 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:41,280 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:41,280 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:41,583 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:41,583 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:41,800 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:41,800 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:42,033 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:42,033 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:42,199 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:42,199 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:42,422 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:42,422 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:42,602 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:42,602 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:42,763 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:42,763 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:42,940 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:42,940 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:43,113 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:43,114 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:43,290 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:43,290 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:43,468 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:43,468 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:43,666 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:43,666 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:43,839 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:43,839 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:44,416 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:44,416 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:44,634 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:44,634 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:44,771 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:44,771 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:45,140 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:45,140 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:45,682 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:45,683 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:45,896 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:45,896 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:46,100 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:46,101 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:46,287 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:46,288 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:46,564 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:46,565 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:46,753 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:46,753 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:46,912 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:46,912 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:47,104 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:47,104 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:47,257 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:47,257 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:47,521 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:47,521 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:47,670 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:47,670 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:47,883 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:47,883 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:48,066 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:48,066 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:48,283 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:48,283 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:48,521 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:48,521 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:48,821 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:48,821 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:49,038 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:49,038 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:49,204 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:49,204 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:49,431 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:49,431 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:49,586 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:49,587 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:49,799 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:49,800 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:49,933 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:49,933 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:50,121 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:50,121 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:50,247 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:50,247 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:50,423 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:50,423 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:50,596 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:50,596 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:50,812 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:50,813 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:51,015 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:51,015 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:51,218 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:51,218 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:51,347 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:51,347 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:51,548 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:51,548 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:51,718 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:51,718 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:52,151 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:52,151 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:52,347 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:52,347 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:52,405 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:52,405 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:52,539 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:52,539 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:52,597 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:52,597 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:52,705 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:52,705 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:53,087 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:53,087 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:53,340 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:53,340 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:53,432 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:53,432 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:53,616 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:53,616 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:53,619 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:53,619 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:53,822 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:53,822 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:53,849 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:53,849 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:54,049 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:54,050 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:54,066 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:54,066 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:54,299 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:54,300 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:54,499 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:54,499 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:16:54,679 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:54,679 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:54,849 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:54,849 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:55,033 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:55,033 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:55,201 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:55,201 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:55,369 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:55,369 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:55,533 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:55,533 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:55,737 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:55,737 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:55,900 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:55,900 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:55,905 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:55,905 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:56,099 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:56,099 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:56,130 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:56,130 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:56,283 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:56,283 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:16:56,299 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:56,299 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:56,649 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:56,649 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:56,833 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:56,833 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:57,066 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:57,066 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:57,267 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:57,267 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:57,455 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:57,455 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:57,630 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:57,630 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:57,818 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:57,818 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:58,020 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:58,020 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:58,483 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:58,483 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:58,683 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:58,684 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:16:58,972 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:58,972 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:59,473 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:59,473 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:59,557 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:59,557 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:59,650 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:59,650 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:59,730 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:59,730 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:59,814 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:59,814 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:59,899 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:59,899 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:16:59,983 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:16:59,983 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:00,033 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:00,033 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:00,462 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:00,462 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:00,619 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:00,619 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:00,768 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:00,769 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:00,913 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:00,913 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:00,948 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:00,948 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:01,172 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:01,172 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:01,424 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:01,424 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:01,485 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:01,485 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:01,686 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:01,687 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:01,767 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:01,768 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:01,966 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:01,966 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:02,137 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:02,137 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:02,355 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:02,356 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:02,522 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:02,523 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:02,740 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:02,740 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:02,933 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:02,933 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:03,119 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:03,119 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:03,324 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:03,324 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:03,523 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:03,523 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:03,717 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:03,717 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:03,855 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:03,855 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:03,951 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:03,951 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:04,266 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:04,266 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:04,303 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:04,303 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:04,583 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:04,583 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:04,821 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:04,821 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:05,134 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:05,134 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:05,338 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:05,338 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:05,567 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:05,567 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:05,653 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:05,653 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:05,856 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:05,856 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:06,038 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:06,038 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:06,233 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:06,233 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:06,404 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:06,404 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:06,586 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:06,586 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:06,775 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:06,775 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:06,966 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:06,966 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:07,066 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:07,066 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:07,250 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:07,250 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:07,399 - pacman-server - INFO - Player fcd9a9da moved 4 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:07,400 - pacman-server - INFO - Pacman player fcd9a9da moved: 4
+2025-05-04 16:17:07,599 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:07,599 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:07,800 - pacman-server - INFO - Player fcd9a9da moved 1 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:07,800 - pacman-server - INFO - Pacman player fcd9a9da moved: 1
+2025-05-04 16:17:08,038 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:08,038 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:08,273 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:08,273 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:08,365 - pacman-server - INFO - Player fcd9a9da moved 3 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:08,365 - pacman-server - INFO - Pacman player fcd9a9da moved: 3
+2025-05-04 16:17:08,583 - pacman-server - INFO - Player fcd9a9da moved 2 in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:08,583 - pacman-server - INFO - Pacman player fcd9a9da moved: 2
+2025-05-04 16:17:10,184 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:17:11,175 - pacman-server - INFO - PlayGame stream ended for player 249c43ae in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:17:11,177 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:17:11,177 - pacman-server - INFO - PlayGame stream ended for player fcd9a9da in game 4d9ac52b-a57c-4ff2-9958-0f28375ace56
+2025-05-04 16:30:38,516 - pacman-server - INFO - Server stopping...
+2025-05-04 16:30:40,080 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 16:30:40,083 - pacman-server - INFO - Server started on port 50051
+2025-05-04 16:30:48,919 - pacman-server - INFO - Created new game session 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:30:48,919 - pacman-server - INFO - Created new game: 921dd44a-ed54-4d6c-931a-b2656bcf7318, layout: mediumClassic, max players: 4
+2025-05-04 16:30:51,428 - pacman-server - INFO - Player ae52def2 joined as PACMAN
+2025-05-04 16:30:51,429 - pacman-server - INFO - Player ae52def2 joined game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:30:55,828 - pacman-server - INFO - Player 780eb9be joined as GHOST
+2025-05-04 16:30:55,828 - pacman-server - INFO - Player 780eb9be joined game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:00,213 - pacman-server - INFO - Player ae52def2 moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:00,214 - pacman-server - INFO - Pacman player ae52def2 moved: 3
+2025-05-04 16:31:01,624 - pacman-server - INFO - Player 780eb9be moved 4 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:01,624 - pacman-server - INFO - Ghost player 780eb9be moved: 4
+2025-05-04 16:31:03,296 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:03,296 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:03,778 - pacman-server - INFO - Player 780eb9be moved 4 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:03,779 - pacman-server - INFO - Ghost player 780eb9be moved: 4
+2025-05-04 16:31:04,232 - pacman-server - INFO - Player 780eb9be moved 4 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:04,233 - pacman-server - INFO - Ghost player 780eb9be moved: 4
+2025-05-04 16:31:07,078 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:07,078 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:08,695 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:08,696 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:09,814 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:09,814 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:10,056 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:10,057 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:10,614 - pacman-server - INFO - Player 780eb9be moved 4 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:10,614 - pacman-server - INFO - Ghost player 780eb9be moved: 4
+2025-05-04 16:31:10,812 - pacman-server - INFO - Player 780eb9be moved 4 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:10,812 - pacman-server - INFO - Ghost player 780eb9be moved: 4
+2025-05-04 16:31:20,435 - pacman-server - INFO - Player ae52def2 moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:20,437 - pacman-server - INFO - Pacman player ae52def2 moved: 3
+2025-05-04 16:31:20,725 - pacman-server - INFO - Player ae52def2 moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:20,725 - pacman-server - INFO - Pacman player ae52def2 moved: 3
+2025-05-04 16:31:20,945 - pacman-server - INFO - Player ae52def2 moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:20,945 - pacman-server - INFO - Pacman player ae52def2 moved: 3
+2025-05-04 16:31:21,128 - pacman-server - INFO - Player ae52def2 moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:21,128 - pacman-server - INFO - Pacman player ae52def2 moved: 3
+2025-05-04 16:31:21,315 - pacman-server - INFO - Player ae52def2 moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:21,316 - pacman-server - INFO - Pacman player ae52def2 moved: 3
+2025-05-04 16:31:21,543 - pacman-server - INFO - Player ae52def2 moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:21,543 - pacman-server - INFO - Pacman player ae52def2 moved: 3
+2025-05-04 16:31:21,786 - pacman-server - INFO - Player ae52def2 moved 1 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:21,786 - pacman-server - INFO - Pacman player ae52def2 moved: 1
+2025-05-04 16:31:21,998 - pacman-server - INFO - Player ae52def2 moved 1 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:21,998 - pacman-server - INFO - Pacman player ae52def2 moved: 1
+2025-05-04 16:31:22,194 - pacman-server - INFO - Player ae52def2 moved 1 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:22,194 - pacman-server - INFO - Pacman player ae52def2 moved: 1
+2025-05-04 16:31:22,527 - pacman-server - INFO - Player ae52def2 moved 1 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:22,527 - pacman-server - INFO - Pacman player ae52def2 moved: 1
+2025-05-04 16:31:22,746 - pacman-server - INFO - Player ae52def2 moved 1 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:22,747 - pacman-server - INFO - Pacman player ae52def2 moved: 1
+2025-05-04 16:31:22,910 - pacman-server - INFO - Player ae52def2 moved 1 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:22,911 - pacman-server - INFO - Pacman player ae52def2 moved: 1
+2025-05-04 16:31:29,867 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:29,868 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:30,100 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:30,104 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:30,282 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:30,282 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:30,484 - pacman-server - INFO - Player 780eb9be moved 3 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:30,484 - pacman-server - INFO - Ghost player 780eb9be moved: 3
+2025-05-04 16:31:36,362 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:31:36,364 - pacman-server - INFO - PlayGame stream ended for player 780eb9be in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:37,596 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:31:38,593 - pacman-server - INFO - PlayGame stream ended for player ae52def2 in game 921dd44a-ed54-4d6c-931a-b2656bcf7318
+2025-05-04 16:31:40,618 - pacman-server - INFO - Server stopping...
+2025-05-04 16:42:00,684 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 16:42:00,688 - pacman-server - INFO - Server started on port 50051
+2025-05-04 16:42:25,357 - pacman-server - INFO - Created new game session 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:25,358 - pacman-server - INFO - Created new game: 1badc908-f539-425b-9754-82bafa20e58c, layout: mediumClassic, max players: 4
+2025-05-04 16:42:28,787 - pacman-server - INFO - Player b2844b95 joined as PACMAN
+2025-05-04 16:42:28,787 - pacman-server - INFO - Player b2844b95 joined game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:35,504 - pacman-server - INFO - Player bc315b2e joined as GHOST
+2025-05-04 16:42:35,505 - pacman-server - INFO - Player bc315b2e joined game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:39,384 - pacman-server - INFO - Player b2844b95 moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:39,384 - pacman-server - INFO - Pacman player b2844b95 moved: 3
+2025-05-04 16:42:40,767 - pacman-server - INFO - Player bc315b2e moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:40,767 - pacman-server - INFO - Ghost player bc315b2e moved: 3
+2025-05-04 16:42:41,426 - pacman-server - INFO - Player bc315b2e moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:41,427 - pacman-server - INFO - Ghost player bc315b2e moved: 3
+2025-05-04 16:42:41,724 - pacman-server - INFO - Player bc315b2e moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:41,724 - pacman-server - INFO - Ghost player bc315b2e moved: 1
+2025-05-04 16:42:41,841 - pacman-server - INFO - Player bc315b2e moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:41,842 - pacman-server - INFO - Ghost player bc315b2e moved: 4
+2025-05-04 16:42:42,146 - pacman-server - INFO - Player bc315b2e moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:42,146 - pacman-server - INFO - Ghost player bc315b2e moved: 1
+2025-05-04 16:42:42,326 - pacman-server - INFO - Player bc315b2e moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:42,326 - pacman-server - INFO - Ghost player bc315b2e moved: 3
+2025-05-04 16:42:42,415 - pacman-server - INFO - Player bc315b2e moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:42,415 - pacman-server - INFO - Ghost player bc315b2e moved: 1
+2025-05-04 16:42:43,029 - pacman-server - INFO - Player bc315b2e moved 2 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:43,030 - pacman-server - INFO - Ghost player bc315b2e moved: 2
+2025-05-04 16:42:44,091 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:44,091 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:44,274 - pacman-server - INFO - Player b2844b95 moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:44,274 - pacman-server - INFO - Pacman player b2844b95 moved: 3
+2025-05-04 16:42:44,643 - pacman-server - INFO - Player b2844b95 moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:44,643 - pacman-server - INFO - Pacman player b2844b95 moved: 3
+2025-05-04 16:42:44,708 - pacman-server - INFO - Player b2844b95 moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:44,708 - pacman-server - INFO - Pacman player b2844b95 moved: 1
+2025-05-04 16:42:45,464 - pacman-server - INFO - Player bc315b2e moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:45,464 - pacman-server - INFO - Ghost player bc315b2e moved: 3
+2025-05-04 16:42:45,765 - pacman-server - INFO - Player bc315b2e moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:45,765 - pacman-server - INFO - Ghost player bc315b2e moved: 4
+2025-05-04 16:42:45,860 - pacman-server - INFO - Player bc315b2e moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:45,861 - pacman-server - INFO - Ghost player bc315b2e moved: 1
+2025-05-04 16:42:46,191 - pacman-server - INFO - Player bc315b2e moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:46,191 - pacman-server - INFO - Ghost player bc315b2e moved: 1
+2025-05-04 16:42:46,331 - pacman-server - INFO - Player bc315b2e moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:46,331 - pacman-server - INFO - Ghost player bc315b2e moved: 4
+2025-05-04 16:42:46,559 - pacman-server - INFO - Player bc315b2e moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:46,559 - pacman-server - INFO - Ghost player bc315b2e moved: 4
+2025-05-04 16:42:46,740 - pacman-server - INFO - Player bc315b2e moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:46,741 - pacman-server - INFO - Ghost player bc315b2e moved: 4
+2025-05-04 16:42:46,940 - pacman-server - INFO - Player bc315b2e moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:46,940 - pacman-server - INFO - Ghost player bc315b2e moved: 3
+2025-05-04 16:42:49,315 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:49,315 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:49,644 - pacman-server - INFO - Player b2844b95 moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:49,644 - pacman-server - INFO - Pacman player b2844b95 moved: 3
+2025-05-04 16:42:49,871 - pacman-server - INFO - Player b2844b95 moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:49,871 - pacman-server - INFO - Pacman player b2844b95 moved: 3
+2025-05-04 16:42:49,962 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:49,963 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:50,172 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:50,172 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:50,341 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:50,342 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:50,530 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:50,531 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:50,691 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:50,691 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:50,860 - pacman-server - INFO - Player b2844b95 moved 4 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:50,860 - pacman-server - INFO - Pacman player b2844b95 moved: 4
+2025-05-04 16:42:51,048 - pacman-server - INFO - Player b2844b95 moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:51,048 - pacman-server - INFO - Pacman player b2844b95 moved: 1
+2025-05-04 16:42:51,225 - pacman-server - INFO - Player b2844b95 moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:51,225 - pacman-server - INFO - Pacman player b2844b95 moved: 1
+2025-05-04 16:42:51,394 - pacman-server - INFO - Player b2844b95 moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:51,394 - pacman-server - INFO - Pacman player b2844b95 moved: 1
+2025-05-04 16:42:51,546 - pacman-server - INFO - Player b2844b95 moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:51,546 - pacman-server - INFO - Pacman player b2844b95 moved: 1
+2025-05-04 16:42:51,705 - pacman-server - INFO - Player b2844b95 moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:51,705 - pacman-server - INFO - Pacman player b2844b95 moved: 1
+2025-05-04 16:42:52,107 - pacman-server - INFO - Player b2844b95 moved 1 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:52,108 - pacman-server - INFO - Pacman player b2844b95 moved: 1
+2025-05-04 16:42:52,276 - pacman-server - INFO - Player b2844b95 moved 3 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:52,277 - pacman-server - INFO - Pacman player b2844b95 moved: 3
+2025-05-04 16:42:52,284 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:42:52,284 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 569, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 16:42:53,284 - pacman-server - INFO - PlayGame stream ended for player b2844b95 in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:42:53,284 - pacman-server - INFO - PlayGame stream ended for player bc315b2e in game 1badc908-f539-425b-9754-82bafa20e58c
+2025-05-04 16:43:52,157 - pacman-server - INFO - Server stopping...

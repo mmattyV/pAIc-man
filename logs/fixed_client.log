@@ -142,3 +142,26 @@ AttributeError: type object 'Queue' has no attribute 'Empty'. Did you mean: 'emp
 2025-05-04 14:51:16,248 - fixed-client - INFO - Found 1 games
 2025-05-04 14:51:17,664 - fixed-client - INFO - Joined game 54485418-41a2-45eb-9795-ca4bc0c9496c
 2025-05-04 14:51:17,664 - fixed-client - INFO - Sending JOIN action for game 54485418-41a2-45eb-9795-ca4bc0c9496c
+2025-05-04 15:04:43,541 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:04:43,545 - fixed-client - INFO - Connected to server
+2025-05-04 15:04:45,713 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:04:45,714 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:04:45,714 - fixed-client - INFO - Connected to server
+2025-05-04 15:04:45,724 - fixed-client - INFO - Found 0 games
+2025-05-04 15:04:46,278 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:04:46,279 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:04:46,280 - fixed-client - INFO - Connected to server
+2025-05-04 15:04:46,284 - fixed-client - INFO - Found 0 games
+2025-05-04 15:04:47,161 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:04:47,162 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:04:47,162 - fixed-client - INFO - Connected to server
+2025-05-04 15:04:47,166 - fixed-client - INFO - Found 0 games
+2025-05-04 15:04:47,494 - fixed-client - INFO - Disconnected from server
+2025-05-04 15:04:47,495 - fixed-client - INFO - Connecting to server at localhost:50051
+2025-05-04 15:04:47,495 - fixed-client - INFO - Connected to server
+2025-05-04 15:04:47,499 - fixed-client - INFO - Found 0 games
+2025-05-04 15:04:51,428 - fixed-client - INFO - Creating game with layout mediumClassic
+2025-05-04 15:04:51,435 - fixed-client - INFO - Created game with ID: bdf71990-90d2-4a2e-96a6-6312509f8952
+2025-05-04 15:04:51,436 - fixed-client - INFO - Found 1 games
+2025-05-04 15:04:53,508 - fixed-client - INFO - Joined game bdf71990-90d2-4a2e-96a6-6312509f8952
+2025-05-04 15:04:53,508 - fixed-client - INFO - Sending JOIN action for game bdf71990-90d2-4a2e-96a6-6312509f8952

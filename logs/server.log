@@ -1094,3 +1094,24 @@ Traceback (most recent call last):
 grpc.RpcError
 2025-05-04 14:54:38,398 - pacman-server - INFO - PlayGame stream ended for player f4824d6c in game 54485418-41a2-45eb-9795-ca4bc0c9496c
 2025-05-04 14:58:47,922 - pacman-server - INFO - Server stopping...
+2025-05-04 15:04:41,682 - pacman-server - INFO - PacmanServicer initialized on port 50051 with data directory ./data
+2025-05-04 15:04:41,685 - pacman-server - INFO - Server started on port 50051
+2025-05-04 15:04:51,433 - pacman-server - INFO - Created new game session bdf71990-90d2-4a2e-96a6-6312509f8952
+2025-05-04 15:04:51,434 - pacman-server - INFO - Created new game: bdf71990-90d2-4a2e-96a6-6312509f8952, layout: mediumClassic, max players: 4
+2025-05-04 15:04:53,509 - pacman-server - INFO - Player 3e552ca1 joined as PACMAN
+2025-05-04 15:04:53,509 - pacman-server - INFO - Player 3e552ca1 joined game bdf71990-90d2-4a2e-96a6-6312509f8952
+2025-05-04 15:04:56,422 - pacman-server - ERROR - Error processing player actions: 
+Traceback (most recent call last):
+  File "/Users/pedrogarcia/pAIc-man/pacman_server.py", line 551, in process_actions
+    for action in request_iterator:
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 543, in __next__
+    return self._next()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 535, in _next
+    request = self._look_for_request()
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 517, in _look_for_request
+    _raise_rpc_error(self._state)
+  File "/opt/homebrew/Caskroom/miniconda/base/envs/paic-man/lib/python3.9/site-packages/grpc/_server.py", line 217, in _raise_rpc_error
+    raise rpc_error
+grpc.RpcError
+2025-05-04 15:04:56,515 - pacman-server - INFO - PlayGame stream ended for player 3e552ca1 in game bdf71990-90d2-4a2e-96a6-6312509f8952
+2025-05-04 15:04:57,797 - pacman-server - INFO - Server stopping...

@@ -247,57 +247,67 @@ class PacmanGraphics:
         Updates the graphical display based on the new game state.
         """
         # Process usual static object changes (food, capsules, score)
-        if newState._foodEaten != None:
+        if hasattr(newState, '_foodEaten') and newState._foodEaten is not None:
             self.removeFood(newState._foodEaten, self.food)
-        if newState._capsuleEaten != None:
+        if hasattr(newState, '_capsuleEaten') and newState._capsuleEaten is not None:
             self.removeCapsule(newState._capsuleEaten, self.capsules)
         self.infoPane.updateScore(newState.score)
         if 'ghostDistances' in dir(newState) and newState.ghostDistances:
             self.infoPane.updateGhostDistances(newState.ghostDistances)
 
         # Process agent that server indicated as moved (original logic)
-        if newState._agentMoved != None:
+        if hasattr(newState, '_agentMoved') and newState._agentMoved is not None and newState._agentMoved < len(newState.agentStates):
             agentIndex = newState._agentMoved
             agentState = newState.agentStates[agentIndex]
-
-            if self.agentImages[agentIndex][0].isPacman != agentState.isPacman:
-                self.swapImages(agentIndex, agentState)
-            else:
-                prevState = self.agentImages[agentIndex][0]
-                if agentState.isPacman:
-                    self.animatePacman(agentState, prevState, self.agentImages[agentIndex][1])
+            if agentIndex < len(self.agentImages):
+                # Check if image structure exists for this index
+                if self.agentImages[agentIndex][0].isPacman != agentState.isPacman:
+                    self.swapImages(agentIndex, agentState)
                 else:
-                    self.moveGhost(agentState, agentIndex, prevState, self.agentImages[agentIndex][1])
-            self.agentImages[agentIndex] = (agentState, self.agentImages[agentIndex][1])
+                    prevState = self.agentImages[agentIndex][0]
+                    if agentState.isPacman:
+                        self.animatePacman(agentState, prevState, self.agentImages[agentIndex][1])
+                    else:
+                        self.moveGhost(agentState, agentIndex, prevState, self.agentImages[agentIndex][1])
+                self.agentImages[agentIndex] = (agentState, self.agentImages[agentIndex][1])
+            else:
+                 # Agent index out of bounds, potentially log or handle adding agent
+                 pass
 
         # Check all ghosts for scared state changes or position jumps (when eaten)
         for index, agentState in enumerate(newState.agentStates):
-            # Skip the agent that already moved (was handled above)
-            if newState._agentMoved == index:
-                continue
+            if index < len(self.agentImages): # Ensure index is valid
+                # Skip the agent already handled by _agentMoved if it exists and is valid
+                if hasattr(newState, '_agentMoved') and newState._agentMoved == index:
+                    continue
 
-            # Only process ghosts (not Pacman)
-            if not agentState.isPacman:
-                oldState = self.agentImages[index][0]
-                # Only process if both old and new are ghosts
-                if not oldState.isPacman:
-                    # Get current positions
-                    oldPos = self.getPosition(oldState)
-                    newPos = self.getPosition(agentState)
+                # Only process ghosts (not Pacman) for specific scare/jump logic
+                if not agentState.isPacman:
+                    oldState = self.agentImages[index][0]
+                    # Only process if both old and new are ghosts
+                    if not oldState.isPacman:
+                        # Get current positions
+                        oldPos = self.getPosition(oldState)
+                        newPos = self.getPosition(agentState)
 
-                    # Check if position changed significantly (ghost was eaten)
-                    # or if scared state changed
-                    was_scared = oldState.scaredTimer > 0
-                    is_scared = agentState.scaredTimer > 0
-                    position_jump = (abs(oldPos[0] - newPos[0]) > 1 or abs(oldPos[1] - newPos[1]) > 1)
+                        # Check if position changed significantly (ghost was eaten)
+                        # or if scared state changed
+                        was_scared = oldState.scaredTimer > 0
+                        is_scared = agentState.scaredTimer > 0
+                        # Use a threshold to detect significant jumps (e.g., > 1 unit)
+                        position_jump = (abs(oldPos[0] - newPos[0]) > 1 or abs(oldPos[1] - newPos[1]) > 1)
 
-                    if was_scared != is_scared or position_jump:
-                        # Use moveGhost to properly update both position and color
-                        # This ensures eyes and body stay in sync
-                        self.moveGhost(agentState, index, oldState, self.agentImages[index][1])
+                        # Also trigger moveGhost if the visual needs updating (e.g. scared state change)
+                        if was_scared != is_scared or position_jump:
+                            # Use moveGhost to properly update both position and color
+                            self.moveGhost(agentState, index, oldState, self.agentImages[index][1])
 
-            # Update stored state for all agents
-            self.agentImages[index] = (agentState, self.agentImages[index][1])
+                # Update stored state for this agent (ensure this happens outside the ghost-specific logic)
+                # Only update if the index is valid
+                self.agentImages[index] = (agentState, self.agentImages[index][1])
+            else:
+                # Agent index out of bounds, potentially log or handle adding agent
+                pass
 
         refresh()
 
@@ -570,7 +580,7 @@ class PacmanGraphics:
                     if (not sIsWall) and (eIsWall):
                         # horizontal line
                         line(add(screen, (0, self.gridSize*(1)*WALL_RADIUS)), add(screen,
-                                                                                  (self.gridSize*0.5+1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
+                                                                                   (self.gridSize*0.5+1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
                     if (sIsWall) and (eIsWall) and (not seIsWall):
                         # outer circle
                         circle(add(screen2, (self.gridSize*2*WALL_RADIUS, self.gridSize*(2)*WALL_RADIUS)),
@@ -592,7 +602,7 @@ class PacmanGraphics:
                     if (not sIsWall) and (wIsWall):
                         # horizontal line
                         line(add(screen, (0, self.gridSize*(1)*WALL_RADIUS)), add(screen,
-                                                                                  (self.gridSize*(-0.5)-1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
+                                                                                   (self.gridSize*(-0.5)-1, self.gridSize*(1)*WALL_RADIUS)), wallColor)
                     if (sIsWall) and (wIsWall) and (not swIsWall):
                         # outer circle
                         circle(add(screen2, (self.gridSize*(-2)*WALL_RADIUS, self.gridSize*(2)*WALL_RADIUS)),
@@ -630,6 +640,36 @@ class PacmanGraphics:
                 else:
                     imageRow.append(None)
         return foodImages
+
+    def redrawFood(self, foodMatrix):
+        """Clears existing food graphics and redraws them based on foodMatrix."""
+        # Clear existing food graphics from the screen
+        if hasattr(self, 'food') and self.food:
+            for x in range(len(self.food)):
+                if self.food[x]: # Check if row exists
+                    for y in range(len(self.food[x])):
+                        if self.food[x][y] is not None:
+                            remove_from_screen(self.food[x][y])
+                            self.food[x][y] = None # Clear reference
+
+        # Draw the new food grid and store the graphics
+        self.food = self.drawFood(foodMatrix)
+        refresh()
+
+    def redrawCapsules(self, capsuleList):
+        """Clears existing capsule graphics and redraws them based on capsuleList."""
+        # Clear existing capsule graphics from the screen
+        if hasattr(self, 'capsules') and self.capsules:
+            # remove_from_screen needs the graphics object, not the key
+            for capsule_graphic in self.capsules.values():
+                if capsule_graphic is not None:
+                    remove_from_screen(capsule_graphic)
+            # Clear the old dictionary
+            self.capsules.clear()
+
+        # Draw the new capsules and store the graphics dictionary
+        self.capsules = self.drawCapsules(capsuleList)
+        refresh()
 
     def drawCapsules(self, capsules):
         capsuleImages = {}

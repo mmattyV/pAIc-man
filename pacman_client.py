@@ -529,6 +529,21 @@ class PacmanGUI:
             role_label = tk.Label(self.root, textvariable=self.role_var)
             role_label.pack(side=tk.TOP)
 
+            # Store initial food count and initialize previous count
+            try:
+                self.initial_food_count = sum(1 for row in self.adapter.layout.food for cell in row if cell)
+                self.previous_food_count = self.initial_food_count
+                logger.info(f"Initial food count for layout {layout_name}: {self.initial_food_count}")
+                self.initial_capsule_count = len(self.adapter.layout.capsules)
+                self.previous_capsule_count = self.initial_capsule_count
+                logger.info(f"Initial capsule count for layout {layout_name}: {self.initial_capsule_count}")
+            except Exception as e:
+                logger.error(f"Could not calculate initial food/capsule count: {e}")
+                self.initial_food_count = -1 # Indicate error
+                self.previous_food_count = -1
+                self.initial_capsule_count = -1
+                self.previous_capsule_count = -1
+
             # Join the game (this starts the streaming)
             if self.client.join_game(game_id, layout_name):
                 self.status_var.set(f"Joined game {game_id}")
@@ -571,29 +586,71 @@ class PacmanGUI:
         if self.client.running and self.adapter:
             try:
                 while not self.client.game_state_queue.empty():
-                    game_state = self.client.game_state_queue.get_nowait()
-                    print(f"Received state with {len(game_state.agents)} agents, {len(game_state.food)} food items")
+                    proto_game_state = self.client.game_state_queue.get_nowait()
+                    #print(f"Received state with {len(proto_game_state.agents)} agents, {len(proto_game_state.food)} food items")
 
-                    for agent in game_state.agents:
+                    # Detect food reset
+                    is_food_reset = False
+                    current_food_count = len(proto_game_state.food)
+                    if hasattr(self, 'initial_food_count') and self.initial_food_count > 0: # Check if initialized
+                        # A reset likely happened if the count was low and now matches initial
+                        # Using a small threshold (e.g., <= 5) for 'low count'
+                        if self.previous_food_count <= 5 and current_food_count == self.initial_food_count:
+                            is_food_reset = True
+                            logger.info(f"Food reset detected! Prev: {self.previous_food_count}, Curr: {current_food_count}, Initial: {self.initial_food_count}")
+
+                    # Detect capsule reset
+                    is_capsule_reset = False
+                    current_capsule_count = len(proto_game_state.capsules)
+                    if hasattr(self, 'initial_capsule_count') and self.initial_capsule_count > 0: # Check if initialized
+                        # Capsule reset likely happened if count was 0 and now matches initial
+                        if self.previous_capsule_count == 0 and current_capsule_count == self.initial_capsule_count:
+                            is_capsule_reset = True
+                            logger.info(f"Capsule reset detected! Prev: {self.previous_capsule_count}, Curr: {current_capsule_count}, Initial: {self.initial_capsule_count}")
+
+                    # Find player role
+                    for agent in proto_game_state.agents:
                         if agent.player_id == self.client.player_id:
                             role = "Pacman" if agent.agent_type == pacman_pb2.PACMAN else "Ghost"
                             self.role_var.set(f"Role: {role}")
                             break
 
-                    # Convert to Pacman format
-                    pacman_state = self.adapter.update_from_proto(game_state)
+                    pacman_state = self.adapter.update_from_proto(proto_game_state)
 
                     # Update the display
+                    if is_food_reset:
+                        logger.debug("Calling redrawFood()...")
+                        # Redraw the food grid explicitly
+                        self.display.redrawFood(pacman_state.data.food)
+                        # Clear the _foodEaten flag to prevent immediate removal by standard update
+                        pacman_state.data._foodEaten = None
+
+                    if is_capsule_reset:
+                        logger.debug("Calling redrawCapsules()...")
+                        # Redraw the capsules explicitly
+                        # Ensure pacman_state.data.capsules is the correct list format
+                        self.display.redrawCapsules(pacman_state.data.capsules)
+                        # Clear the _capsuleEaten flag
+                        pacman_state.data._capsuleEaten = None
+
+                    # Call the standard update method which handles agents, score, etc.
+                    # If reset happened, it will now skip food/capsule removal due to cleared flags.
                     self.display.update(pacman_state.data)
 
+                    # Update previous food/capsule count for next iteration's check
+                    if hasattr(self, 'previous_food_count'): # Ensure attribute exists
+                        self.previous_food_count = current_food_count
+                    if hasattr(self, 'previous_capsule_count'):
+                        self.previous_capsule_count = current_capsule_count
+
                     # Update status
-                    self.status_var.set(f"Game: {self.client.game_id} | Score: {game_state.score}")
+                    self.status_var.set(f"Game: {self.client.game_id} | Score: {proto_game_state.score}")
 
                     # Check if game ended
-                    if game_state.status == pacman_pb2.FINISHED:
+                    if proto_game_state.status == pacman_pb2.FINISHED:
                         # Find if there's a pacman in the game
                         pacman_found = False
-                        for agent in game_state.agents:
+                        for agent in proto_game_state.agents:
                             if agent.agent_type == pacman_pb2.PACMAN:
                                 pacman_found = True
                                 break
@@ -606,7 +663,7 @@ class PacmanGUI:
                         # Show game over dialog
                         tk.messagebox.showinfo(
                             "Game Over",
-                            f"{message}\nFinal Score: {game_state.score}"
+                            f"{message}\nFinal Score: {proto_game_state.score}"
                         )
                         self.leave_game()
                         break

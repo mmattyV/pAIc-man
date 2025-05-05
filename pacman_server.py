@@ -312,7 +312,7 @@ class GameSession:
             # Make all ghosts scared
             for player_id, role in self.player_roles.items():
                 if role == pacman_pb2.GHOST:
-                    self.scared_timers[player_id] = 120  # Scared for 40 frames (4 seconds at 10fps)
+                    self.scared_timers[player_id] = 200  # Scared for 40 frames (4 seconds at 10fps)
 
     def check_collisions(self):
         """Check for collisions between Pacman and ghosts"""

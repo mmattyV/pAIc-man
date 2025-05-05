@@ -1,0 +1,209 @@
+#!/usr/bin/env python3
+"""
+AI Pacman Agent Implementation
+Provides different difficulty levels of AI pacman for ghost players to chase
+"""
+import random
+import logging
+from helpers.game import Actions, Directions
+from helpers.util import manhattanDistance, Counter
+from helpers.pacmanAgents import GreedyAgent
+
+logger = logging.getLogger("ai-pacman")
+
+class AIPacmanAgent:
+    """Base class for AI Pacman agents of different difficulty levels"""
+    def __init__(self):
+        self.last_action = Directions.STOP
+
+    def get_action(self, game_state):
+        """Get the action for Pacman given the current game state"""
+        raise NotImplementedError("Subclasses must implement get_action")
+
+class EasyAIPacman(AIPacmanAgent):
+    """
+    Easy difficulty AI Pacman
+    
+    Simply moves randomly but avoids walls and tries not to stop
+    """
+    def get_action(self, game_state):
+        # Get the legal actions for pacman excluding STOP
+        legal_actions = [action for action in game_state.pacman_legal_actions if action != Directions.STOP]
+        
+        # If we have legal actions, choose one randomly
+        if legal_actions:
+            # Slightly prefer continuing in the same direction if possible
+            if self.last_action in legal_actions and random.random() < 0.6:
+                self.last_action = self.last_action
+            else:
+                self.last_action = random.choice(legal_actions)
+        else:
+            # If there are no legal actions besides STOP, then STOP
+            self.last_action = Directions.STOP
+        
+        return self.last_action
+
+class MediumAIPacman(AIPacmanAgent):
+    """
+    Medium difficulty AI Pacman
+    
+    Uses a modified greedy approach - tries to eat nearby food but also
+    avoids ghosts when they are close.
+    """
+    def __init__(self):
+        super().__init__()
+        self.fear_distance = 3  # Distance at which pacman becomes afraid of ghosts
+    
+    def get_action(self, game_state):
+        # Get the legal actions for pacman excluding STOP
+        legal_actions = [action for action in game_state.pacman_legal_actions if action != Directions.STOP]
+        
+        if not legal_actions:
+            self.last_action = Directions.STOP
+            return self.last_action
+        
+        # Score each action based on food proximity and ghost avoidance
+        action_scores = Counter()
+        
+        pacman_pos = game_state.pacman_position
+        ghost_positions = game_state.ghost_positions
+        ghost_scared_timers = game_state.ghost_scared_timers
+        food_positions = game_state.food_positions
+        
+        # Evaluate each legal action
+        for action in legal_actions:
+            # Simulate the action
+            vector = Actions.directionToVector(action)
+            new_pos = (pacman_pos[0] + vector[0], pacman_pos[1] + vector[1])
+            
+            # Initialize score - prefer food
+            min_food_dist = min([manhattanDistance(new_pos, food_pos) for food_pos in food_positions]) if food_positions else 0
+            action_scores[action] = 10.0 / (min_food_dist + 1.0) if min_food_dist > 0 else 10.0
+            
+            # Avoid non-scared ghosts that are close
+            for i, ghost_pos in enumerate(ghost_positions):
+                if ghost_scared_timers[i] <= 0:  # Ghost is not scared
+                    ghost_dist = manhattanDistance(new_pos, ghost_pos)
+                    if ghost_dist < self.fear_distance:
+                        # Drastically reduce score for actions leading toward ghosts
+                        action_scores[action] -= (self.fear_distance - ghost_dist) * 5.0
+        
+        # Choose the action with the highest score
+        if action_scores:
+            best_score = max(action_scores.values())
+            best_actions = [a for a, s in action_scores.items() if s == best_score]
+            self.last_action = random.choice(best_actions)
+        else:
+            # Fallback to random
+            self.last_action = random.choice(legal_actions)
+            
+        return self.last_action
+
+class HardAIPacman(AIPacmanAgent):
+    """
+    Hard difficulty AI Pacman
+    
+    Uses a sophisticated strategy to maximize food collection and avoid ghosts.
+    Considers capsules to strategically hunt ghosts when advantageous.
+    """
+    def __init__(self):
+        super().__init__()
+        self.fear_distance = 4  # Increased awareness of ghosts
+        self.close_ghost_threshold = 2  # Distance at which a ghost is considered "close"
+        self.capsule_attraction = 5.0  # Higher value to prioritize capsules
+    
+    def get_action(self, game_state):
+        # Get the legal actions for pacman excluding STOP
+        legal_actions = [action for action in game_state.pacman_legal_actions if action != Directions.STOP]
+        
+        if not legal_actions:
+            self.last_action = Directions.STOP
+            return self.last_action
+        
+        # Score each action based on multiple factors
+        action_scores = Counter()
+        
+        pacman_pos = game_state.pacman_position
+        ghost_positions = game_state.ghost_positions
+        ghost_scared_timers = game_state.ghost_scared_timers
+        food_positions = game_state.food_positions
+        capsule_positions = game_state.capsule_positions
+        
+        # Evaluate each legal action
+        for action in legal_actions:
+            # Simulate the action
+            vector = Actions.directionToVector(action)
+            new_pos = (pacman_pos[0] + vector[0], pacman_pos[1] + vector[1])
+            
+            # Base score based on food proximity
+            action_scores[action] = 0
+            
+            # Food attraction
+            if food_positions:
+                min_food_dist = min([manhattanDistance(new_pos, food_pos) for food_pos in food_positions])
+                action_scores[action] += 15.0 / (min_food_dist + 1.0)
+            
+            # Capsule attraction - stronger than food
+            if capsule_positions:
+                min_capsule_dist = min([manhattanDistance(new_pos, cap_pos) for cap_pos in capsule_positions])
+                if min_capsule_dist < 5:  # Only prioritize nearby capsules
+                    action_scores[action] += self.capsule_attraction * (5.0 / (min_capsule_dist + 1.0))
+            
+            # Ghost avoidance or chase
+            any_close_ghosts = False
+            any_scared_ghosts = False
+            for i, ghost_pos in enumerate(ghost_positions):
+                ghost_dist = manhattanDistance(new_pos, ghost_pos)
+                
+                if ghost_scared_timers[i] > 0:  # Ghost is scared - chase it!
+                    any_scared_ghosts = True
+                    # Chase ghosts, but only if they're still scared for a while
+                    if ghost_scared_timers[i] > 5:
+                        action_scores[action] += max(0, 8.0 - ghost_dist)
+                else:  # Ghost is dangerous
+                    if ghost_dist < self.fear_distance:
+                        any_close_ghosts = True
+                        action_scores[action] -= (self.fear_distance - ghost_dist) * 10.0
+                        
+                        # Severely penalize moves that could lead to being trapped
+                        if ghost_dist <= self.close_ghost_threshold:
+                            action_scores[action] -= 50.0
+            
+            # If there are close ghosts and an available capsule, prioritize the capsule
+            if any_close_ghosts and capsule_positions:
+                min_capsule_dist = min([manhattanDistance(new_pos, cap_pos) for cap_pos in capsule_positions])
+                action_scores[action] += 20.0 / (min_capsule_dist + 1.0)
+            
+            # If there's no immediate danger, consider exploring unexplored areas for more food
+            if not any_close_ghosts and not any_scared_ghosts:
+                # Slightly favor the current direction for smoother movement patterns
+                if action == self.last_action:
+                    action_scores[action] += 1.0
+                
+                # Slightly penalize reversing direction
+                reverse = Directions.REVERSE[self.last_action]
+                if action == reverse:
+                    action_scores[action] -= 2.0
+        
+        # Choose the action with the highest score
+        if action_scores:
+            best_score = max(action_scores.values())
+            best_actions = [a for a, s in action_scores.items() if s == best_score]
+            self.last_action = random.choice(best_actions)
+        else:
+            # Fallback to random
+            self.last_action = random.choice(legal_actions)
+            
+        return self.last_action
+
+def create_ai_agent(difficulty):
+    """Factory function to create an AI Pacman agent of the specified difficulty"""
+    if difficulty == "EASY":
+        return EasyAIPacman()
+    elif difficulty == "MEDIUM":
+        return MediumAIPacman()
+    elif difficulty == "HARD":
+        return HardAIPacman()
+    else:
+        logger.warning(f"Unknown difficulty {difficulty}, defaulting to MEDIUM")
+        return MediumAIPacman()

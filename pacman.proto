@@ -20,6 +20,8 @@ message Empty {}
 message GameConfig {
   string layout_name = 1;
   int32 max_players = 2;  // Should be 4 (1 Pacman + 3 Ghosts)
+  GameMode game_mode = 3; // Whether AI or human controls Pacman
+  AIDifficulty ai_difficulty = 4; // Only relevant for AI_PACMAN mode
 }
 
 // Game session information returned after creating a game
@@ -41,6 +43,8 @@ message GameInfo {
   int32 current_players = 3;
   int32 max_players = 4;
   GameStatus status = 5;
+  GameMode game_mode = 6;
+  AIDifficulty ai_difficulty = 7;
 }
 
 // Game status enum
@@ -86,6 +90,8 @@ message GameState {
   string winner_id = 8;            // ID of winning player (if game is finished)
   optional Position food_eaten = 9;    // Position of food eaten this tick (if any)
   optional Position capsule_eaten = 10; // Position of capsule eaten this tick (if any)
+  GameMode game_mode = 11;         // Game mode (PVP or AI_PACMAN)
+  AIDifficulty ai_difficulty = 12; // AI difficulty level for AI_PACMAN mode
 }
 
 // State of an agent (Pacman or ghost)
@@ -103,6 +109,19 @@ message AgentState {
 enum AgentType {
   PACMAN = 0;
   GHOST = 1;
+}
+
+// Game modes
+enum GameMode {
+  PVP = 0;        // Player vs Player (original mode)
+  AI_PACMAN = 1;  // Players are Ghosts, Pacman is AI
+}
+
+// AI difficulty levels
+enum AIDifficulty {
+  EASY = 0;
+  MEDIUM = 1;
+  HARD = 2;
 }
 
 // Position in the game grid

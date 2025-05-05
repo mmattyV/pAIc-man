@@ -10,7 +10,7 @@ import argparse
 import concurrent.futures
 import sys
 import os
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 from queue import Queue, Empty
 
 # Import generated protocol buffer code
@@ -22,6 +22,9 @@ from helpers.game import Directions, Actions, AgentState, Configuration
 from helpers.game import Grid
 import helpers.layout as layout
 from util import nearestPoint, manhattanDistance
+
+# Import AI Pacman agents
+from ai_pacman import create_ai_agent
 
 # Configure logging
 logging.basicConfig(
@@ -36,7 +39,7 @@ logger = logging.getLogger("pacman-server")
 
 class GameSession:
     """Represents a game session"""
-    def __init__(self, game_id: str, layout_name: str, max_players: int):
+    def __init__(self, game_id: str, layout_name: str, max_players: int, game_mode=pacman_pb2.PVP, ai_difficulty=pacman_pb2.MEDIUM):
         self.game_id = game_id
         self.layout_name = layout_name
         self.max_players = 2
@@ -48,6 +51,26 @@ class GameSession:
         self.player_positions = {}  # Maps player_id to current position
         self.pacman_player = None  # Track which player is Pacman
         self.status = pacman_pb2.WAITING
+        
+        # Game mode and AI settings
+        self.game_mode = game_mode
+        self.ai_difficulty = ai_difficulty
+        self.ai_agent = None
+        
+        # For AI Pacman mode, create the agent
+        if self.game_mode == pacman_pb2.AI_PACMAN:
+            difficulty_map = {
+                pacman_pb2.EASY: "EASY",
+                pacman_pb2.MEDIUM: "MEDIUM", 
+                pacman_pb2.HARD: "HARD"
+            }
+            self.ai_agent = create_ai_agent(difficulty_map.get(self.ai_difficulty, "MEDIUM"))
+            # Create a virtual player ID for the AI Pacman
+            self.pacman_player = "ai_pacman"
+            logger.info(f"Created AI Pacman agent with difficulty {difficulty_map.get(self.ai_difficulty, 'MEDIUM')}")
+            
+            # Initialize the max players to 3 (1 AI Pacman + 2 Ghosts) for AI mode
+            self.max_players = 3
 
         # Game state variables
         self.score = 0
@@ -57,6 +80,10 @@ class GameSession:
         if not self.layout:
             logger.warning(f"Could not find layout {layout_name}, using mediumClassic as fallback")
             self.layout = layout.getLayout("mediumClassic")
+
+        # Initialize AI Pacman position if in AI mode - MUST do this before creating any game state
+        if self.game_mode == pacman_pb2.AI_PACMAN:
+            self.initialize_ai_pacman_position()
 
         # Initialize game state including food grid
         self.initialize_game_state()
@@ -69,7 +96,7 @@ class GameSession:
         self.update_thread = threading.Thread(target=self.update_loop)
         self.update_thread.daemon = True
         self.update_thread.start()
-        logger.info(f"Created new game session {game_id}")
+        logger.info(f"Created new game session {game_id} with mode {self.game_mode}")
 
     def initialize_game_state(self):
         """Initialize a new game state with food, capsules, etc."""
@@ -89,14 +116,24 @@ class GameSession:
             if self.current_players >= self.max_players:
                 return False
 
-            # Assign role: first player is Pacman, rest are ghosts
-            if self.pacman_player is None:
-                self.player_roles[player_id] = pacman_pb2.PACMAN
-                self.pacman_player = player_id
-                logger.info(f"Player {player_id} joined as PACMAN")
-            else:
+            # Role assignment depends on game mode
+            if self.game_mode == pacman_pb2.PVP:
+                # In PVP mode: first player is Pacman, rest are ghosts
+                if self.pacman_player is None:
+                    self.player_roles[player_id] = pacman_pb2.PACMAN
+                    self.pacman_player = player_id
+                    logger.info(f"Player {player_id} joined as PACMAN")
+                else:
+                    self.player_roles[player_id] = pacman_pb2.GHOST
+                    logger.info(f"Player {player_id} joined as GHOST")
+            elif self.game_mode == pacman_pb2.AI_PACMAN:
+                # In AI Pacman mode: all human players are ghosts
                 self.player_roles[player_id] = pacman_pb2.GHOST
-                logger.info(f"Player {player_id} joined as GHOST")
+                logger.info(f"Player {player_id} joined as GHOST in AI Pacman mode")
+            else:
+                # Default to ghost if unknown mode
+                self.player_roles[player_id] = pacman_pb2.GHOST
+                logger.info(f"Player {player_id} joined as GHOST (unknown game mode)")
 
             self.player_streams[player_id] = stream
             self.current_players += 1
@@ -104,9 +141,15 @@ class GameSession:
             # Initialize player position
             self.initialize_player_position(player_id)
 
-            # If we have at least one Pacman and one ghost, game can start
-            if self.pacman_player is not None and self.current_players > 1:
-                self.status = pacman_pb2.IN_PROGRESS
+            # Game can start with appropriate conditions
+            if self.game_mode == pacman_pb2.PVP:
+                # In PVP mode, need at least one Pacman and one ghost
+                if self.pacman_player is not None and self.current_players > 1:
+                    self.status = pacman_pb2.IN_PROGRESS
+            elif self.game_mode == pacman_pb2.AI_PACMAN:
+                # In AI Pacman mode, game can start with just one ghost player
+                if self.current_players >= 1:
+                    self.status = pacman_pb2.IN_PROGRESS
 
             return True
 
@@ -114,6 +157,10 @@ class GameSession:
         """Initialize a player's position based on their role"""
         role = self.player_roles.get(player_id)
         if role is None:
+            return
+            
+        # Skip position initialization for AI Pacman - it's handled separately
+        if player_id == "ai_pacman":
             return
 
         if role == pacman_pb2.PACMAN:
@@ -190,18 +237,21 @@ class GameSession:
                     self.status = pacman_pb2.WAITING
                 return True
             return False
-
+            
     def update_loop(self):
         """Game state update loop that runs continuously in a separate thread"""
-        try:
-            # Update at 60 fps
-            update_interval = 0.0167
+        FPS = 10  # Frames per second - how frequently the game state updates
+        update_interval = 1.0 / FPS  # Time between updates in seconds
+        
+        # For AI Pacman mode, we'll limit the update frequency
+        ai_update_interval = 0.3  # Update AI Pacman less frequently (every 300ms) to make game more fair
+        last_ai_update = time.time()
 
-            # Track the last time we processed each player's action
-            last_action_time = {}
+        while self.running:
+            try:
+                game_start_time = time.time()
 
-            while self.running:
-                # Only process updates if game is active
+                # Only update game if it's in progress
                 if self.status == pacman_pb2.IN_PROGRESS:
                     with self.lock:
                         # 1. Process player actions/movements
@@ -214,17 +264,40 @@ class GameSession:
                                 action = self.player_actions[player_id]
                                 self.move_player(player_id, action)
                                 del self.player_actions[player_id]
-
-                        # 2. Check for collisions between Pacman and ghosts
+                                
+                        # 2. Process AI Pacman movement only at certain intervals
+                        # This makes the game more balanced
+                        current_time = time.time()
+                        if (self.game_mode == pacman_pb2.AI_PACMAN and 
+                            self.ai_agent and 
+                            self.pacman_player == "ai_pacman" and
+                            current_time - last_ai_update >= ai_update_interval):
+                            
+                            self.update_ai_pacman()
+                            last_ai_update = current_time
+                            
+                        # 3. Check for collisions between Pacman and ghosts
                         self.check_collisions()
-
-                        # 3. Send updated game state to all players
+                        
+                        # 4. Update scared timers
+                        for player_id in list(self.scared_timers.keys()):
+                            if self.scared_timers[player_id] > 0:
+                                self.scared_timers[player_id] -= 1
+                                
+                        # 5. Send updated game state to all clients
                         self.broadcast_game_state()
 
-                # Sleep to maintain update rate
-                time.sleep(update_interval)
-        except Exception as e:
-            logger.error(f"Error in game update loop: {e}", exc_info=True)
+                # Calculate time to sleep to maintain FPS
+                elapsed = time.time() - game_start_time
+                sleep_time = max(0, update_interval - elapsed)
+                time.sleep(sleep_time)
+
+            except Exception as e:
+                logger.error(f"Error in game update loop: {e}", exc_info=True)
+                # Brief sleep to avoid tight loop in case of recurring errors
+                time.sleep(0.1)
+
+        logger.info(f"Update loop ended for game {self.game_id}")
 
     def move_player(self, player_id, direction):
         """Move a player based on their requested direction"""
@@ -258,9 +331,15 @@ class GameSession:
 
             # Calculate the new position
             if game_direction != Directions.STOP:
-                speed = 1.0  # Normal speed
-                if role == pacman_pb2.GHOST and player_id in self.scared_timers and self.scared_timers[player_id] > 0:
-                    speed = 0.5  # Scared ghosts move slower
+                # Set speed based on role and game mode
+                if self.game_mode == pacman_pb2.AI_PACMAN and role == pacman_pb2.GHOST:
+                    speed = 2.0  # Faster ghosts in AI mode to keep up with AI Pacman
+                    if player_id in self.scared_timers and self.scared_timers[player_id] > 0:
+                        speed = 1.0  # Scared ghosts in AI mode move at normal speed
+                else:
+                    speed = 1.0  # Normal speed in PVP mode
+                    if role == pacman_pb2.GHOST and player_id in self.scared_timers and self.scared_timers[player_id] > 0:
+                        speed = 0.5  # Scared ghosts in PVP mode move slower
 
                 vector = Actions.directionToVector(game_direction, speed)
                 new_pos = (pos[0] + vector[0], pos[1] + vector[1])
@@ -278,7 +357,92 @@ class GameSession:
                 # If this is Pacman, check for food consumption
                 if role == pacman_pb2.PACMAN:
                     self.check_food_consumption(new_pos)
-
+    
+    def update_ai_pacman(self):
+        """Update AI-controlled Pacman movement"""
+        if not self.ai_agent:
+            return
+            
+        # Create a simplified game state representation for the AI agent
+        ai_game_state = self.create_ai_game_state()
+        
+        # Get the AI agent's action
+        action = self.ai_agent.get_action(ai_game_state)
+        
+        # Update the AI Pacman's direction and position
+        if action != Directions.STOP:
+            # Get the current position of Pacman
+            pacman_pos = self.get_pacman_position()
+            if pacman_pos is None:
+                # If Pacman position not yet initialized, initialize it
+                self.initialize_ai_pacman_position()
+                pacman_pos = self.get_pacman_position()
+                
+            if pacman_pos:
+                # Update direction
+                self.player_directions["ai_pacman"] = action
+                
+                # Calculate new position
+                vector = Actions.directionToVector(action, 1.0)
+                new_pos = (pacman_pos[0] + vector[0], pacman_pos[1] + vector[1])
+                
+                # Check if move is valid (not into a wall)
+                x, y = int(round(new_pos[0])), int(round(new_pos[1]))
+                if not self.walls[x][y]:
+                    self.player_positions["ai_pacman"] = new_pos
+                    # Check for food consumption at new position
+                    self.check_food_consumption(new_pos)
+                    
+    def create_ai_game_state(self):
+        """Create a simplified game state representation for the AI agent"""
+        # Simple object with the necessary data for the AI agent
+        class SimpleGameState:
+            pass
+            
+        state = SimpleGameState()
+        
+        # Get Pacman's position and legal actions
+        pacman_pos = self.get_pacman_position()
+        if pacman_pos is None:
+            # Initialize AI Pacman position if not set
+            self.initialize_ai_pacman_position()
+            pacman_pos = self.get_pacman_position()
+        
+        state.pacman_position = pacman_pos
+        
+        # Get ghost positions and scared timers
+        state.ghost_positions = []
+        state.ghost_scared_timers = []
+        for player_id, role in self.player_roles.items():
+            if role == pacman_pb2.GHOST and player_id in self.player_positions:
+                ghost_pos = self.player_positions[player_id]
+                state.ghost_positions.append(ghost_pos)
+                # Add scared timer (defaulting to 0 for now - not scared)
+                state.ghost_scared_timers.append(0)
+        
+        # Get food positions (convert from grid to list of positions)
+        state.food_positions = []
+        if self.food:
+            for x in range(self.food.width):
+                for y in range(self.food.height):
+                    if self.food[x][y]:
+                        state.food_positions.append((x, y))
+        
+        # Get capsule positions
+        state.capsule_positions = self.capsules[:] if self.capsules else []
+        
+        # Get legal actions for Pacman
+        state.pacman_legal_actions = []
+        if pacman_pos:
+            x, y = int(pacman_pos[0]), int(pacman_pos[1])
+            for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+                dx, dy = Actions.directionToVector(action)
+                next_x, next_y = int(x + dx), int(y + dy)
+                if not self.walls[next_x][next_y]:
+                    state.pacman_legal_actions.append(action)
+        
+        return state
+        
     def check_food_consumption(self, pos):
         """Check if Pacman is eating food or capsules"""
         # Convert to integer coordinates for grid access
@@ -318,8 +482,8 @@ class GameSession:
 
             # Make all ghosts scared
             for player_id, role in self.player_roles.items():
-                if role == pacman_pb2.GHOST:
-                    self.scared_timers[player_id] = 200  # Scared for 40 frames (4 seconds at 10fps)
+                if role == pacman_pb2.GHOST and player_id != "ai_pacman":  # Ensure we don't make AI scared
+                    self.scared_timers[player_id] = 200  # Scared for 20 seconds at 10fps
 
     def check_collisions(self):
         """Check for collisions between Pacman and ghosts"""
@@ -354,8 +518,8 @@ class GameSession:
             role = self.player_roles.get(player_id)
 
             # Only allow players to move characters matching their role
-            if role == pacman_pb2.PACMAN and player_id == self.pacman_player:
-                # This player is Pacman, allow them to move
+            if role == pacman_pb2.PACMAN and player_id == self.pacman_player and self.game_mode == pacman_pb2.PVP:
+                # This player is Pacman in PVP mode, allow them to move
                 self.player_actions[player_id] = direction
                 logger.info(f"Pacman player {player_id} moved: {direction}")
             elif role == pacman_pb2.GHOST:
@@ -369,15 +533,10 @@ class GameSession:
                     logger.info(f"Ghost player {player_id} moved: {direction}")
             else:
                 logger.warning(f"Player {player_id} tried to move but has invalid role: {role}")
-
+                
     def broadcast_game_state(self):
         """Send current game state to all connected players"""
         with self.lock:
-            # Update scared timers
-            for player_id in list(self.scared_timers.keys()):
-                if self.scared_timers[player_id] > 0:
-                    self.scared_timers[player_id] -= 1
-
             # Create current game state
             game_state = self._create_game_state()
 
@@ -393,10 +552,119 @@ class GameSession:
             # Remove dead streams
             for player_id in dead_streams:
                 self.remove_player(player_id)
-
+    
+    def initialize_ai_pacman_position(self):
+        """Initialize the AI-controlled Pacman's position"""
+        # Find Pacman start position from layout
+        pacman_start = self.layout.agentPositions[0][1]
+        self.player_positions["ai_pacman"] = pacman_start
+        self.player_directions["ai_pacman"] = Directions.STOP
+        logger.info(f"Initialized AI Pacman position to {pacman_start}")
+    
+    def get_direction_proto(self, direction):
+        """Convert internal direction to protocol buffer direction"""
+        direction_map = {
+            Directions.NORTH: pacman_pb2.NORTH,
+            Directions.SOUTH: pacman_pb2.SOUTH,
+            Directions.EAST: pacman_pb2.EAST,
+            Directions.WEST: pacman_pb2.WEST,
+            Directions.STOP: pacman_pb2.STOP
+        }
+        return direction_map.get(direction, pacman_pb2.STOP)
+        
+    def get_winner_id(self):
+        """Get the ID of the winner if the game is finished"""
+        if self.status != pacman_pb2.FINISHED:
+            return ""
+        
+        # In AI mode, if game ended and AI is still in the game, ghosts win
+        if self.game_mode == pacman_pb2.AI_PACMAN and "ai_pacman" not in self.player_positions:
+            # Find a ghost player to declare winner
+            ghost_players = [pid for pid, role in self.player_roles.items() if role == pacman_pb2.GHOST]
+            return ghost_players[0] if ghost_players else ""
+            
+        # In PVP mode or if AI won, return pacman_player
+        return self.pacman_player if self.pacman_player else ""
+    
+    def get_pacman_position(self):
+        """Get the current position of Pacman"""
+        if self.game_mode == pacman_pb2.AI_PACMAN:
+            return self.player_positions.get("ai_pacman")
+        else:
+            return self.player_positions.get(self.pacman_player) if self.pacman_player else None
+            
     def _create_game_state(self):
         """Create the current game state for broadcasting to clients"""
-        # Convert food grid to list of positions
+        with self.lock:
+            # Create agent states for all agents
+            agents = []
+
+            # Add Pacman agent - either AI Pacman or player-controlled Pacman, not both
+            if self.game_mode == pacman_pb2.AI_PACMAN:
+                # For AI mode, only use the AI Pacman
+                ai_pos = self.get_pacman_position()
+                
+                # Ensure we have a valid position for the AI pacman
+                if ai_pos is None:
+                    # Reinitialize AI Pacman position if not found
+                    self.initialize_ai_pacman_position()
+                    ai_pos = self.get_pacman_position()
+                    logger.info(f"Reinitialized AI Pacman position to {ai_pos}")
+                
+                if ai_pos is not None:  # Only create agent if we have a position
+                    ai_direction = self.player_directions.get("ai_pacman", Directions.STOP)
+                    pacman_agent = pacman_pb2.AgentState(
+                        agent_id="ai_pacman",
+                        agent_type=pacman_pb2.PACMAN,
+                        position=pacman_pb2.Position(x=ai_pos[0], y=ai_pos[1]),
+                        direction=self.get_direction_proto(ai_direction),
+                        is_scared=False,
+                        scared_timer=0,
+                        player_id="AI"  # Use "AI" for display purposes
+                    )
+                    agents.append(pacman_agent)
+                
+            # For PVP mode, add human-controlled Pacman if it exists
+            elif self.pacman_player and self.pacman_player in self.player_positions:
+                pacman_pos = self.player_positions[self.pacman_player]
+                if pacman_pos is not None:
+                    pacman_direction = self.player_directions.get(self.pacman_player, Directions.STOP)
+                    pacman_agent = pacman_pb2.AgentState(
+                        agent_id=self.pacman_player,
+                        agent_type=pacman_pb2.PACMAN,
+                        position=pacman_pb2.Position(x=pacman_pos[0], y=pacman_pos[1]),
+                        direction=self.get_direction_proto(pacman_direction),
+                        is_scared=False,
+                        scared_timer=0,
+                        player_id=self.pacman_player
+                    )
+                    agents.append(pacman_agent)
+
+            # Add ghost agents
+            for player_id, role in self.player_roles.items():
+                if role == pacman_pb2.GHOST and player_id in self.player_positions:
+                    ghost_pos = self.player_positions[player_id]
+                    ghost_direction = self.player_directions.get(player_id, Directions.STOP)
+                    is_scared = False
+                    if player_id in self.scared_timers:
+                        scared_timer = self.scared_timers[player_id]
+                        is_scared = scared_timer > 0
+
+                    # Add agent data for a player-controlled ghost
+                    ghost_agent = pacman_pb2.AgentState(
+                        agent_id=f"ghost_{player_id}",
+                        agent_type=pacman_pb2.GHOST,
+                        position=pacman_pb2.Position(x=ghost_pos[0], y=ghost_pos[1]),
+                        direction=self.get_direction_proto(ghost_direction),
+                        is_scared=is_scared,
+                        scared_timer=scared_timer if is_scared else 0,
+                        player_id=player_id
+                    )
+                    agents.append(ghost_agent)
+            
+            # The AI Pacman is already handled in the earlier section for AI mode, no need to add it again here
+
+        # Create food positions list
         food_positions = []
         for x in range(self.food.width):
             for y in range(self.food.height):
@@ -406,59 +674,28 @@ class GameSession:
         # Convert capsules to Position objects
         capsule_positions = [pacman_pb2.Position(x=x, y=y) for x, y in self.capsules]
 
-        # Convert walls to Position objects
-        wall_positions = []
+        # Create wall positions list
+        walls = []
         for x in range(self.walls.width):
             for y in range(self.walls.height):
                 if self.walls[x][y]:
-                    wall_positions.append(pacman_pb2.Position(x=x, y=y))
+                    walls.append(pacman_pb2.Position(x=x, y=y))
 
-        # Create agent objects for each player
-        agents = []
-        for player_id, role in self.player_roles.items():
-            if player_id in self.player_positions and player_id in self.player_directions:
-                pos = self.player_positions[player_id]
-                direction = self.player_directions[player_id]
-
-                # Convert Pacman direction to gRPC direction enum
-                direction_map = {
-                    Directions.NORTH: pacman_pb2.NORTH,
-                    Directions.SOUTH: pacman_pb2.SOUTH,
-                    Directions.EAST: pacman_pb2.EAST,
-                    Directions.WEST: pacman_pb2.WEST,
-                    Directions.STOP: pacman_pb2.STOP
-                }
-
-                scared_timer = 0
-                is_scared = False
-                if role == pacman_pb2.GHOST and player_id in self.scared_timers:
-                    scared_timer = self.scared_timers[player_id]
-                    is_scared = scared_timer > 0
-
-                agent = pacman_pb2.AgentState(
-                    player_id=player_id,
-                    agent_id=player_id,
-                    agent_type=role,
-                    position=pacman_pb2.Position(x=pos[0], y=pos[1]),
-                    direction=direction_map.get(direction, pacman_pb2.STOP),
-                    scared_timer=scared_timer,
-                    is_scared=is_scared
-                )
-                agents.append(agent)
-
-        # Return the complete game state
+        # Create the game state message
         return pacman_pb2.GameState(
             game_id=self.game_id,
-            status=self.status,
             agents=agents,
             food=food_positions,
             capsules=capsule_positions,
-            walls=wall_positions,
+            walls=walls,
             score=self.score,
-            winner_id=self.pacman_player if self.status == pacman_pb2.FINISHED and self.score > 0 else ""
+            status=self.status,
+            winner_id=self.get_winner_id(),
+            game_mode=self.game_mode,
+            ai_difficulty=self.ai_difficulty
         )
 
-    def get_info(self) -> pacman_pb2.GameInfo:
+    def get_info(self):
         """Return information about this game session"""
         with self.lock:
             return pacman_pb2.GameInfo(
@@ -466,7 +703,9 @@ class GameSession:
                 layout_name=self.layout_name,
                 current_players=self.current_players,
                 max_players=self.max_players,
-                status=self.status
+                status=self.status,
+                game_mode=self.game_mode,
+                ai_difficulty=self.ai_difficulty
             )
 
 class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer):
@@ -485,6 +724,12 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer):
             game_id = str(uuid.uuid4())
             layout_name = request.layout_name
             max_players = request.max_players
+            
+            # Get game mode and AI difficulty from request (defaults to PVP/MEDIUM if not provided)
+            game_mode = getattr(request, 'game_mode', pacman_pb2.PVP)
+            ai_difficulty = getattr(request, 'ai_difficulty', pacman_pb2.MEDIUM)
+            
+            logger.info(f"Create game request with mode {game_mode}, difficulty {ai_difficulty}")
 
             # Validate request
             if max_players <= 0 or max_players > 4:
@@ -493,14 +738,20 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer):
                     success=False,
                     error_message="Invalid max_players value. Must be between 1 and 4."
                 )
+                
+            # For AI Pacman mode, max players should be different (only ghosts)
+            if game_mode == pacman_pb2.AI_PACMAN:
+                # Adjust max_players: if it's set to 4, it means 3 ghosts
+                # If it's set lower, respect that but ensure at least 1 ghost
+                max_players = max(1, min(3, max_players))
 
-            # Create new game session
-            new_game = GameSession(game_id, layout_name, max_players)
+            # Create new game session with mode and difficulty
+            new_game = GameSession(game_id, layout_name, max_players, game_mode, ai_difficulty)
 
             with self.games_lock:
                 self.games[game_id] = new_game
 
-            logger.info(f"Created new game: {game_id}, layout: {layout_name}, max players: {max_players}")
+            logger.info(f"Created new game: {game_id}, layout: {layout_name}, max players: {max_players}, mode: {game_mode}, AI difficulty: {ai_difficulty}")
 
             return pacman_pb2.GameSession(
                 game_id=game_id,

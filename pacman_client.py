@@ -149,7 +149,8 @@ class GameStateAdapter:
                     break
 
             if agent_states:  # Only update if we have valid agent states
-                moved_idx = 0 # Default to pacman if no move detected
+                # Track all moving agents
+                moved_agents = []
                 logger.debug(f"Comparing {len(self.data.agentStates)} old vs {len(agent_states)} new states.")
                 for idx, (old, new) in enumerate(zip(self.data.agentStates, agent_states)):
                     pos_changed = old.getPosition() != new.getPosition()
@@ -157,17 +158,19 @@ class GameStateAdapter:
                     scared_changed = (getattr(old, 'scaredTimer', 0) > 0) != (getattr(new, 'scaredTimer', 0) > 0)
 
                     if pos_changed or dir_changed:
-                        moved_idx = idx
+                        moved_agents.append(idx)
                         logger.info(f"Detected move for agent index {idx}. Pos changed: {pos_changed}, Dir changed: {dir_changed}")
                         logger.debug(f"Old: {old.getPosition()} {old.getDirection()} | New: {new.getPosition()} {new.getDirection()}")
-                        break
 
                     # If a ghost's scared state changes but position doesn't, still mark it as moved
                     # to make sure its color gets updated in the display
-                    if not old.isPacman and scared_changed:
-                        moved_idx = idx
+                    elif not old.isPacman and scared_changed:
+                        moved_agents.append(idx)
                         logger.info(f"Ghost at index {idx} scared state changed: {getattr(old, 'scaredTimer', 0)} -> {getattr(new, 'scaredTimer', 0)}")
-                        break
+
+                # Set moved_idx to the first moved agent, or default to 0 if none moved
+                moved_idx = moved_agents[0] if moved_agents else 0
+                logger.debug(f"Setting _agentMoved to: {moved_idx}")
 
                 # Add a log if no move was detected after the loop
                 if moved_idx == 0 and idx > 0: # Check if we defaulted after iterating

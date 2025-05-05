@@ -265,8 +265,15 @@ class GameSession:
                 vector = Actions.directionToVector(game_direction, speed)
                 new_pos = (pos[0] + vector[0], pos[1] + vector[1])
 
+                # Validate the new position is not in a wall
+                x, y = int(round(new_pos[0])), int(round(new_pos[1]))
+                if self.walls[x][y]:
+                    logger.warning(f"Attempted move into wall at {x},{y} for player {player_id}! Ignoring.")
+                    return
+
                 # Update position
                 self.player_positions[player_id] = new_pos
+                logger.debug(f"Player {player_id} moved to {new_pos} with direction {game_direction}")
 
                 # If this is Pacman, check for food consumption
                 if role == pacman_pb2.PACMAN:

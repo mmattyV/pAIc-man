@@ -459,17 +459,21 @@ class PacmanGraphics:
         new_x, new_y = self.to_screen(self.getPosition(ghost))
         delta = new_x - old_x, new_y - old_y
 
+        # Ensure we move all ghost parts together as one unit
         for ghostImagePart in ghostImageParts:
             move_by(ghostImagePart, delta)
         refresh()
 
+        # Update the ghost's color based on scared state
         if ghost.scaredTimer > 0:
             color = SCARED_COLOR
         else:
             color = GHOST_COLORS[ghostIndex]
         edit(ghostImageParts[0], ('fill', color), ('outline', color))
-        self.moveEyes(self.getPosition(ghost),
-                      self.getDirection(ghost), ghostImageParts[-4:])
+
+        # CRITICAL FIX: Always call moveEyes to ensure eyes are positioned correctly
+        # This ensures eyes are properly aligned with the ghost body
+        self.moveEyes(self.getPosition(ghost), self.getDirection(ghost), ghostImageParts[-4:])
         refresh()
 
     def getPosition(self, agentState):

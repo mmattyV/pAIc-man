@@ -141,8 +141,42 @@ class InfoPane:
             for i, d in enumerate(distances):
                 changeText(self.ghostDistanceText[i], d)
 
-    def drawGhost(self):
-        pass
+    def drawGhost(self, ghost, agentIndex):
+        pos = self.getPosition(ghost)
+        (screen_x, screen_y) = (self.to_screen(pos))
+
+        # Create the ghost body
+        coords = []
+        for (x, y) in GHOST_SHAPE:
+            coords.append((x*self.gridSize*GHOST_SIZE + screen_x,
+                        y*self.gridSize*GHOST_SIZE + screen_y))
+
+        colour = self.getGhostColor(ghost, agentIndex)
+        body = polygon(coords, colour, filled=1)
+
+        # Colors for eyes
+        WHITE = formatColor(1.0, 1.0, 1.0)
+        BLACK = formatColor(0.0, 0.0, 0.0)
+
+        # Fixed eye positions (no direction adjustment)
+        leftEye = circle((screen_x+self.gridSize*GHOST_SIZE*(-0.3), screen_y -
+                        self.gridSize*GHOST_SIZE*(0.3)), self.gridSize*GHOST_SIZE*0.2, WHITE, WHITE)
+        rightEye = circle((screen_x+self.gridSize*GHOST_SIZE*(0.3), screen_y -
+                        self.gridSize*GHOST_SIZE*(0.3)), self.gridSize*GHOST_SIZE*0.2, WHITE, WHITE)
+        leftPupil = circle((screen_x+self.gridSize*GHOST_SIZE*(-0.3), screen_y -
+                            self.gridSize*GHOST_SIZE*(0.3)), self.gridSize*GHOST_SIZE*0.08, BLACK, BLACK)
+        rightPupil = circle((screen_x+self.gridSize*GHOST_SIZE*(0.3), screen_y -
+                            self.gridSize*GHOST_SIZE*(0.3)), self.gridSize*GHOST_SIZE*0.08, BLACK, BLACK)
+
+        # Combine all parts
+        ghostImageParts = []
+        ghostImageParts.append(body)
+        ghostImageParts.append(leftEye)
+        ghostImageParts.append(rightEye)
+        ghostImageParts.append(leftPupil)
+        ghostImageParts.append(rightPupil)
+
+        return ghostImageParts
 
     def drawPacman(self):
         pass
@@ -455,62 +489,23 @@ class PacmanGraphics:
                              self.gridSize*GHOST_SIZE*(0.3-dy)), self.gridSize*GHOST_SIZE*0.08)
 
     def moveGhost(self, ghost, ghostIndex, prevGhost, ghostImageParts):
+        # Get the old and new screen positions
         old_x, old_y = self.to_screen(self.getPosition(prevGhost))
         new_x, new_y = self.to_screen(self.getPosition(ghost))
+
+        # Calculate the movement delta
         delta = new_x - old_x, new_y - old_y
 
-        # Only move the ghost if the position has actually changed
+        # Check if we need to update the ghost
         position_changed = delta != (0, 0)
-        direction_changed = self.getDirection(prevGhost) != self.getDirection(ghost)
         scared_changed = (prevGhost.scaredTimer > 0) != (ghost.scaredTimer > 0)
-        # man fuck this shit
-        # If any significant state change occurred, update everything
-        if position_changed or direction_changed or scared_changed:
-            # --- Start Refined Modification: Calculate delta based on consistent eye logic ---
-            # 1. Calculate target screen position for the left eye white (ghostImageParts[-4]) based on NEW state
-            target_pos = self.getPosition(ghost)
-            target_dir = self.getDirection(ghost)
-            (target_screen_x, target_screen_y) = self.to_screen(target_pos)
 
-            # Use EYE_OFFSET * self.gridSize for consistency with original moveEyes logic
-            eye_offset_val = 0.15 * self.gridSize
-            # Determine target X offset based on direction for the left eye white
-            left_eye_target_dx = -eye_offset_val
-            if target_dir == 'East':  left_eye_target_dx = eye_offset_val
-            if target_dir not in ('West', 'East'): left_eye_target_dx = 0 # Center X if moving North/South/Stop
-
-            # Determine target Y offset based on direction for the left eye white
-            left_eye_target_dy = -eye_offset_val
-            if target_dir == 'South': left_eye_target_dy = eye_offset_val
-            if target_dir == 'Stop': left_eye_target_dy = 0 # Center Y if stopped
-            if target_dir not in ('North', 'South', 'Stop'): left_eye_target_dy = 0 # Center Y if moving East/West
-
-            # Target center coordinates for the left eye white
-            target_eye_x = target_screen_x + left_eye_target_dx
-            target_eye_y = target_screen_y + left_eye_target_dy
-
-            # 2. Get current center position of the left eye white graphic
-            try:
-                eye_coords = get_coords(ghostImageParts[-4])
-                current_eye_x = (eye_coords[0] + eye_coords[2]) / 2
-                current_eye_y = (eye_coords[1] + eye_coords[3]) / 2
-            except Exception as e:
-                 logger.warning(f"Could not get current eye coords: {e}, using body delta as fallback.")
-                 # Fallback: Calculate delta based on overall ghost position change
-                 old_x, old_y = self.to_screen(self.getPosition(prevGhost))
-                 new_x, new_y = self.to_screen(target_pos)
-                 eye_delta_x = new_x - old_x
-                 eye_delta_y = new_y - old_y
-            else:
-                 # 3. Calculate the delta needed to move current eye to target
-                 eye_delta_x = target_eye_x - current_eye_x
-                 eye_delta_y = target_eye_y - current_eye_y
-
-            # 4. Move ALL ghost parts (body and eyes) by this eye-derived delta
-            for part in ghostImageParts:
-                if part is not None: # Ensure part exists before moving
-                    move_by(part, (eye_delta_x, eye_delta_y))
-            # --- End Refined Modification ---
+        # If position changed or scared state changed, update the ghost
+        if position_changed or scared_changed:
+            # Move all ghost parts together as a single unit
+            for ghostImagePart in ghostImageParts:
+                if ghostImagePart is not None:  # Ensure part exists before moving
+                    move_by(ghostImagePart, delta)
 
             # Update the ghost's color based on scared state
             if ghost.scaredTimer > 0:

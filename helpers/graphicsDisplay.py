@@ -477,11 +477,11 @@ class PacmanGraphics:
                 color = GHOST_COLORS[ghostIndex]
             edit(ghostImageParts[0], ('fill', color), ('outline', color))
 
-            # Update eyes position based on the current direction
-            # This ensures eyes match the direction of movement
-            self.moveEyes(self.getPosition(ghost),
-                        self.getDirection(ghost),
-                        ghostImageParts[-4:])
+            # --- Start Modification: Remove eye direction logic ---
+            # self.moveEyes(self.getPosition(ghost),
+            #             self.getDirection(ghost),
+            #             ghostImageParts[-4:])
+            # --- End Modification ---
 
             # Force a refresh to ensure changes are displayed
             refresh()

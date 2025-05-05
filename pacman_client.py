@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-pAIcMan Client - A client implementation that works with the gRPC server
+Fixed pAIcMan Client - A corrected implementation that works with the gRPC server
 """
 import grpc
 import uuid
@@ -48,35 +48,22 @@ class GameStateAdapter:
         self.game_state.initialize(self.layout, self.layout.getNumGhosts())
         self.data = self.game_state.data
 
-    def update_from_proto(self, proto_state: pacman_pb2.GameState) -> Optional[GameState]:
+    def update_from_proto(self, proto_state):
         """Update the game state from a protobuf message"""
         try:
             # Update score
             self.data.score = proto_state.score
 
-            # Update based on food/capsule eaten in this specific tick
-            if proto_state.HasField('food_eaten'):
-                self.data._foodEaten = (int(proto_state.food_eaten.x), int(proto_state.food_eaten.y))
-                logger.debug(f"Received food eaten at: {self.data._foodEaten}")
-            else:
-                self.data._foodEaten = None
-
-            if proto_state.HasField('capsule_eaten'):
-                self.data._capsuleEaten = (int(proto_state.capsule_eaten.x), int(proto_state.capsule_eaten.y))
-                logger.debug(f"Received capsule eaten at: {self.data._capsuleEaten}")
-            else:
-                self.data._capsuleEaten = None
-
-            # Update layout only if it's the first time or changed (unlikely)
-            # Assuming layout (walls) doesn't change mid-game
-            if self.data.layout is None:
-                self.data.layout = self.layout
-
             # Clear food grid and update from proto
             width = self.layout.width
             height = self.layout.height
-            food_grid = Grid(width, height, False)
 
+            # Store old food grid to detect changes
+            old_food = self.data.food.copy() if self.data.food else None
+            old_capsules = self.data.capsules[:] if self.data.capsules else []
+
+            # Create new food grid from server data
+            food_grid = Grid(width, height, False)
             for food_pos in proto_state.food:
                 try:
                     x, y = int(food_pos.x), int(food_pos.y)
@@ -85,14 +72,40 @@ class GameStateAdapter:
                 except Exception as e:
                     logger.error(f"Error processing food position: {e}, pos: {food_pos}")
 
+            # Find food that was eaten in this update
+            if old_food:
+                for x in range(width):
+                    for y in range(height):
+                        if old_food[x][y] and not food_grid[x][y]:
+                            # Food was eaten at this position
+                            self.data._foodEaten = (x, y)
+                            logger.debug(f"Detected food eaten at: {x}, {y}")
+                            break
+            else:
+                self.data._foodEaten = None
+
             self.data.food = food_grid
 
-            # Update capsules
+            # Update capsules and detect eaten capsules
             try:
-                self.data.capsules = [(int(cap.x), int(cap.y)) for cap in proto_state.capsules]
+                new_capsules = [(int(cap.x), int(cap.y)) for cap in proto_state.capsules]
+
+                # Find capsule that was eaten
+                if old_capsules:
+                    for cap in old_capsules:
+                        if cap not in new_capsules:
+                            # Capsule was eaten
+                            self.data._capsuleEaten = cap
+                            logger.debug(f"Detected capsule eaten at: {cap}")
+                            break
+                else:
+                    self.data._capsuleEaten = None
+
+                self.data.capsules = new_capsules
             except Exception as e:
                 logger.error(f"Error processing capsules: {e}")
                 self.data.capsules = []
+                self.data._capsuleEaten = None
 
             # Update agent states
             agent_states = []
@@ -136,16 +149,26 @@ class GameStateAdapter:
                     break
 
             if agent_states:  # Only update if we have valid agent states
-                moved_idx = 0 # Default to pacman if no move detected? Or keep previous? Let's default 0 for now.
+                moved_idx = 0 # Default to pacman if no move detected
                 logger.debug(f"Comparing {len(self.data.agentStates)} old vs {len(agent_states)} new states.")
                 for idx, (old, new) in enumerate(zip(self.data.agentStates, agent_states)):
                     pos_changed = old.getPosition() != new.getPosition()
                     dir_changed = old.getDirection() != new.getDirection()
+                    scared_changed = (getattr(old, 'scaredTimer', 0) > 0) != (getattr(new, 'scaredTimer', 0) > 0)
+
                     if pos_changed or dir_changed:
                         moved_idx = idx
                         logger.info(f"Detected move for agent index {idx}. Pos changed: {pos_changed}, Dir changed: {dir_changed}")
                         logger.debug(f"Old: {old.getPosition()} {old.getDirection()} | New: {new.getPosition()} {new.getDirection()}")
                         break
+
+                    # If a ghost's scared state changes but position doesn't, still mark it as moved
+                    # to make sure its color gets updated in the display
+                    if not old.isPacman and scared_changed:
+                        moved_idx = idx
+                        logger.info(f"Ghost at index {idx} scared state changed: {getattr(old, 'scaredTimer', 0)} -> {getattr(new, 'scaredTimer', 0)}")
+                        break
+
                 # Add a log if no move was detected after the loop
                 if moved_idx == 0 and idx > 0: # Check if we defaulted after iterating
                     logger.warning(f"No agent move detected after checking {idx+1} agents, defaulting moved_idx to 0.")
@@ -159,7 +182,6 @@ class GameStateAdapter:
             import traceback
             logger.error(traceback.format_exc())
             return self.game_state
-
 
 class FixedPacmanClient:
     """Fixed client implementation for pAIcMan game"""
@@ -502,7 +524,6 @@ class PacmanGUI:
             self.display.initialize(self.adapter.game_state.data)
             self.root.focus_force()
 
-
             # Add a status label for player role
             self.role_var = tk.StringVar(value="Role: Unknown")
             role_label = tk.Label(self.root, textvariable=self.role_var)
@@ -546,6 +567,7 @@ class PacmanGUI:
             self.status_var.set("Left game")
 
     def update_ui(self):
+        """Update the game UI with the latest state from the server"""
         if self.client.running and self.adapter:
             try:
                 while not self.client.game_state_queue.empty():
@@ -569,8 +591,23 @@ class PacmanGUI:
 
                     # Check if game ended
                     if game_state.status == pacman_pb2.FINISHED:
-                        winner = game_state.winner_id if game_state.winner_id else "Unknown"
-                        tk.messagebox.showinfo("Game Over", f"Game ended. Winner: {winner}. Score: {game_state.score}")
+                        # Find if there's a pacman in the game
+                        pacman_found = False
+                        for agent in game_state.agents:
+                            if agent.agent_type == pacman_pb2.PACMAN:
+                                pacman_found = True
+                                break
+
+                        # Determine game end message
+                        message = "Game Over"
+                        if not pacman_found:
+                            message = "Pacman was eaten by a ghost!"
+
+                        # Show game over dialog
+                        tk.messagebox.showinfo(
+                            "Game Over",
+                            f"{message}\nFinal Score: {game_state.score}"
+                        )
                         self.leave_game()
                         break
             except Exception as e:

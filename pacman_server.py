@@ -34,9 +34,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger("pacman-server")
 
-# Constants
-SCARED_DURATION = 400  # Ticks ghosts remain scared (e.g., 400 ticks * 0.01s/tick = 4 seconds)
-
 class GameSession:
     """Represents a game session"""
     def __init__(self, game_id: str, layout_name: str, max_players: int):
@@ -54,10 +51,6 @@ class GameSession:
 
         # Game state variables
         self.score = 0
-
-        # Track items eaten in the current tick for broadcast
-        self.tick_food_eaten = None
-        self.tick_capsule_eaten = None
 
         # Initialize the game layout
         self.layout = layout.getLayout(layout_name)
@@ -201,17 +194,16 @@ class GameSession:
     def update_loop(self):
         """Game state update loop that runs continuously in a separate thread"""
         try:
-            update_interval = 0.01
+            # Update at 60 fps
+            update_interval = 0.0167
+
+            # Track the last time we processed each player's action
             last_action_time = {}
 
             while self.running:
                 # Only process updates if game is active
                 if self.status == pacman_pb2.IN_PROGRESS:
                     with self.lock:
-                        # Reset tick-specific events
-                        self.tick_food_eaten = None
-                        self.tick_capsule_eaten = None
-
                         # 1. Process player actions/movements
                         for player_id, role in list(self.player_roles.items()):
                             if player_id not in self.player_positions:
@@ -276,32 +268,21 @@ class GameSession:
                 # Update position
                 self.player_positions[player_id] = new_pos
 
-                # If this is Pacman, check for food/capsule consumption
+                # If this is Pacman, check for food consumption
                 if role == pacman_pb2.PACMAN:
                     self.check_food_consumption(new_pos)
-                    # Check for capsule consumption
-                    if new_pos in self.capsules:
-                        self.capsules.remove(new_pos)
-                        self.tick_capsule_eaten = new_pos
-                        logger.info(f"Player {player_id} (Pacman) ate capsule at {new_pos}")
-                        # Make all ghosts scared
-                        for ghost_id, ghost_role in self.player_roles.items():
-                            if ghost_role == pacman_pb2.GHOST:
-                                self.scared_timers[ghost_id] = SCARED_DURATION
-                                logger.debug(f"Ghost {ghost_id} scared timer set to {SCARED_DURATION}")
 
-    def check_food_consumption(self, pacman_pos):
-        """Check if Pacman has eaten food at the given position."""
+    def check_food_consumption(self, pos):
+        """Check if Pacman is eating food or capsules"""
         # Convert to integer coordinates for grid access
-        x, y = int(round(pacman_pos[0])), int(round(pacman_pos[1]))
+        x, y = int(round(pos[0])), int(round(pos[1]))
 
         # Eat food pellet
         if self.food[x][y]:
             self.food[x][y] = False
             self.score += 10
-            self.tick_food_eaten = (x, y)  # Record food eaten this tick
 
-            # Check win condition - all food eaten
+            # Check if all food eaten
             remaining_food = 0
             for row in self.food:
                 for cell in row:
@@ -309,8 +290,29 @@ class GameSession:
                         remaining_food += 1
 
             if remaining_food == 0:
-                self.score += 500  # Bonus for clearing the level
-                self.status = pacman_pb2.FINISHED
+                # Instead of ending the game, reset the food grid
+                logger.info(f"All food eaten in game {self.game_id}. Resetting food grid.")
+                self.score += 200  # Bonus for clearing the level
+
+                # Reset food to initial layout
+                self.food = self.layout.food.copy()
+
+                # Optionally, reset capsules
+                self.capsules = self.layout.capsules[:]
+
+                # Broadcast the updated state to all players
+                self.broadcast_game_state()
+
+        # Eat power capsule
+        capsule_pos = (x, y)
+        if capsule_pos in self.capsules:
+            self.capsules.remove(capsule_pos)
+            self.score += 50
+
+            # Make all ghosts scared
+            for player_id, role in self.player_roles.items():
+                if role == pacman_pb2.GHOST:
+                    self.scared_timers[player_id] = 120  # Scared for 40 frames (4 seconds at 10fps)
 
     def check_collisions(self):
         """Check for collisions between Pacman and ghosts"""
@@ -437,16 +439,6 @@ class GameSession:
                 )
                 agents.append(agent)
 
-        # Prepare food_eaten field if applicable
-        food_eaten_pos = None
-        if self.tick_food_eaten:
-            food_eaten_pos = pacman_pb2.Position(x=self.tick_food_eaten[0], y=self.tick_food_eaten[1])
-
-        # Prepare capsule_eaten field if applicable
-        capsule_eaten_pos = None
-        if self.tick_capsule_eaten:
-            capsule_eaten_pos = pacman_pb2.Position(x=self.tick_capsule_eaten[0], y=self.tick_capsule_eaten[1])
-
         # Return the complete game state
         return pacman_pb2.GameState(
             game_id=self.game_id,
@@ -456,9 +448,7 @@ class GameSession:
             capsules=capsule_positions,
             walls=wall_positions,
             score=self.score,
-            winner_id=self.pacman_player if self.status == pacman_pb2.FINISHED and self.score > 0 else "",
-            food_eaten=food_eaten_pos,
-            capsule_eaten=capsule_eaten_pos
+            winner_id=self.pacman_player if self.status == pacman_pb2.FINISHED and self.score > 0 else ""
         )
 
     def get_info(self) -> pacman_pb2.GameInfo:
@@ -583,6 +573,7 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer):
             # Send initial game state to client so they see the board immediately
             initial_state = game._create_game_state()
             state_queue.put(initial_state)
+
             # Handle player actions in a separate thread
             def process_actions():
                 try:
@@ -596,6 +587,9 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer):
                             # Process the player's move using the game logic
                             logger.info(f"Player {player_id} moved {action.direction} in game {game_id}")
                             game.process_player_action(player_id, action.action_type, action.direction)
+                except grpc.RpcError as e:
+                    # This is expected when clients disconnect, just log at debug level
+                    logger.debug(f"Client {player_id} disconnected: gRPC error")
                 except Exception as e:
                     logger.error(f"Error processing player actions: {e}", exc_info=True)
                 finally:

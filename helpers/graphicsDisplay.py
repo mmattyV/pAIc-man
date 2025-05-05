@@ -243,25 +243,63 @@ class PacmanGraphics:
         refresh()
 
     def update(self, newState):
-        agentIndex = newState._agentMoved
-        agentState = newState.agentStates[agentIndex]
-
-        if self.agentImages[agentIndex][0].isPacman != agentState.isPacman:
-            self.swapImages(agentIndex, agentState)
-        prevState, prevImage = self.agentImages[agentIndex]
-        if agentState.isPacman:
-            self.animatePacman(agentState, prevState, prevImage)
-        else:
-            self.moveGhost(agentState, agentIndex, prevState, prevImage)
-        self.agentImages[agentIndex] = (agentState, prevImage)
-
+        """
+        Updates the graphical display based on the new game state.
+        """
+        # Process usual static object changes (food, capsules, score)
         if newState._foodEaten != None:
             self.removeFood(newState._foodEaten, self.food)
         if newState._capsuleEaten != None:
             self.removeCapsule(newState._capsuleEaten, self.capsules)
         self.infoPane.updateScore(newState.score)
-        if 'ghostDistances' in dir(newState):
+        if 'ghostDistances' in dir(newState) and newState.ghostDistances:
             self.infoPane.updateGhostDistances(newState.ghostDistances)
+
+        # Process agent that server indicated as moved (original logic)
+        if newState._agentMoved != None:
+            agentIndex = newState._agentMoved
+            agentState = newState.agentStates[agentIndex]
+
+            if self.agentImages[agentIndex][0].isPacman != agentState.isPacman:
+                self.swapImages(agentIndex, agentState)
+            else:
+                prevState = self.agentImages[agentIndex][0]
+                if agentState.isPacman:
+                    self.animatePacman(agentState, prevState, self.agentImages[agentIndex][1])
+                else:
+                    self.moveGhost(agentState, agentIndex, prevState, self.agentImages[agentIndex][1])
+            self.agentImages[agentIndex] = (agentState, self.agentImages[agentIndex][1])
+
+        # Check all ghosts for scared state changes or position jumps (when eaten)
+        for index, agentState in enumerate(newState.agentStates):
+            # Skip the agent that already moved (was handled above)
+            if newState._agentMoved == index:
+                continue
+
+            # Only process ghosts (not Pacman)
+            if not agentState.isPacman:
+                oldState = self.agentImages[index][0]
+                # Only process if both old and new are ghosts
+                if not oldState.isPacman:
+                    # Get current positions
+                    oldPos = self.getPosition(oldState)
+                    newPos = self.getPosition(agentState)
+
+                    # Check if position changed significantly (ghost was eaten)
+                    # or if scared state changed
+                    was_scared = oldState.scaredTimer > 0
+                    is_scared = agentState.scaredTimer > 0
+                    position_jump = (abs(oldPos[0] - newPos[0]) > 1 or abs(oldPos[1] - newPos[1]) > 1)
+
+                    if was_scared != is_scared or position_jump:
+                        # Use moveGhost to properly update both position and color
+                        # This ensures eyes and body stay in sync
+                        self.moveGhost(agentState, index, oldState, self.agentImages[index][1])
+
+            # Update stored state for all agents
+            self.agentImages[index] = (agentState, self.agentImages[index][1])
+
+        refresh()
 
     def make_window(self, width, height):
         grid_width = (width-1) * self.gridSize

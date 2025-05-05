@@ -459,22 +459,32 @@ class PacmanGraphics:
         new_x, new_y = self.to_screen(self.getPosition(ghost))
         delta = new_x - old_x, new_y - old_y
 
-        # Ensure we move all ghost parts together as one unit
-        for ghostImagePart in ghostImageParts:
-            move_by(ghostImagePart, delta)
-        refresh()
+        # Only move the ghost if the position has actually changed
+        position_changed = delta != (0, 0)
+        direction_changed = self.getDirection(prevGhost) != self.getDirection(ghost)
+        scared_changed = (prevGhost.scaredTimer > 0) != (ghost.scaredTimer > 0)
 
-        # Update the ghost's color based on scared state
-        if ghost.scaredTimer > 0:
-            color = SCARED_COLOR
-        else:
-            color = GHOST_COLORS[ghostIndex]
-        edit(ghostImageParts[0], ('fill', color), ('outline', color))
+        # If any significant state change occurred, update everything
+        if position_changed or direction_changed or scared_changed:
+            # Move all ghost parts together as one unit
+            for ghostImagePart in ghostImageParts:
+                move_by(ghostImagePart, delta)
 
-        # CRITICAL FIX: Always call moveEyes to ensure eyes are positioned correctly
-        # This ensures eyes are properly aligned with the ghost body
-        self.moveEyes(self.getPosition(ghost), self.getDirection(ghost), ghostImageParts[-4:])
-        refresh()
+            # Update the ghost's color based on scared state
+            if ghost.scaredTimer > 0:
+                color = SCARED_COLOR
+            else:
+                color = GHOST_COLORS[ghostIndex]
+            edit(ghostImageParts[0], ('fill', color), ('outline', color))
+
+            # Update eyes position based on the current direction
+            # This ensures eyes match the direction of movement
+            self.moveEyes(self.getPosition(ghost),
+                        self.getDirection(ghost),
+                        ghostImageParts[-4:])
+
+            # Force a refresh to ensure changes are displayed
+            refresh()
 
     def getPosition(self, agentState):
         if agentState.configuration == None:

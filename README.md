@@ -65,7 +65,7 @@ python pacman_server.py --port 50052
 
 #### Running a Fault-Tolerant Server Cluster
 
-To run a 3-node Raft cluster for fault tolerance:
+To run a 5-node Raft cluster for fault tolerance:
 
 ```bash
 ./start_cluster.sh

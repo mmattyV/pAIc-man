@@ -82,6 +82,17 @@ After the server is running, start one or more clients:
 python pacman_client.py
 ```
 
+Make sure to change the `localhost` in **config.json** to the IP address of the server you are connecting to:
+```json
+"cluster_nodes": [
+      "localhost:50051",
+      "localhost:50052",
+      "localhost:50053",
+      "localhost:50054",
+      "localhost:50055"
+    ],
+```
+
 Client options:
 - To connect to a local server on default port: (no arguments needed)
 - To connect to a remote server: `--server hostname:50051`

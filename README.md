@@ -177,6 +177,14 @@ The server includes the following fault tolerance features:
 4. **Reconnection Handling**: Clients can reconnect to any server in the cluster if their connection is lost
 5. **State Versioning**: A monotonic versioning system prevents applying outdated state updates
 
+## Testing
+
+Run these commands to perform unit tests on the application:
+```bash
+python -m unittest tests/matt_tests.py
+python -m unittest tests/pedro_tests.py
+```
+
 ## Troubleshooting
 
 - If you encounter connection errors, ensure the server is running and check the specified address

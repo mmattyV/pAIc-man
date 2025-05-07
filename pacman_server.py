@@ -13,6 +13,7 @@ import os
 import json
 from typing import Dict, List, Optional, Tuple, Any
 from queue import Queue, Empty
+from pathlib import Path
 
 # Import generated protocol buffer code
 import pacman_pb2
@@ -1202,12 +1203,42 @@ def serve(port: int, data_dir: str, self_addr: str, partner_addrs: List[str]):
         logger.info("Server stopping...")
         server.stop(0)
 
+def load_config():
+    """Load configuration from config.json file"""
+    config = {}
+    config_path = Path(__file__).parent / "config.json"
+    
+    try:
+        if config_path.exists():
+            with open(config_path, "r") as f:
+                config = json.load(f)
+                logger.info(f"Loaded configuration from {config_path}")
+    except Exception as e:
+        logger.error(f"Error loading config: {e}")
+    
+    return config
+
 if __name__ == "__main__":
+    # Load configuration
+    config = load_config()
+    server_config = config.get("server", {})
+    
+    # Set defaults from config or use hardcoded values if not found
+    default_port = server_config.get("port", 50051)
+    default_data_dir = server_config.get("data_dir", "./data")
+    default_self_addr = server_config.get("self_addr", "localhost:50051")
+    default_partner_addrs = server_config.get("partner_addrs", [
+        "localhost:50052", 
+        "localhost:50053", 
+        "localhost:50054", 
+        "localhost:50055"
+    ])
+    
     parser = argparse.ArgumentParser(description="pAIcMan Game Server")
-    parser.add_argument("--port", type=int, default=50051, help="Port to listen on")
-    parser.add_argument("--data-dir", type=str, default="./data", help="Directory to store data")
-    parser.add_argument("--self-addr", type=str, default="localhost:50051", help="Self address")
-    parser.add_argument("--partner-addrs", type=str, nargs="+", default=["localhost:50052", "localhost:50053", "localhost:50054", "localhost:50055"], help="Partner addresses")
+    parser.add_argument("--port", type=int, default=default_port, help="Port to listen on")
+    parser.add_argument("--data-dir", type=str, default=default_data_dir, help="Directory to store data")
+    parser.add_argument("--self-addr", type=str, default=default_self_addr, help="Self address")
+    parser.add_argument("--partner-addrs", type=str, nargs="+", default=default_partner_addrs, help="Partner addresses")
 
     args = parser.parse_args()
     serve(args.port, args.data_dir, args.self_addr, args.partner_addrs)

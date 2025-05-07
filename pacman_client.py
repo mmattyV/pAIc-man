@@ -13,6 +13,7 @@ import os.path
 import time
 import tkinter as tk
 import tkinter.messagebox
+import json
 from queue import Queue, Empty
 from typing import List, Optional, Dict
 
@@ -256,18 +257,29 @@ class FixedPacmanClient:
         self.action_queue = Queue()  # For sending actions to server
         self.game_state_queue = Queue()  # For receiving game states from server
 
-        self.layout_name = "mediumClassic"
+        # Load configuration
+        self.config = {}
+        try:
+            config_path = os.path.join(os.path.dirname(__file__), "config.json")
+            if os.path.exists(config_path):
+                with open(config_path, "r") as f:
+                    self.config = json.load(f)
+        except Exception as e:
+            logger.error(f"Error loading config: {e}")
+        
+        # Get default layout from config
+        self.layout_name = self.config.get("client", {}).get("default_layout", "mediumClassic")
         self.failed_nodes = set()  # Track failed nodes to avoid quick retries
         self.intentional_leave = False  # Flag for intentional leave
 
-        # Default cluster nodes - all potential leaders
-        self.cluster_nodes = [
+        # Get cluster nodes from config
+        self.cluster_nodes = self.config.get("client", {}).get("cluster_nodes", [
             "localhost:50051",
             "localhost:50052",
             "localhost:50053",
             "localhost:50054",
             "localhost:50055"
-        ]
+        ])
 
         # Connect to server
         self.connect()
@@ -604,7 +616,7 @@ class FixedPacmanClient:
 
 class PacmanGUI:
     """GUI application for the Pacman client"""
-    def __init__(self, root, server_address="localhost:50051"):
+    def __init__(self, root, server_address=None):
         self.root = root
         self.root.title("pAIcMan Client")
 
@@ -614,6 +626,19 @@ class PacmanGUI:
         self.game_info = {}  # Track game information for each listbox item
         self.display = None
         self.adapter = None
+        
+        # Load configuration if server_address is None
+        if server_address is None:
+            config = {}
+            try:
+                config_path = os.path.join(os.path.dirname(__file__), "config.json")
+                if os.path.exists(config_path):
+                    with open(config_path, "r") as f:
+                        config = json.load(f)
+                server_address = config.get("client", {}).get("default_server_address", "localhost:50051")
+            except Exception as e:
+                logger.error(f"Error loading config: {e}")
+                server_address = "localhost:50051"
 
         # Initialize PacmanClient
         self.client = FixedPacmanClient(server_address)
@@ -1127,8 +1152,21 @@ class PacmanGUI:
 
 def main():
     """Main entry point"""
+    # Load configuration
+    config = {}
+    try:
+        config_path = os.path.join(os.path.dirname(__file__), "config.json")
+        if os.path.exists(config_path):
+            with open(config_path, "r") as f:
+                config = json.load(f)
+    except Exception as e:
+        logger.error(f"Error loading config: {e}")
+    
+    # Get default server from config
+    default_server = config.get("client", {}).get("default_server_address", "localhost:50051")
+    
     parser = argparse.ArgumentParser(description="pAIcMan Fixed Client")
-    parser.add_argument("--server", type=str, default="localhost:50051", help="Server address")
+    parser.add_argument("--server", type=str, default=default_server, help="Server address")
 
     args = parser.parse_args()
 

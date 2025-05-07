@@ -1,0 +1,24 @@
+{
+  "client": {
+    "default_server_address": "localhost:50051",
+    "cluster_nodes": [
+      "localhost:50051",
+      "localhost:50052",
+      "localhost:50053",
+      "localhost:50054",
+      "localhost:50055"
+    ],
+    "default_layout": "mediumClassic"
+  },
+  "server": {
+    "port": 50051,
+    "data_dir": "./data",
+    "self_addr": "localhost:50051",
+    "partner_addrs": [
+      "localhost:50052",
+      "localhost:50053",
+      "localhost:50054",
+      "localhost:50055"
+    ]
+  }
+}

@@ -5,6 +5,7 @@ Multiplayer pac-man built on a distributed system with AI agents playing the gho
 
 - Python 3.10+
 - Git
+- Conda
 
 ## Initial Setup
 

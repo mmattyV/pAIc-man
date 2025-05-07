@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Fixed pAIcMan Client - A corrected implementation that works with the gRPC server
+pAIcMan Client - A corrected implementation that works with the gRPC server
 """
 import grpc
 import uuid
@@ -33,10 +33,10 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler("logs/fixed_client.log", mode='a')
+        logging.FileHandler("logs/client.log", mode='a')
     ]
 )
-logger = logging.getLogger("fixed-client")
+logger = logging.getLogger("client")
 
 class GameStateAdapter:
     """Adapts gRPC GameState messages to Pacman GameState objects"""
@@ -49,17 +49,17 @@ class GameStateAdapter:
             os.path.join(os.path.dirname(__file__), 'layouts', f"{layout_name}.lay"),  # From current directory
             os.path.join(os.path.dirname(os.path.dirname(__file__)), 'layouts', f"{layout_name}.lay")  # From parent directory
         ]
-        
+
         for path in layout_paths:
             if os.path.exists(path):
                 self.layout = tryToLoad(path)
                 if self.layout:
                     break
-                    
+
         # If still not found, try getLayout as fallback
         if not self.layout:
             self.layout = getLayout(layout_name)
-            
+
         if not self.layout:
             raise ValueError(f"Layout not found: {layout_name}")
 
@@ -239,8 +239,8 @@ class GameStateAdapter:
             logger.error(traceback.format_exc())
             return self.game_state
 
-class FixedPacmanClient:
-    """Fixed client implementation for pAIcMan game"""
+class PacmanClient:
+    """Client implementation for pAIcMan game"""
     def __init__(self, server_address):
         self.server_address = server_address
         self.player_id = str(uuid.uuid4())[:8]  # Generate random player ID
@@ -266,7 +266,7 @@ class FixedPacmanClient:
                     self.config = json.load(f)
         except Exception as e:
             logger.error(f"Error loading config: {e}")
-        
+
         # Get default layout from config
         self.layout_name = self.config.get("client", {}).get("default_layout", "mediumClassic")
         self.failed_nodes = set()  # Track failed nodes to avoid quick retries
@@ -306,27 +306,27 @@ class FixedPacmanClient:
             self.channel = None
             self.stub = None
             self.connected = False
-        
+
         # Mark the current node as failed
         self.failed_nodes.add(self.server_address)
-        
+
         # Look for working node, preferably one that hasn't failed recently
         available_nodes = [node for node in self.cluster_nodes if node not in self.failed_nodes]
-        
+
         # If all nodes have recently failed, try them all again
         if not available_nodes:
             available_nodes = self.cluster_nodes.copy()
             self.failed_nodes.clear()
-        
+
         logger.info(f"Attempting to find new leader from available nodes: {available_nodes}")
-        
+
         # Try each node until we find one that works
         for node in available_nodes:
             self.server_address = node
             if self.connect():
                 logger.info(f"Reconnected to node {node}")
                 return True
-                
+
         logger.error("Failed to connect to any node in the cluster")
         return False
 
@@ -446,7 +446,7 @@ class FixedPacmanClient:
         retry_delay = 1.0  # Start with 1 second delay
         self.already_joined = False  # Track if we've already joined the game
         self.intentional_leave = False  # Reset intentional leave flag
-        
+
         while self.running and retry_count <= max_retries:
             try:
                 # ----------------------------------------------------------
@@ -454,7 +454,7 @@ class FixedPacmanClient:
                 # ----------------------------------------------------------
                 def generate_actions():
                     nonlocal retry_count, retry_delay
-                    
+
                     # First action is always JOIN, unless we're reconnecting
                     if not self.already_joined:
                         join_action = pacman_pb2.PlayerAction(
@@ -515,7 +515,7 @@ class FixedPacmanClient:
                     self.game_state_queue.put(game_state)
 
                     # Reset retry count on successful communication
-                    retry_count = 0 
+                    retry_count = 0
                     retry_delay = 1.0
 
                     # Check if game has ended
@@ -526,7 +526,7 @@ class FixedPacmanClient:
 
                 # If we get here without errors, break the retry loop
                 break
-                
+
             # --------------------------------------------------------------
             # 3. error handling & leader fail‑over
             # --------------------------------------------------------------
@@ -538,7 +538,7 @@ class FixedPacmanClient:
                     time.sleep(retry_delay)
                     retry_delay = min(retry_delay * 1.5, 5.0)  # Less aggressive backoff with lower max
                     retry_count += 1
-                    
+
                     # Try to reconnect to a different server
                     if self.reconnect_to_leader():
                         # If we successfully reconnected, reset retry count
@@ -551,16 +551,16 @@ class FixedPacmanClient:
                     logger.error(f"RPC error: {e}")
                     self.running = False
                     break
-                    
+
             except Exception as e:
                 logger.error(f"Error in game thread: {e}")
                 self.running = False
                 break
-                
+
         # End of retry loop
         if retry_count > max_retries:
             logger.error(f"Failed to connect after {max_retries} retries")
-        
+
         logger.info(f"Game thread for {self.game_id} ended")
 
     def send_move(self, direction):
@@ -626,7 +626,7 @@ class PacmanGUI:
         self.game_info = {}  # Track game information for each listbox item
         self.display = None
         self.adapter = None
-        
+
         # Load configuration if server_address is None
         if server_address is None:
             config = {}
@@ -641,7 +641,7 @@ class PacmanGUI:
                 server_address = "localhost:50051"
 
         # Initialize PacmanClient
-        self.client = FixedPacmanClient(server_address)
+        self.client = PacmanClient(server_address)
 
         # Game mode and difficulty variables
         self.game_mode_var = tk.IntVar(value=pacman_pb2.PVP)
@@ -791,12 +791,12 @@ class PacmanGUI:
         layouts = tk.OptionMenu(create_frame, self.layout_var,
                                "mediumClassic", "smallGrid")
         layouts.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
-        
+
         # Max players selection
         tk.Label(create_frame, text="Max Players:").grid(row=0, column=2, sticky=tk.W, padx=5, pady=5)
         max_players_frame = tk.Frame(create_frame)
         max_players_frame.grid(row=0, column=3, sticky=tk.W, padx=5, pady=5)
-        
+
         for i in range(2, 5):  # Values 2, 3, 4
             tk.Radiobutton(max_players_frame, text=str(i), variable=self.max_players_var, value=i).pack(side=tk.LEFT, padx=5)
 
@@ -1161,11 +1161,11 @@ def main():
                 config = json.load(f)
     except Exception as e:
         logger.error(f"Error loading config: {e}")
-    
+
     # Get default server from config
     default_server = config.get("client", {}).get("default_server_address", "localhost:50051")
-    
-    parser = argparse.ArgumentParser(description="pAIcMan Fixed Client")
+
+    parser = argparse.ArgumentParser(description="pAIcMan Client")
     parser.add_argument("--server", type=str, default=default_server, help="Server address")
 
     args = parser.parse_args()

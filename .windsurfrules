@@ -4,7 +4,8 @@
 - Target Python 3.10+ and use PEP 484 type hints throughout.
 - Adhere to consistent formatting (e.g. Black) and linting (e.g. Ruff or Flake8).
 - Organize code into logical packages/modules (e.g. `server`, `client`, `common`).
-- When you write code give me the full code that is used for production rather than skeleton code.
+- ****When you write code give me the full code that is used for production rather than skeleton code.****
+
 
 ## gRPC & Proto Definitions
 - Define a `.proto` file that declares:
@@ -29,11 +30,13 @@
 - Log key events and errors for debugging and monitoring.
 
 ## Testing & Continuous Integration
+- Do not change any of the non-testing/existing code.
 - Write unit tests for:
   - Message serialization/deserialization.
   - Core service methods.
   - Game-loop logic and edge cases.
 - Automate formatting, linting, type checks, and test runs in a CI pipeline (e.g. GitHub Actions).
+
 
 ## Documentation & Developer Experience
 - Use consistent docstring style (e.g. Google or NumPy) for all public APIs.

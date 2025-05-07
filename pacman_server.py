@@ -1205,7 +1205,7 @@ def load_config():
     """Load configuration from config.json file"""
     config = {}
     config_path = Path(__file__).parent / "config.json"
-    
+
     try:
         if config_path.exists():
             with open(config_path, "r") as f:
@@ -1213,25 +1213,25 @@ def load_config():
                 logger.info(f"Loaded configuration from {config_path}")
     except Exception as e:
         logger.error(f"Error loading config: {e}")
-    
+
     return config
 
 if __name__ == "__main__":
     # Load configuration
     config = load_config()
     server_config = config.get("server", {})
-    
+
     # Set defaults from config or use hardcoded values if not found
     default_port = server_config.get("port", 50051)
     default_data_dir = server_config.get("data_dir", "./data")
     default_self_addr = server_config.get("self_addr", "localhost:50051")
     default_partner_addrs = server_config.get("partner_addrs", [
-        "localhost:50052", 
-        "localhost:50053", 
-        "localhost:50054", 
+        "localhost:50052",
+        "localhost:50053",
+        "localhost:50054",
         "localhost:50055"
     ])
-    
+
     parser = argparse.ArgumentParser(description="pAIcMan Game Server")
     parser.add_argument("--port", type=int, default=default_port, help="Port to listen on")
     parser.add_argument("--data-dir", type=str, default=default_data_dir, help="Directory to store data")

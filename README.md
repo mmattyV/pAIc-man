@@ -72,7 +72,7 @@ To run a 5-node Raft cluster for fault tolerance:
 ./start_cluster.sh
 ```
 
-This will start three server instances on ports 50051, 50052, and 50053 with shared state replication.
+This will start three server instances on ports 50051, 50052, 50053, 50054 and 50055 with shared state replication.
 
 ### 2. Run the Client
 

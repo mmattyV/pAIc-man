@@ -9,6 +9,7 @@ import logging
 import argparse
 import sys
 import os
+import os.path
 import time
 import tkinter as tk
 import tkinter.messagebox
@@ -23,7 +24,7 @@ import pacman_pb2_grpc
 from pacman import GameState
 from helpers.game import Directions, AgentState, Configuration, Grid
 from helpers.graphicsDisplay import PacmanGraphics
-from helpers.layout import getLayout
+from helpers.layout import getLayout, tryToLoad
 
 # Configure logging
 logging.basicConfig(
@@ -39,8 +40,25 @@ logger = logging.getLogger("fixed-client")
 class GameStateAdapter:
     """Adapts gRPC GameState messages to Pacman GameState objects"""
     def __init__(self, layout_name):
-        # Load the layout
-        self.layout = getLayout(layout_name)
+        # Load the layout with more robust path checking
+        self.layout = None
+        layout_paths = [
+            os.path.join('layouts', f"{layout_name}.lay"),  # layouts/name.lay
+            f"{layout_name}.lay",  # name.lay directly
+            os.path.join(os.path.dirname(__file__), 'layouts', f"{layout_name}.lay"),  # From current directory
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), 'layouts', f"{layout_name}.lay")  # From parent directory
+        ]
+        
+        for path in layout_paths:
+            if os.path.exists(path):
+                self.layout = tryToLoad(path)
+                if self.layout:
+                    break
+                    
+        # If still not found, try getLayout as fallback
+        if not self.layout:
+            self.layout = getLayout(layout_name)
+            
         if not self.layout:
             raise ValueError(f"Layout not found: {layout_name}")
 
@@ -345,13 +363,12 @@ class FixedPacmanClient:
                 return None
 
         except grpc.RpcError as e:
-            logger.error(f"RPC error creating game: {e}")
-        except grpc.RpcError as e:
             if e.code() == grpc.StatusCode.FAILED_PRECONDITION and "leader" in str(e.details()).lower():
                 logger.warning("Current node is not the leader, attempting to find leader...")
                 if self.reconnect_to_leader():
-                    # Retry with new leader
-                    return self.create_game(layout_name, max_players)
+                    # Retry with new leader, ensuring all params are passed
+                    return self.create_game(layout_name, max_players, game_mode, ai_difficulty)
+            # Log other RPC errors or if reconnect fails
             logger.error(f"Error creating game: {e}")
             return None
         except Exception as e:
@@ -623,10 +640,10 @@ class PacmanGUI:
         # Update connection status
         if self.client.stub is None:
             self.connection_status_label.config(text="Disconnected", fg="red")
-            # Try to reconnect if disconnected and we were in a game
-            if self.client.game_id and self.client.reconnect_to_leader():
+            # Try to reconnect if disconnected (removed game_id check for broader reconnection attempt)
+            if self.client.reconnect_to_leader():
                 self.connection_status_label.config(text=f"Connected to {self.client.server_address}", fg="green")
-                logger.info(f"Reconnected to server at {self.client.server_address}")
+                logger.info(f"Reconnected to server at {self.client.server_address} via UI update")
         else:
             self.connection_status_label.config(text=f"Connected to {self.client.server_address}", fg="green")
 

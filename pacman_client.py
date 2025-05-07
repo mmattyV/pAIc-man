@@ -619,6 +619,7 @@ class PacmanGUI:
         # Game mode and difficulty variables
         self.game_mode_var = tk.IntVar(value=pacman_pb2.PVP)
         self.ai_difficulty_var = tk.IntVar(value=pacman_pb2.MEDIUM)
+        self.max_players_var = tk.IntVar(value=4)  # Default to 4 players max
 
         # Create UI elements
         self.build_ui()
@@ -761,8 +762,16 @@ class PacmanGUI:
         tk.Label(create_frame, text="Layout:").grid(row=0, column=0, sticky=tk.W, padx=5, pady=5)
         self.layout_var = tk.StringVar(value="mediumClassic")
         layouts = tk.OptionMenu(create_frame, self.layout_var,
-                               "mediumClassic", "smallClassic", "minimaxClassic", "originalClassic")
+                               "mediumClassic", "smallGrid")
         layouts.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
+        
+        # Max players selection
+        tk.Label(create_frame, text="Max Players:").grid(row=0, column=2, sticky=tk.W, padx=5, pady=5)
+        max_players_frame = tk.Frame(create_frame)
+        max_players_frame.grid(row=0, column=3, sticky=tk.W, padx=5, pady=5)
+        
+        for i in range(2, 5):  # Values 2, 3, 4
+            tk.Radiobutton(max_players_frame, text=str(i), variable=self.max_players_var, value=i).pack(side=tk.LEFT, padx=5)
 
         # Game mode selection
         mode_frame = tk.LabelFrame(create_frame, text="Game Mode", padx=5, pady=5)
@@ -845,9 +854,10 @@ class PacmanGUI:
         ai_difficulty = self.ai_difficulty_var.get() if game_mode == pacman_pb2.AI_PACMAN else pacman_pb2.MEDIUM
 
         # Create game with selected options
+        max_players = self.max_players_var.get()
         game_id = self.client.create_game(
             layout_name=layout,
-            max_players=4,
+            max_players=max_players,
             game_mode=game_mode,
             ai_difficulty=ai_difficulty
         )

@@ -47,7 +47,8 @@ class GameSession:
     def __init__(self, game_id: str, layout_name: str, max_players: int, game_mode=pacman_pb2.PVP, ai_difficulty=pacman_pb2.MEDIUM, servicer=None):
         self.game_id = game_id
         self.layout_name = layout_name
-        self.max_players = 2
+        # Ensure max_players is between 2 and 4 (inclusive)
+        self.max_players = max(2, min(4, max_players))
         self.current_players = 0
         self.lock = threading.RLock()
         self.player_streams = {}
@@ -75,8 +76,10 @@ class GameSession:
             self.pacman_player = "ai_pacman"
             logger.info(f"Created AI Pacman agent with difficulty {difficulty_map.get(self.ai_difficulty, 'MEDIUM')}")
 
-            # Initialize the max players to 3 (1 AI Pacman + 2 Ghosts) for AI mode
-            self.max_players = 3
+            # For AI mode, we need at least 2 players (AI Pacman + 1 Ghost)
+            # But we should still respect the user's max_players setting as an upper bound
+            # Keep the range between 2 and max_players
+            self.max_players = min(self.max_players, 3)
 
         # Game state variables
         self.score = 0

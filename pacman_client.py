@@ -264,7 +264,9 @@ class FixedPacmanClient:
         self.cluster_nodes = [
             "localhost:50051",
             "localhost:50052",
-            "localhost:50053"
+            "localhost:50053",
+            "localhost:50054",
+            "localhost:50055"
         ]
 
         # Connect to server

@@ -16,6 +16,8 @@ raft_addrs=(
   "127.0.0.1:4321"
   "127.0.0.1:4322"
   "127.0.0.1:4323"
+  "127.0.0.1:4324"
+  "127.0.0.1:4325"
 )
 
 # Define gRPC ports
@@ -23,17 +25,19 @@ grpc_ports=(
   "50051"
   "50052"
   "50053"
+  "50054"
+  "50055"
 )
 
-# Start 3 server replicas
-echo "Starting 3-node Raft cluster..."
-for i in {0..2}; do
+# Start 5 server replicas (for 2-fault tolerance)
+echo "Starting 5-node Raft cluster..."
+for i in {0..4}; do
   port=${grpc_ports[$i]}
   self_addr=${raft_addrs[$i]}
   
   # Create partner_addrs array (all addresses except self)
   partner_addrs=""
-  for j in {0..2}; do
+  for j in {0..4}; do
     if [ $j -ne $i ]; then
       partner_addrs="$partner_addrs ${raft_addrs[$j]}"
     fi
@@ -56,6 +60,7 @@ echo "Raft cluster is running. Use 'pkill -f \"python pacman_server.py\"' to sto
 echo "Check logs/server.log for server output."
 echo ""
 echo "Usage instructions:"
-echo "  - Connect to any node (ports 50051, 50052, or 50053)"
+echo "  - Connect to any node (ports 50051, 50052, 50053, 50054, or 50055)"
 echo "  - If the leader node fails, the client should reconnect to another node"
 echo "  - Game state is automatically replicated across all nodes"
+echo "  - With 5 nodes, the system can tolerate up to 2 simultaneous failures"

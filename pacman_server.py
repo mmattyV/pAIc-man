@@ -1207,7 +1207,7 @@ if __name__ == "__main__":
     parser.add_argument("--port", type=int, default=50051, help="Port to listen on")
     parser.add_argument("--data-dir", type=str, default="./data", help="Directory to store data")
     parser.add_argument("--self-addr", type=str, default="localhost:50051", help="Self address")
-    parser.add_argument("--partner-addrs", type=str, nargs="+", default=["localhost:50052", "localhost:50053"], help="Partner addresses")
+    parser.add_argument("--partner-addrs", type=str, nargs="+", default=["localhost:50052", "localhost:50053", "localhost:50054", "localhost:50055"], help="Partner addresses")
 
     args = parser.parse_args()
     serve(args.port, args.data_dir, args.self_addr, args.partner_addrs)

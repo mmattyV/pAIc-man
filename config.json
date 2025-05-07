@@ -1,12 +1,12 @@
 {
   "client": {
-    "default_server_address": "localhost:50051",
+    "default_server_address": "10.250.39.246:50051",
     "cluster_nodes": [
-      "localhost:50051",
-      "localhost:50052",
-      "localhost:50053",
-      "localhost:50054",
-      "localhost:50055"
+      "10.250.39.246:50051",
+      "10.250.39.246:50052",
+      "10.250.39.246:50053",
+      "10.250.39.246:50054",
+      "10.250.39.246:50055"
     ],
     "default_layout": "mediumClassic"
   },

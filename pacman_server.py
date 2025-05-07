@@ -375,8 +375,6 @@ class GameSession:
             # Calculate the new position
             if game_direction != Directions.STOP:
                 speed = 1.0  # Normal speed in PVP mode
-                if role == pacman_pb2.GHOST and player_id in self.scared_timers and self.scared_timers[player_id] > 0:
-                    speed = 0.5  # Scared ghosts in PVP mode move slower
 
                 vector = Actions.directionToVector(game_direction, speed)
                 new_pos = (pos[0] + vector[0], pos[1] + vector[1])

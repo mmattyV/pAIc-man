@@ -273,27 +273,28 @@ class FixedPacmanClient:
             self.channel.close()
             self.channel = None
             self.stub = None
-
+            self.connected = False
+        
         # Mark the current node as failed
         self.failed_nodes.add(self.server_address)
-
+        
         # Look for working node, preferably one that hasn't failed recently
         available_nodes = [node for node in self.cluster_nodes if node not in self.failed_nodes]
-
+        
         # If all nodes have recently failed, try them all again
         if not available_nodes:
             available_nodes = self.cluster_nodes.copy()
             self.failed_nodes.clear()
-
+        
         logger.info(f"Attempting to find new leader from available nodes: {available_nodes}")
-
+        
         # Try each node until we find one that works
         for node in available_nodes:
             self.server_address = node
             if self.connect():
                 logger.info(f"Reconnected to node {node}")
                 return True
-
+                
         logger.error("Failed to connect to any node in the cluster")
         return False
 
@@ -409,109 +410,126 @@ class FixedPacmanClient:
         • automatic reconnect/leader failover with backoff
         • optional clean LEAVE when the user quits
         """
-        retry_count   = 0
-        max_retries   = 5          # how many consecutive failures we’ll tolerate
-        retry_delay   = 1.0        # seconds; grows with each failure
-        self.already_joined   = False
-        self.intentional_leave = False   # make sure it exists
-
+        retry_count = 0
+        max_retries = 5  # Increased retries to handle more failure cases
+        retry_delay = 1.0  # Start with 1 second delay
+        self.already_joined = False  # Track if we've already joined the game
+        self.intentional_leave = False  # Reset intentional leave flag
+        
         while self.running and retry_count <= max_retries:
             try:
                 # ----------------------------------------------------------
                 # 1. generator that yields PlayerAction messages to server
                 # ----------------------------------------------------------
                 def generate_actions():
-                    # first message: JOIN (or a dummy “ping” if we re‑attached)
+                    nonlocal retry_count, retry_delay
+                    
+                    # First action is always JOIN, unless we're reconnecting
                     if not self.already_joined:
-                        yield pacman_pb2.PlayerAction(
+                        join_action = pacman_pb2.PlayerAction(
                             player_id=self.player_id,
                             game_id=self.game_id,
                             action_type=pacman_pb2.JOIN
                         )
-                        logger.info(f"Sent JOIN for game {self.game_id}")
+                        logger.info(f"Sending JOIN action for game {self.game_id}")
+                        yield join_action
                         self.already_joined = True
                     else:
-                        # reconnecting – send a STOP move so leader returns state
-                        yield pacman_pb2.PlayerAction(
+                        # If reconnecting, send a MOVE action with STOP direction
+                        # This serves as a "ping" to get the current game state
+                        logger.info(f"Reconnected to existing game {self.game_id}, resuming play")
+                        resume_action = pacman_pb2.PlayerAction(
                             player_id=self.player_id,
                             game_id=self.game_id,
                             action_type=pacman_pb2.MOVE,
                             direction=pacman_pb2.STOP
                         )
-                        logger.info(f"Re‑attached to game {self.game_id}")
+                        yield resume_action
 
-                    # afterwards, forward everything we pop off action_queue
+                    # Then yield actions from the queue
                     while self.running:
                         try:
                             action = self.action_queue.get(timeout=0.1)
                             logger.debug(f"Sending action: {action.action_type}")
                             yield action
                         except Empty:
+                            # No action available, continue
                             continue
+                        except Exception as e:
+                            logger.error(f"Error generating actions: {e}")
+                            break
 
-                    # graceful leave (only when user asked to quit)
-                    if self.intentional_leave:
-                        yield pacman_pb2.PlayerAction(
+                    # Only yield a LEAVE action when intentionally leaving the game
+                    # Not when we're just reconnecting due to leader failover
+                    if self.game_id and self.intentional_leave:
+                        leave_action = pacman_pb2.PlayerAction(
                             player_id=self.player_id,
                             game_id=self.game_id,
                             action_type=pacman_pb2.LEAVE
                         )
-                        logger.info(f"Sent LEAVE for game {self.game_id}")
+                        logger.info(f"Sending LEAVE action for game {self.game_id}")
+                        yield leave_action
 
                 # ----------------------------------------------------------
                 # 2. open the bidi stream
                 # ----------------------------------------------------------
                 stream = self.stub.PlayGame(generate_actions())
 
-                for gs in stream:                       # receive GameState messages
+                # Process incoming game states
+                for game_state in stream:
                     if not self.running:
                         break
-                    self.game_state_queue.put(gs)       # hand to GUI thread
 
-                    # reset retry counters on any successful packet
-                    retry_count = 0
+                    # Put game state in queue for main thread to process
+                    self.game_state_queue.put(game_state)
+
+                    # Reset retry count on successful communication
+                    retry_count = 0 
                     retry_delay = 1.0
 
-                    if gs.status == pacman_pb2.FINISHED:
+                    # Check if game has ended
+                    if game_state.status == pacman_pb2.FINISHED:
                         logger.info(f"Game {self.game_id} finished")
                         self.running = False
                         break
 
-                # normal termination => exit the retry loop
+                # If we get here without errors, break the retry loop
                 break
-
+                
             # --------------------------------------------------------------
             # 3. error handling & leader fail‑over
             # --------------------------------------------------------------
             except grpc.RpcError as e:
-                if (e.code() in (grpc.StatusCode.FAILED_PRECONDITION,
-                                grpc.StatusCode.UNAVAILABLE)
-                    and "leader" in str(e.details()).lower()):
-                    retry_count += 1
-                    logger.warning(
-                        f"Leader issue ({e.code()}). Retrying in {retry_delay:.1f}s "
-                        f"({retry_count}/{max_retries})"
-                    )
+                # Check for leader-related errors (both StatusCode.FAILED_PRECONDITION and StatusCode.UNAVAILABLE)
+                if ((e.code() == grpc.StatusCode.FAILED_PRECONDITION and "leader" in str(e.details()).lower()) or
+                    (e.code() == grpc.StatusCode.UNAVAILABLE)):
+                    logger.warning(f"Connection error: {e}. Retrying in {retry_delay:.1f}s ({retry_count+1}/{max_retries})")
                     time.sleep(retry_delay)
-                    retry_delay = min(retry_delay * 1.5, 5.0)
-
+                    retry_delay = min(retry_delay * 1.5, 5.0)  # Less aggressive backoff with lower max
+                    retry_count += 1
+                    
+                    # Try to reconnect to a different server
                     if self.reconnect_to_leader():
+                        # If we successfully reconnected, reset retry count
                         retry_count = 0
                         retry_delay = 1.0
+                        logger.info(f"Successfully reconnected to new leader at {self.server_address}, continuing game")
                         continue
                 else:
+                    # Other RPC errors
                     logger.error(f"RPC error: {e}")
                     self.running = False
                     break
-
-            except Exception as exc:
-                logger.error(f"Fatal error in game thread: {exc}", exc_info=True)
+                    
+            except Exception as e:
+                logger.error(f"Error in game thread: {e}")
                 self.running = False
                 break
-
+                
+        # End of retry loop
         if retry_count > max_retries:
-            logger.error(f"Aborted after {max_retries} consecutive failures")
-
+            logger.error(f"Failed to connect after {max_retries} retries")
+        
         logger.info(f"Game thread for {self.game_id} ended")
 
     def send_move(self, direction):
@@ -605,13 +623,14 @@ class PacmanGUI:
         # Update connection status
         if self.client.stub is None:
             self.connection_status_label.config(text="Disconnected", fg="red")
-            # Try to reconnect if disconnected
-            if self.client.reconnect_to_leader():
+            # Try to reconnect if disconnected and we were in a game
+            if self.client.game_id and self.client.reconnect_to_leader():
                 self.connection_status_label.config(text=f"Connected to {self.client.server_address}", fg="green")
+                logger.info(f"Reconnected to server at {self.client.server_address}")
         else:
             self.connection_status_label.config(text=f"Connected to {self.client.server_address}", fg="green")
 
-        # Process game state updates - this is the original code
+        # Process game state updates
         if self.client.running and self.adapter:
             try:
                 while not self.client.game_state_queue.empty():

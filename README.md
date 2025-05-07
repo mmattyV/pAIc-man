@@ -88,12 +88,13 @@ Client options:
 Example connecting to remote server:
 ```bash
 python pacman_client.py --server 192.168.1.100:50051
-``'
+```
 
 ### 3. Testing Fault Tolerance
 
 One of the key features of pAIc-man is its fault tolerance through Raft consensus. You can test this by deliberately killing one of the server instances while playing:
 
+```
 # Find the process ID of the server running on a specific port (e.g., 50052)
 lsof -i :50052 | grep LISTEN | awk '{print $2}'
 

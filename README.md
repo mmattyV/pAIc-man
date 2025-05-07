@@ -68,6 +68,16 @@ Example with custom port:
 python pacman_server.py --port 50052
 ```
 
+#### Running a Fault-Tolerant Server Cluster
+
+To run a 3-node Raft cluster for fault tolerance:
+
+```bash
+./start_cluster.sh
+```
+
+This will start three server instances on ports 50051, 50052, and 50053 with shared state replication.
+
 ### 2. Run the Client
 
 After the server is running, start one or more clients:
@@ -83,6 +93,11 @@ Client options:
 Example connecting to remote server:
 ```bash
 python pacman_client.py --server 192.168.1.100:50051
+```
+
+To run the GUI client:
+```bash
+python pacman_gui_client.py
 ```
 
 ### Playing the Game
@@ -102,7 +117,11 @@ python pacman_client.py --server 192.168.1.100:50051
 3. To join a game:
    - Select "Join a game"
    - Enter the game ID
-   - Use arrow keys to move and 'q' to quit
+
+4. Game Controls:
+   - Movement: Arrow keys or WASD keys
+   - Return to menu: ESC key
+   - Quit game: Q key
 
 ## Multiplayer Architecture
 
@@ -120,11 +139,24 @@ The project uses a client-server architecture with gRPC for communication:
 - Clients send player actions and receive game state updates
 - Basic fault tolerance with server reconnection capability
 
+## Fault Tolerance
+
+The server includes the following fault tolerance features:
+
+1. **State Replication**: Game state is replicated across multiple server nodes using the Raft consensus algorithm (via PySyncObj)
+2. **Leader Election**: If the leader node fails, a new leader is automatically elected
+3. **Command Replication**: Game commands are replicated to ensure consistency across server nodes
+4. **Reconnection Handling**: Clients can reconnect to any server in the cluster if their connection is lost
+5. **State Versioning**: A monotonic versioning system prevents applying outdated state updates
+
 ## Troubleshooting
 
 - If you encounter connection errors, ensure the server is running and check the specified address
 - Check logs in the `logs` directory (server.log and client.log) for detailed error information
 - If you receive protobuf-related errors, regenerate the gRPC code using the command in step 5 above
+- For rubber-banding issues, ensure you're using the latest version of grpcio (1.71.0+)
 
 - Update the environment with `conda env update --file environment.yml --prune`
 
+ps aux | grep "python pacman_server.py" | grep <PORT>
+kill <PID>

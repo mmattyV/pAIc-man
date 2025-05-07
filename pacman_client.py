@@ -11,7 +11,7 @@ import sys
 import os
 import time
 import tkinter as tk
-import tkinter.messagebox 
+import tkinter.messagebox
 from queue import Queue, Empty
 from typing import List, Optional, Dict
 
@@ -153,38 +153,38 @@ class GameStateAdapter:
                 # Track all moving agents
                 moved_agents = []
                 logger.debug(f"Comparing {len(self.data.agentStates)} old vs {len(agent_states)} new states.")
-                
+
                 # First identify the pacman and ghost indices
                 pacman_idx = None
                 ghost_indices = []
-                
+
                 for idx, agent in enumerate(agent_states):
                     if agent.isPacman:
                         pacman_idx = idx
                     else:
                         ghost_indices.append(idx)
-                        
+
                 # Check if any ghosts moved - for AI Pacman mode, prioritize ghost movement
                 for idx, (old, new) in enumerate(zip(self.data.agentStates, agent_states)):
                     pos_changed = old.getPosition() != new.getPosition()
                     dir_changed = old.getDirection() != new.getDirection()
                     scared_changed = (getattr(old, 'scaredTimer', 0) > 0) != (getattr(new, 'scaredTimer', 0) > 0)
-                    
+
                     # Log all positional or directional changes
                     if pos_changed or dir_changed:
                         moved_agents.append(idx)
                         logger.info(f"Detected move for agent index {idx}. Pos changed: {pos_changed}, Dir changed: {dir_changed}")
                         logger.debug(f"Old: {old.getPosition()} {old.getDirection()} | New: {new.getPosition()} {new.getDirection()}")
-                        
+
                         # If this is a ghost controlled by a human player, always prioritize its movement
                         if not old.isPacman and idx in ghost_indices:
                             moved_idx = idx
-                        
+
                     # If a ghost's scared state changes but position doesn't, still mark it as moved
                     elif not old.isPacman and scared_changed:
                         moved_agents.append(idx)
                         logger.info(f"Ghost at index {idx} scared state changed: {getattr(old, 'scaredTimer', 0)} -> {getattr(new, 'scaredTimer', 0)}")
-                
+
                 # In AI Pacman mode, prioritize ghost movement over AI Pacman movement
                 # Set moved_idx to a ghost that moved, or pacman if no ghosts moved, or default to 0
                 ghost_moves = [idx for idx in moved_agents if idx in ghost_indices]
@@ -196,11 +196,11 @@ class GameStateAdapter:
                     logger.debug(f"Using any agent move at index {moved_idx}")
                 else:
                     moved_idx = 0  # Default
-                    
+
                 # Add a log if no move was detected
                 if not moved_agents and len(agent_states) > 0:
                     logger.warning(f"No agent move detected after checking {len(agent_states)} agents, defaulting moved_idx to {moved_idx}.")
-                    
+
                 # Special debug for movement verification
                 logger.debug(f"Final _agentMoved setting: {moved_idx} (found {len(moved_agents)} moves)")
                 if moved_idx in ghost_indices:
@@ -233,10 +233,21 @@ class FixedPacmanClient:
         self.layout_name = None
         self.game_mode = pacman_pb2.PVP  # Default to PVP mode
         self.ai_difficulty = pacman_pb2.MEDIUM  # Default AI difficulty
-        
+
         # Queues for communication
         self.action_queue = Queue()  # For sending actions to server
         self.game_state_queue = Queue()  # For receiving game states from server
+
+        self.layout_name = "mediumClassic"
+        self.failed_nodes = set()  # Track failed nodes to avoid quick retries
+        self.intentional_leave = False  # Flag for intentional leave
+
+        # Default cluster nodes - all potential leaders
+        self.cluster_nodes = [
+            "localhost:50051",
+            "localhost:50052",
+            "localhost:50053"
+        ]
 
         # Connect to server
         self.connect()
@@ -252,7 +263,39 @@ class FixedPacmanClient:
             return True
         except Exception as e:
             logger.error(f"Failed to connect: {e}")
+            self.failed_nodes.add(self.server_address)
             return False
+
+    def reconnect_to_leader(self):
+        """Try to reconnect to a different node in the cluster that might be the leader"""
+        # Close current connection
+        if self.channel:
+            self.channel.close()
+            self.channel = None
+            self.stub = None
+
+        # Mark the current node as failed
+        self.failed_nodes.add(self.server_address)
+
+        # Look for working node, preferably one that hasn't failed recently
+        available_nodes = [node for node in self.cluster_nodes if node not in self.failed_nodes]
+
+        # If all nodes have recently failed, try them all again
+        if not available_nodes:
+            available_nodes = self.cluster_nodes.copy()
+            self.failed_nodes.clear()
+
+        logger.info(f"Attempting to find new leader from available nodes: {available_nodes}")
+
+        # Try each node until we find one that works
+        for node in available_nodes:
+            self.server_address = node
+            if self.connect():
+                logger.info(f"Reconnected to node {node}")
+                return True
+
+        logger.error("Failed to connect to any node in the cluster")
+        return False
 
     def disconnect(self):
         """Disconnect from the server"""
@@ -271,16 +314,16 @@ class FixedPacmanClient:
             # Store mode and difficulty settings
             self.game_mode = game_mode
             self.ai_difficulty = ai_difficulty
-            
+
             # Log what we're creating
             mode_str = "PVP" if game_mode == pacman_pb2.PVP else "AI Pacman"
             difficulty_str = ""
             if game_mode == pacman_pb2.AI_PACMAN:
                 difficulty_map = {pacman_pb2.EASY: "Easy", pacman_pb2.MEDIUM: "Medium", pacman_pb2.HARD: "Hard"}
                 difficulty_str = f" with {difficulty_map.get(ai_difficulty, 'Medium')} difficulty"
-            
+
             logger.info(f"Creating {mode_str} game{difficulty_str} with layout {layout_name}")
-            
+
             # Create game with specified mode and difficulty
             response = self.stub.CreateGame(
                 pacman_pb2.GameConfig(
@@ -302,6 +345,16 @@ class FixedPacmanClient:
 
         except grpc.RpcError as e:
             logger.error(f"RPC error creating game: {e}")
+        except grpc.RpcError as e:
+            if e.code() == grpc.StatusCode.FAILED_PRECONDITION and "leader" in str(e.details()).lower():
+                logger.warning("Current node is not the leader, attempting to find leader...")
+                if self.reconnect_to_leader():
+                    # Retry with new leader
+                    return self.create_game(layout_name, max_players)
+            logger.error(f"Error creating game: {e}")
+            return None
+        except Exception as e:
+            logger.error(f"Error creating game: {e}")
             return None
 
     def list_games(self):
@@ -310,6 +363,14 @@ class FixedPacmanClient:
             response = self.stub.ListGames(pacman_pb2.Empty())
             logger.info(f"Found {len(response.games)} games")
             return response.games
+        except grpc.RpcError as e:
+            if e.code() == grpc.StatusCode.FAILED_PRECONDITION and "leader" in str(e.details()).lower():
+                logger.warning("Current node is not the leader, attempting to find leader...")
+                if self.reconnect_to_leader():
+                    # Retry with new leader
+                    return self.list_games()
+            logger.error(f"Error listing games: {e}")
+            return []
         except Exception as e:
             logger.error(f"Error listing games: {e}")
             return []
@@ -324,6 +385,7 @@ class FixedPacmanClient:
             self.game_id = game_id
             self.layout_name = layout_name
             self.running = True
+            self.already_joined = False  # Reset join state for new game
 
             # Start game thread - will handle bidirectional streaming
             self.game_thread = threading.Thread(
@@ -339,78 +401,118 @@ class FixedPacmanClient:
             self.running = False
             return False
 
-    def _game_thread_func(self, choice=None):
-        """Thread that handles the game communication with the server"""
-        try:
-            # Send join action - the protocol doesn't have a preferred_role field
-            # The server assigns roles based on order of joining
-            join_action = pacman_pb2.PlayerAction(
-                player_id=self.player_id,
-                game_id=self.game_id,
-                action_type=pacman_pb2.JOIN
-            )
-            logger.info(f"Sending JOIN action for game {self.game_id}")
-            
-            # Generate actions for the game
-            def generate_actions():
-                # First yield the join action
-                yield join_action
-                
-                # Then yield actions from the queue
-                while self.running:
-                    try:
-                        action = self.action_queue.get(timeout=0.1)
-                        logger.debug(f"Sending action: {action.action_type}")
-                        yield action
-                    except Empty:
-                        # Queue.get timed out, check if we're still running
-                        if not self.running:
-                            break
+
+    def _game_thread_func(self):
+        """
+        Handle bidirectional streaming with the server, including:
+        • initial JOIN
+        • automatic reconnect/leader failover with backoff
+        • optional clean LEAVE when the user quits
+        """
+        retry_count   = 0
+        max_retries   = 5          # how many consecutive failures we’ll tolerate
+        retry_delay   = 1.0        # seconds; grows with each failure
+        self.already_joined   = False
+        self.intentional_leave = False   # make sure it exists
+
+        while self.running and retry_count <= max_retries:
+            try:
+                # ----------------------------------------------------------
+                # 1. generator that yields PlayerAction messages to server
+                # ----------------------------------------------------------
+                def generate_actions():
+                    # first message: JOIN (or a dummy “ping” if we re‑attached)
+                    if not self.already_joined:
+                        yield pacman_pb2.PlayerAction(
+                            player_id=self.player_id,
+                            game_id=self.game_id,
+                            action_type=pacman_pb2.JOIN
+                        )
+                        logger.info(f"Sent JOIN for game {self.game_id}")
+                        self.already_joined = True
+                    else:
+                        # reconnecting – send a STOP move so leader returns state
+                        yield pacman_pb2.PlayerAction(
+                            player_id=self.player_id,
+                            game_id=self.game_id,
+                            action_type=pacman_pb2.MOVE,
+                            direction=pacman_pb2.STOP
+                        )
+                        logger.info(f"Re‑attached to game {self.game_id}")
+
+                    # afterwards, forward everything we pop off action_queue
+                    while self.running:
+                        try:
+                            action = self.action_queue.get(timeout=0.1)
+                            logger.debug(f"Sending action: {action.action_type}")
+                            yield action
+                        except Empty:
+                            continue
+
+                    # graceful leave (only when user asked to quit)
+                    if self.intentional_leave:
+                        yield pacman_pb2.PlayerAction(
+                            player_id=self.player_id,
+                            game_id=self.game_id,
+                            action_type=pacman_pb2.LEAVE
+                        )
+                        logger.info(f"Sent LEAVE for game {self.game_id}")
+
+                # ----------------------------------------------------------
+                # 2. open the bidi stream
+                # ----------------------------------------------------------
+                stream = self.stub.PlayGame(generate_actions())
+
+                for gs in stream:                       # receive GameState messages
+                    if not self.running:
+                        break
+                    self.game_state_queue.put(gs)       # hand to GUI thread
+
+                    # reset retry counters on any successful packet
+                    retry_count = 0
+                    retry_delay = 1.0
+
+                    if gs.status == pacman_pb2.FINISHED:
+                        logger.info(f"Game {self.game_id} finished")
+                        self.running = False
+                        break
+
+                # normal termination => exit the retry loop
+                break
+
+            # --------------------------------------------------------------
+            # 3. error handling & leader fail‑over
+            # --------------------------------------------------------------
+            except grpc.RpcError as e:
+                if (e.code() in (grpc.StatusCode.FAILED_PRECONDITION,
+                                grpc.StatusCode.UNAVAILABLE)
+                    and "leader" in str(e.details()).lower()):
+                    retry_count += 1
+                    logger.warning(
+                        f"Leader issue ({e.code()}). Retrying in {retry_delay:.1f}s "
+                        f"({retry_count}/{max_retries})"
+                    )
+                    time.sleep(retry_delay)
+                    retry_delay = min(retry_delay * 1.5, 5.0)
+
+                    if self.reconnect_to_leader():
+                        retry_count = 0
+                        retry_delay = 1.0
                         continue
+                else:
+                    logger.error(f"RPC error: {e}")
+                    self.running = False
+                    break
 
-            # Process incoming game states
-            def process_game_states():
-                while self.running:
-                    try:
-                        state = response_iterator.next()
-                        if not state:
-                            logger.debug("Received empty game state")
-                            break
+            except Exception as exc:
+                logger.error(f"Fatal error in game thread: {exc}", exc_info=True)
+                self.running = False
+                break
 
-                        logger.debug(f"Received game state for game {state.game_id} with {len(state.agents)} agents")
-                        
-                        # Debug info - print agent positions
-                        for agent in state.agents:
-                            logger.debug(f"Agent {agent.agent_id} at pos {agent.position.x},{agent.position.y}")
+        if retry_count > max_retries:
+            logger.error(f"Aborted after {max_retries} consecutive failures")
 
-                        # Put game state in queue for the GUI to process
-                        self.game_state_queue.put(state)
-                        
-                        # Check if game has ended
-                        if state.status == pacman_pb2.FINISHED:
-                            logger.info(f"Game {state.game_id} has ended")
-                            break
-                            
-                    except StopIteration:
-                        logger.info("Game state stream ended")
-                        break
-                    except grpc.RpcError as e:
-                        if self.running:  # Only log error if we didn't intentionally stop
-                            logger.error(f"RPC error during gameplay: {e}")
-                        break
-
-            # Start bidirectional streaming
-            stream = self.stub.PlayGame(generate_actions())
-            response_iterator = stream.__iter__()
-
-            # Start processing game states directly in this thread
-            process_game_states()
-
-        except Exception as e:
-            logger.error(f"Error in game thread: {e}")
-        finally:
-            self.running = False
-            logger.info(f"Game thread for {self.game_id} ended")
+        logger.info(f"Game thread for {self.game_id} ended")
 
     def send_move(self, direction):
         """Send a move action to the server"""
@@ -431,16 +533,16 @@ class FixedPacmanClient:
             return False
 
     # This method is not used - the PacmanGUI class handles display updates
-                                
+
     def play_game(self, game_id, choice):
         """Start playing the game with the selected role"""
         if not self.connected:
             logger.error("Not connected to server")
             return
-        
+
         self.game_id = game_id
         self.running = True
-        
+
         # Start game thread
         self.game_thread = threading.Thread(target=self._game_thread_func, args=(choice,))
         self.game_thread.daemon = True
@@ -451,6 +553,8 @@ class FixedPacmanClient:
         if not self.running:
             return
 
+        # Flag that we're intentionally leaving
+        self.intentional_leave = True
         self.running = False
 
         # Wait for game thread to end
@@ -466,29 +570,137 @@ class PacmanGUI:
     def __init__(self, root, server_address="localhost:50051"):
         self.root = root
         self.root.title("pAIcMan Client")
-        
+
         # Initialize variables
         self.role_var = tk.StringVar(value="Role: None")
         self.status_var = tk.StringVar(value="Disconnected")
         self.game_info = {}  # Track game information for each listbox item
         self.display = None
         self.adapter = None
-        
+
         # Initialize PacmanClient
         self.client = FixedPacmanClient(server_address)
-        
+
         # Game mode and difficulty variables
         self.game_mode_var = tk.IntVar(value=pacman_pb2.PVP)
         self.ai_difficulty_var = tk.IntVar(value=pacman_pb2.MEDIUM)
 
         # Create UI elements
         self.build_ui()
-        
+
         # Set up close handler
         self.root.protocol("WM_DELETE_WINDOW", self.on_close)
-        
+
+        # Track connection status
+        self.connection_status_label = tk.Label(self.root, text="Connected", fg="green")
+        self.connection_status_label.pack(pady=5)
+
         # Start UI update loop
         self.update_ui()
+
+    # ... rest of the class ...
+
+    def update_ui(self):
+        """Update the game UI with the latest state from the server"""
+        # Update connection status
+        if self.client.stub is None:
+            self.connection_status_label.config(text="Disconnected", fg="red")
+            # Try to reconnect if disconnected
+            if self.client.reconnect_to_leader():
+                self.connection_status_label.config(text=f"Connected to {self.client.server_address}", fg="green")
+        else:
+            self.connection_status_label.config(text=f"Connected to {self.client.server_address}", fg="green")
+
+        # Process game state updates - this is the original code
+        if self.client.running and self.adapter:
+            try:
+                while not self.client.game_state_queue.empty():
+                    proto_game_state = self.client.game_state_queue.get_nowait()
+                    #print(f"Received state with {len(proto_game_state.agents)} agents, {len(proto_game_state.food)} food items")
+
+                    # Detect food reset
+                    is_food_reset = False
+                    current_food_count = len(proto_game_state.food)
+                    if hasattr(self, 'initial_food_count') and self.initial_food_count > 0: # Check if initialized
+                        # A reset likely happened if the count was low and now matches initial
+                        # Using a small threshold (e.g., <= 5) for 'low count'
+                        if self.previous_food_count <= 5 and current_food_count == self.initial_food_count:
+                            is_food_reset = True
+                            logger.info(f"Food reset detected! Prev: {self.previous_food_count}, Curr: {current_food_count}, Initial: {self.initial_food_count}")
+
+                    # Detect capsule reset
+                    is_capsule_reset = False
+                    current_capsule_count = len(proto_game_state.capsules)
+                    if hasattr(self, 'initial_capsule_count') and self.initial_capsule_count > 0: # Check if initialized
+                        # Capsule reset likely happened if count was 0 and now matches initial
+                        if self.previous_capsule_count == 0 and current_capsule_count == self.initial_capsule_count:
+                            is_capsule_reset = True
+                            logger.info(f"Capsule reset detected! Prev: {self.previous_capsule_count}, Curr: {current_capsule_count}, Initial: {self.initial_capsule_count}")
+
+                    # Find player role
+                    for agent in proto_game_state.agents:
+                        if agent.player_id == self.client.player_id:
+                            role = "Pacman" if agent.agent_type == pacman_pb2.PACMAN else "Ghost"
+                            self.role_var.set(f"Role: {role}")
+                            break
+
+                    pacman_state = self.adapter.update_from_proto(proto_game_state)
+
+                    # Update the display
+                    if is_food_reset:
+                        logger.debug("Calling redrawFood()...")
+                        # Redraw the food grid explicitly
+                        self.display.redrawFood(pacman_state.data.food)
+                        # Clear the _foodEaten flag to prevent immediate removal by standard update
+                        pacman_state.data._foodEaten = None
+
+                    if is_capsule_reset:
+                        logger.debug("Calling redrawCapsules()...")
+                        # Redraw the capsules explicitly
+                        # Ensure pacman_state.data.capsules is the correct list format
+                        self.display.redrawCapsules(pacman_state.data.capsules)
+                        # Clear the _capsuleEaten flag
+                        pacman_state.data._capsuleEaten = None
+
+                    # Call the standard update method which handles agents, score, etc.
+                    # If reset happened, it will now skip food/capsule removal due to cleared flags.
+                    self.display.update(pacman_state.data)
+
+                    # Update previous food/capsule count for next iteration's check
+                    if hasattr(self, 'previous_food_count'): # Ensure attribute exists
+                        self.previous_food_count = current_food_count
+                    if hasattr(self, 'previous_capsule_count'):
+                        self.previous_capsule_count = current_capsule_count
+
+                    # Update status
+                    self.status_var.set(f"Game: {self.client.game_id} | Score: {proto_game_state.score}")
+
+                    # Check if game ended
+                    if proto_game_state.status == pacman_pb2.FINISHED:
+                        # Find if there's a pacman in the game
+                        pacman_found = False
+                        for agent in proto_game_state.agents:
+                            if agent.agent_type == pacman_pb2.PACMAN:
+                                pacman_found = True
+                                break
+
+                        # Determine game end message
+                        message = "Game Over"
+                        if not pacman_found:
+                            message = "Pacman was eaten by a ghost!"
+
+                        # Show game over dialog
+                        tk.messagebox.showinfo(
+                            "Game Over",
+                            f"{message}\nFinal Score: {proto_game_state.score}"
+                        )
+                        self.leave_game()
+                        break
+            except Exception as e:
+                logger.error(f"Error updating UI: {e}")
+
+        # Schedule next update
+        self.root.after(100, self.update_ui)  # 10 FPS for UI updates
 
     def build_ui(self):
         """Build the user interface"""
@@ -515,27 +727,27 @@ class PacmanGUI:
         layouts = tk.OptionMenu(create_frame, self.layout_var,
                                "mediumClassic", "smallClassic", "minimaxClassic", "originalClassic")
         layouts.grid(row=0, column=1, sticky=tk.W, padx=5, pady=5)
-        
+
         # Game mode selection
         mode_frame = tk.LabelFrame(create_frame, text="Game Mode", padx=5, pady=5)
         mode_frame.grid(row=1, column=0, columnspan=2, sticky=tk.W+tk.E, padx=5, pady=5)
-        
-        tk.Radiobutton(mode_frame, text="Player vs Player", variable=self.game_mode_var, 
+
+        tk.Radiobutton(mode_frame, text="Player vs Player", variable=self.game_mode_var,
                        value=pacman_pb2.PVP, command=self.toggle_difficulty_display).pack(anchor=tk.W, padx=5, pady=2)
-        tk.Radiobutton(mode_frame, text="AI Pacman", variable=self.game_mode_var, 
+        tk.Radiobutton(mode_frame, text="AI Pacman", variable=self.game_mode_var,
                        value=pacman_pb2.AI_PACMAN, command=self.toggle_difficulty_display).pack(anchor=tk.W, padx=5, pady=2)
-        
+
         # AI Difficulty selection
         self.difficulty_frame = tk.LabelFrame(create_frame, text="AI Difficulty", padx=5, pady=5)
         self.difficulty_frame.grid(row=2, column=0, columnspan=2, sticky=tk.W+tk.E, padx=5, pady=5)
-        
+
         tk.Radiobutton(self.difficulty_frame, text="Easy", variable=self.ai_difficulty_var, value=pacman_pb2.EASY).pack(side=tk.LEFT, padx=10)
         tk.Radiobutton(self.difficulty_frame, text="Medium", variable=self.ai_difficulty_var, value=pacman_pb2.MEDIUM).pack(side=tk.LEFT, padx=10)
         tk.Radiobutton(self.difficulty_frame, text="Hard", variable=self.ai_difficulty_var, value=pacman_pb2.HARD).pack(side=tk.LEFT, padx=10)
-        
+
         # Initially disable difficulty selection if PVP mode is selected
         self.toggle_difficulty_display()
-        
+
         # Create game button
         tk.Button(create_frame, text="Create Game", command=self.create_game).grid(row=3, column=0, columnspan=2, sticky=tk.W, padx=5, pady=10)
 
@@ -554,7 +766,6 @@ class PacmanGUI:
         tk.Button(button_frame, text="Join Game", command=self.join_selected_game).pack(side=tk.LEFT, padx=5)
 
         # Status bar
-        self.status_var = tk.StringVar(value="Disconnected")
         status_bar = tk.Label(self.root, textvariable=self.status_var, relief=tk.SUNKEN, anchor=tk.W)
         status_bar.pack(side=tk.BOTTOM, fill=tk.X)
 
@@ -583,25 +794,25 @@ class PacmanGUI:
             self.refresh_games()
         else:
             self.status_var.set("Failed to connect")
-            
+
     def toggle_difficulty_display(self):
         """Show or hide the difficulty frame based on game mode"""
         if self.game_mode_var.get() == pacman_pb2.AI_PACMAN:
             self.difficulty_frame.grid(row=2, column=0, columnspan=2, sticky=tk.W+tk.E, padx=5, pady=5)
         else:
             self.difficulty_frame.grid_remove()
-    
+
     def create_game(self):
         """Create a new game"""
         layout = self.layout_var.get()
         game_mode = self.game_mode_var.get()
         ai_difficulty = self.ai_difficulty_var.get() if game_mode == pacman_pb2.AI_PACMAN else pacman_pb2.MEDIUM
-        
+
         # Create game with selected options
         game_id = self.client.create_game(
-            layout_name=layout, 
-            max_players=4, 
-            game_mode=game_mode, 
+            layout_name=layout,
+            max_players=4,
+            game_mode=game_mode,
             ai_difficulty=ai_difficulty
         )
 
@@ -611,7 +822,7 @@ class PacmanGUI:
             if game_mode == pacman_pb2.AI_PACMAN:
                 difficulty_map = {pacman_pb2.EASY: "Easy", pacman_pb2.MEDIUM: "Medium", pacman_pb2.HARD: "Hard"}
                 difficulty_text = f" ({difficulty_map[ai_difficulty]})"
-            
+
             self.status_var.set(f"Created {mode_text}{difficulty_text} game: {game_id}")
             self.refresh_games()
         else:
@@ -649,7 +860,7 @@ class PacmanGUI:
                     difficulty_text = " (Medium)"
                 elif game.ai_difficulty == pacman_pb2.HARD:
                     difficulty_text = " (Hard)"
-            
+
             players_text = f"{game.current_players}/{game.max_players}"
 
             self.games_listbox.insert(
@@ -659,12 +870,12 @@ class PacmanGUI:
 
             # Store game info for later use
             self.game_info[i] = {
-                "id": game.game_id, 
+                "id": game.game_id,
                 "layout": game.layout_name,
                 "mode": game.game_mode,
                 "difficulty": game.ai_difficulty
             }
-            
+
         self.status_var.set(f"Found {len(games)} games")
 
     def join_selected_game(self):
@@ -840,10 +1051,10 @@ class PacmanGUI:
                             title = "Game Over"
                             message = "The game has ended."
                             icon = "info"
-                        
+
                         # Add game mode info to the message
                         game_mode = "AI Pacman" if proto_game_state.game_mode == pacman_pb2.AI_PACMAN else "PVP"
-                        
+
                         # Show enhanced game over dialog
                         tkinter.messagebox.showinfo(
                             title,

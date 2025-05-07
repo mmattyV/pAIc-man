@@ -370,15 +370,9 @@ class GameSession:
 
             # Calculate the new position
             if game_direction != Directions.STOP:
-                # Set speed based on role and game mode
-                if self.game_mode == pacman_pb2.AI_PACMAN and role == pacman_pb2.GHOST:
-                    speed = 2.0  # Faster ghosts in AI mode to keep up with AI Pacman
-                    if player_id in self.scared_timers and self.scared_timers[player_id] > 0:
-                        speed = 1.0  # Scared ghosts in AI mode move at normal speed
-                else:
-                    speed = 1.0  # Normal speed in PVP mode
-                    if role == pacman_pb2.GHOST and player_id in self.scared_timers and self.scared_timers[player_id] > 0:
-                        speed = 0.5  # Scared ghosts in PVP mode move slower
+                speed = 1.0  # Normal speed in PVP mode
+                if role == pacman_pb2.GHOST and player_id in self.scared_timers and self.scared_timers[player_id] > 0:
+                    speed = 0.5  # Scared ghosts in PVP mode move slower
 
                 vector = Actions.directionToVector(game_direction, speed)
                 new_pos = (pos[0] + vector[0], pos[1] + vector[1])

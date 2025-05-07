@@ -3,7 +3,7 @@ Multiplayer pac-man built on a distributed system with AI agents playing the gho
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.9+
 - Git
 
 ## Initial Setup
@@ -20,11 +20,6 @@ Multiplayer pac-man built on a distributed system with AI agents playing the gho
    ```bash
    conda env create -f environment.yml
    conda activate paic-man
-   ```
-
-   **Using pip:**
-   ```bash
-   pip install -r requirements.txt  # If requirements.txt exists
    ```
 
 3. Install gRPC dependencies for multiplayer:
@@ -95,10 +90,25 @@ Example connecting to remote server:
 python pacman_client.py --server 192.168.1.100:50051
 ```
 
-To run the GUI client:
+### 3. Testing Fault Tolerance
+
+One of the key features of pAIc-man is its fault tolerance through Raft consensus. You can test this by deliberately killing one of the server instances while playing:
+
 ```bash
-python pacman_gui_client.py
+# Find the process ID of the server running on a specific port (e.g., 50052)
+lsof -i :50052 | grep LISTEN | awk '{print $2}'
+
+# Kill the server process using the process ID
+kill <process_id>
 ```
+
+Alternatively, if you're running the servers in separate terminal windows, you can simply press `Ctrl+C` in the terminal of the server you want to kill.
+
+The system is designed to maintain game state and continue operation as long as a majority of servers (2 out of 3 in a standard setup) remain functional. After killing a server:
+
+1. If you killed a follower server, gameplay should continue uninterrupted
+2. If you killed the leader server, there might be a brief pause while a new leader is elected, but the system should recover automatically
+3. You can observe server logs to see the election process and state replication in action
 
 ### Playing the Game
 
@@ -111,17 +121,33 @@ python pacman_gui_client.py
 2. To create a game:
    - Select "Create a new game"
    - Enter a layout name (default: "mediumClassic")
-   - Enter max players (default: 4)
+   - Select gamemode (PVP or AI Pacman)
    - Note the game ID that is generated
 
 3. To join a game:
+   - Select game with desired ID
    - Select "Join a game"
-   - Enter the game ID
 
 4. Game Controls:
    - Movement: Arrow keys or WASD keys
    - Return to menu: ESC key
    - Quit game: Q key
+
+### AI Pacman Mode
+
+pAIc-man features an AI-controlled Pacman mode where human players play as ghosts against a computer-controlled Pacman:
+
+1. When creating a game:
+   - Select "AI Pacman" from the game mode radio buttons
+   - Choose an AI difficulty level (Easy, Medium, or Hard)
+   - The more difficult the AI, the smarter Pacman will be at collecting pellets and avoiding ghosts
+
+2. Gameplay differences:
+   - All human players are automatically assigned to ghost roles
+   - Pacman is controlled by an AI algorithm with different strategies based on difficulty
+   - Easy: Makes random moves but avoids walls
+   - Medium: Seeks food while maintaining a safe distance from ghosts
+   - Hard: Uses sophisticated pathfinding, prioritizes power pellets when ghosts are nearby, and strategically chases scared ghosts
 
 ## Multiplayer Architecture
 
@@ -157,6 +183,3 @@ The server includes the following fault tolerance features:
 - For rubber-banding issues, ensure you're using the latest version of grpcio (1.71.0+)
 
 - Update the environment with `conda env update --file environment.yml --prune`
-
-ps aux | grep "python pacman_server.py" | grep <PORT>
-kill <PID>

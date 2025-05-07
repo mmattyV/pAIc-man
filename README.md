@@ -104,7 +104,7 @@ kill <process_id>
 
 Alternatively, if you're running the servers in separate terminal windows, you can simply press `Ctrl+C` in the terminal of the server you want to kill.
 
-The system is designed to maintain game state and continue operation as long as a majority of servers (2 out of 3 in a standard setup) remain functional. After killing a server:
+The system is designed to maintain game state and continue operation as long as a majority of servers (3 out of 5 in a standard setup) remain functional. After killing a server:
 
 1. If you killed a follower server, gameplay should continue uninterrupted
 2. If you killed the leader server, there might be a brief pause while a new leader is elected, but the system should recover automatically

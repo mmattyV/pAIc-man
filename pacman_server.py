@@ -1,5 +1,19 @@
 """
 pAIcMan Server - Implements the gRPC service defined in pacman.proto
+
+This module provides a distributed fault-tolerant gRPC server implementation
+for the pAIcMan game. It leverages the Raft consensus algorithm through the pysyncobj
+library to maintain consistent game state across multiple server instances.
+
+The server supports:
+- Creating and joining game sessions with various layouts
+- Player vs. Player (PVP) and AI Pacman game modes with adjustable difficulty
+- Fault tolerance with leader election and state replication
+- Bidirectional streaming for real-time gameplay
+
+Components:
+- GameSession: Manages individual game instances and their state
+- PacmanServicer: Implements the gRPC service with Raft consensus
 """
 import grpc
 import uuid
@@ -44,8 +58,32 @@ logging.basicConfig(
 logger = logging.getLogger("pacman-server")
 
 class GameSession:
-    """Represents a game session"""
+    """
+    Represents a single game session with its complete state.
+    
+    A GameSession manages all aspects of a running Pacman game, including:
+    - Tracking player connections and roles (Pacman or Ghost)
+    - Maintaining the game state (positions, score, food, etc.)
+    - Processing player actions
+    - Handling game mechanics like collisions and scoring
+    - Managing AI Pacman behavior when in AI mode
+    - Broadcasting state updates to connected clients
+    
+    The class runs a continuous update loop in a separate thread to maintain
+    the game state and handle player actions at a consistent frame rate.
+    """
     def __init__(self, game_id: str, layout_name: str, max_players: int, game_mode=pacman_pb2.PVP, ai_difficulty=pacman_pb2.MEDIUM, servicer=None):
+        """
+        Initialize a new game session.
+        
+        Args:
+            game_id: Unique identifier for this game session
+            layout_name: Name of the Pacman layout/map to use
+            max_players: Maximum number of players allowed (2-4)
+            game_mode: Type of game (PVP or AI_PACMAN)
+            ai_difficulty: Difficulty level for AI Pacman (EASY, MEDIUM, HARD)
+            servicer: Reference to the PacmanServicer for Raft leader checks
+        """
         self.game_id = game_id
         self.layout_name = layout_name
         # Ensure max_players is between 2 and 4 (inclusive)
@@ -115,7 +153,13 @@ class GameSession:
         logger.info(f"Created new game session {game_id} with mode {self.game_mode}")
 
     def initialize_game_state(self):
-        """Initialize a new game state with food, capsules, etc."""
+        """
+        Initialize a new game state with food, capsules, etc.
+        
+        Sets up the initial game state by copying the food grid, capsules, and walls
+        from the layout. Resets the score to 0 and clears any existing player positions
+        and directions.
+        """
         self.food = self.layout.food.copy()
         self.capsules = self.layout.capsules[:]
         self.walls = self.layout.walls
@@ -127,7 +171,18 @@ class GameSession:
         self.scared_timers = {}  # Track ghost scared timers
 
     def get_direction_proto(self, game_dir: str) -> int:
-        """Map internal Directions to protobuf enum"""
+        """
+        Map internal Directions to protobuf enum.
+        
+        Converts the game engine's internal direction representation to the
+        corresponding protocol buffer enum value for network transmission.
+        
+        Args:
+            game_dir: Direction from the game engine (Directions.NORTH, etc.)
+            
+        Returns:
+            int: The corresponding protocol buffer direction enum value
+        """
         mapping = {
             Directions.NORTH: pacman_pb2.NORTH,
             Directions.SOUTH: pacman_pb2.SOUTH,
@@ -139,7 +194,21 @@ class GameSession:
 
 
     def add_player(self, player_id: str, stream, force_ghost=False):
-        """Add a player to this game session"""
+        """
+        Add a player to this game session.
+        
+        Assigns the player a role (Pacman or Ghost) based on the game mode and
+        current player count, initializes their position, and registers their
+        stream for state updates.
+        
+        Args:
+            player_id: Unique identifier for the player
+            stream: Queue for sending game state updates to the player
+            force_ghost: If True, forces the player to be a ghost regardless of game state
+            
+        Returns:
+            bool: True if the player was successfully added, False otherwise
+        """
         with self.lock:
             if self.current_players >= self.max_players:
                 return False
@@ -183,7 +252,16 @@ class GameSession:
             return True
 
     def initialize_player_position(self, player_id):
-        """Initialize a player's position based on their role"""
+        """
+        Initialize a player's position based on their role.
+        
+        Places Pacman at the layout's specified Pacman start position.
+        Places ghosts at the layout's ghost positions, or at alternative positions
+        if there are more ghosts than defined positions in the layout.
+        
+        Args:
+            player_id: Unique identifier for the player whose position to initialize
+        """
         role = self.player_roles.get(player_id)
         if role is None:
             return
@@ -227,7 +305,19 @@ class GameSession:
                 self.scared_timers[player_id] = 0
 
     def remove_player(self, player_id: str):
-        """Remove a player from this game session"""
+        """
+        Remove a player from this game session.
+        
+        Removes the player's stream, role, position, and direction from the game.
+        If the removed player was Pacman, attempts to reassign the Pacman role
+        to another player if possible.
+        
+        Args:
+            player_id: Unique identifier of the player to remove
+            
+        Returns:
+            bool: True if the player was found and removed, False otherwise
+        """
         with self.lock:
             if player_id in self.player_streams:
                 del self.player_streams[player_id]
@@ -269,7 +359,20 @@ class GameSession:
 
 
     def update_loop(self):
-        """Game state update loop that runs continuously in a separate thread"""
+        """
+        Game state update loop that runs continuously in a separate thread.
+        
+        This is the main game loop that updates the game state at a fixed rate:
+        1. Processes player actions
+        2. Updates AI Pacman (if in AI mode)
+        3. Checks for collisions
+        4. Updates scared timers
+        5. Replicates state to followers (if this is the leader node)
+        6. Broadcasts the updated state to all connected clients
+        
+        The loop runs at a fixed frame rate (FPS) with the AI Pacman updated at
+        a lower frequency to simulate more human-like reaction time.
+        """
         FPS = 10  # Frames per second
         update_interval = 1.0 / FPS
         ai_update_interval = 0.3  # 300ms for AI Pacman
@@ -343,7 +446,17 @@ class GameSession:
 
 
     def move_player(self, player_id, direction):
-        """Move a player based on their requested direction"""
+        """
+        Move a player based on their requested direction.
+        
+        Converts the protocol buffer direction to the game engine direction,
+        checks if the move is legal (not into a wall), updates the player's
+        position and direction if valid, and handles food consumption for Pacman.
+        
+        Args:
+            player_id: Unique identifier of the player to move
+            direction: Protocol buffer enum indicating the desired direction
+        """
         # Skip if player not found
         if player_id not in self.player_positions or player_id not in self.player_roles:
             return
@@ -394,7 +507,14 @@ class GameSession:
                     self.check_food_consumption(new_pos)
 
     def update_ai_pacman(self):
-        """Update AI-controlled Pacman movement"""
+        """
+        Update AI-controlled Pacman movement.
+        
+        Creates a simplified game state representation for the AI agent,
+        gets the agent's chosen action, and updates the AI Pacman's direction and
+        position accordingly. Handles food consumption and updates the state version
+        to ensure changes are properly propagated to clients.
+        """
         if not self.ai_agent:
             return
 
@@ -431,7 +551,18 @@ class GameSession:
                     self.state_version += 1
 
     def create_ai_game_state(self):
-        """Create a simplified game state representation for the AI agent"""
+        """
+        Create a simplified game state representation for the AI agent.
+        
+        Builds a lightweight GameState object containing only the information
+        needed by the AI agent to make decisions, including:
+        - Pacman position and legal actions
+        - Ghost positions and scared timers
+        - Food and capsule positions
+        
+        Returns:
+            SimpleGameState: A lightweight object with the necessary game state data
+        """
         # Simple object with the necessary data for the AI agent
         class SimpleGameState:
             pass
@@ -481,7 +612,19 @@ class GameSession:
         return state
 
     def check_food_consumption(self, pos):
-        """Check if Pacman is eating food or capsules"""
+        """
+        Check if Pacman is eating food or capsules.
+        
+        Determines if Pacman's current position contains a food pellet or power capsule
+        and handles the appropriate game effects:
+        - For food: adds points, removes the food, checks if all food is eaten
+        - For capsules: adds points, makes ghosts scared, updates state version
+        
+        If all food is eaten, resets the food grid and capsules for continuous play.
+        
+        Args:
+            pos: The (x, y) position to check for food or capsules
+        """
         # Convert to integer coordinates for grid access
         x, y = int(round(pos[0])), int(round(pos[1]))
 
@@ -527,7 +670,17 @@ class GameSession:
                     self.scared_timers[player_id] = 200  # Scared for 20 seconds at 10fps
 
     def check_collisions(self):
-        """Check for collisions between Pacman and ghosts"""
+        """
+        Check for collisions between Pacman and ghosts.
+        
+        Detects when Pacman and a ghost occupy the same or very close positions and
+        handles the collision consequences:
+        - If the ghost is scared: Pacman eats the ghost, earns points, ghost respawns
+        - If the ghost is not scared: Pacman is caught, game ends
+        
+        Updates the state version when collisions occur to ensure changes are
+        properly propagated to clients.
+        """
         if not self.pacman_player or self.pacman_player not in self.player_positions:
             return
 
@@ -557,7 +710,17 @@ class GameSession:
                         break
 
     def process_player_action(self, player_id, action_type, direction):
-        """Process a player action (movement or other command)"""
+        """
+        Process a player action (movement or other command).
+        
+        Validates that the player has the appropriate role for the requested action
+        and queues the action for processing in the update loop if valid.
+        
+        Args:
+            player_id: Unique identifier of the player making the action
+            action_type: Type of action (e.g., MOVE)
+            direction: Desired movement direction for MOVE actions
+        """
         if action_type == pacman_pb2.MOVE:
             # Get the player's role
             role = self.player_roles.get(player_id)
@@ -580,7 +743,13 @@ class GameSession:
                 logger.warning(f"Player {player_id} tried to move but has invalid role: {role}")
 
     def broadcast_game_state(self):
-        """Send current game state to all connected players"""
+        """
+        Send current game state to all connected players.
+        
+        Creates a protocol buffer GameState message with the current game state
+        and sends it to all connected players via their respective streams.
+        Removes players with dead streams that cannot receive updates.
+        """
         with self.lock:
             # Create current game state
             game_state = self._create_game_state()
@@ -599,7 +768,19 @@ class GameSession:
                 self.remove_player(player_id)
 
     def _create_game_state(self):
-        """Create the current game state for broadcasting to clients"""
+        """
+        Create the current game state for broadcasting to clients.
+        
+        Constructs a protocol buffer GameState message containing all elements
+        of the current game state:
+        - Agent positions, directions, and states (Pacman and ghosts)
+        - Food, capsule, and wall positions
+        - Score and game status
+        - Game mode and AI difficulty information
+        
+        Returns:
+            GameState: Protocol buffer message with the complete game state
+        """
         with self.lock:
             # Create agent states for all agents
 
@@ -680,7 +861,15 @@ class GameSession:
             )
 
     def get_info(self):
-        """Return information about this game session"""
+        """
+        Return information about this game session.
+        
+        Creates a protocol buffer GameInfo message with the basic information
+        about this game session for listing available games.
+        
+        Returns:
+            GameInfo: Protocol buffer message with game session information
+        """
         with self.lock:
             return pacman_pb2.GameInfo(
                 game_id=self.game_id,
@@ -691,7 +880,16 @@ class GameSession:
             )
 
     def _serialize_game_state(self) -> str:
-        """Serialize essential game state to JSON string"""
+        """
+        Serialize essential game state to JSON string.
+        
+        Converts the current game state into a JSON-serializable format for
+        state replication across server nodes. Includes food grid, score,
+        capsules, player positions, directions, and scared timers.
+        
+        Returns:
+            str: JSON string representation of the essential game state
+        """
         with self.lock:
             # Convert food grid to 2D array
             food_array = []
@@ -728,7 +926,17 @@ class GameSession:
             return json.dumps(state_dict)
 
     def _apply_serialized_game_state(self, serialized_state: str, state_version: int) -> None:
-        """Apply a serialized game state to this game session if it's newer than current state"""
+        """
+        Apply a serialized game state to this game session if it's newer than current state.
+        
+        Updates the local game state based on the serialized state from the leader node.
+        Only applies the state if the version is newer than the last applied version
+        to prevent inconsistencies from out-of-order or duplicate messages.
+        
+        Args:
+            serialized_state: JSON string containing the serialized game state
+            state_version: Version number of the state for ordering consistency
+        """
         with self.lock:
             try:
                 # Skip if we've already applied a newer state version
@@ -795,7 +1003,16 @@ class GameSession:
                 logger.error(f"Error applying serialized state: {e}", exc_info=True)
 
     def get_winner_id(self):
-        """Get the ID of the winner if the game is finished"""
+        """
+        Get the ID of the winner if the game is finished.
+        
+        Determines the winner of the game based on the final state:
+        - If Pacman is gone, a ghost player wins
+        - If Pacman is still in play and game is finished, Pacman wins
+        
+        Returns:
+            str: Player ID of the winner, or empty string if no clear winner
+        """
         if self.status != pacman_pb2.FINISHED:
             return ""
 
@@ -811,14 +1028,26 @@ class GameSession:
         return self.pacman_player
 
     def get_pacman_position(self):
-        """Get the current position of Pacman"""
+        """
+        Get the current position of Pacman.
+        
+        Returns the position of the player or AI assigned the Pacman role.
+        
+        Returns:
+            tuple: (x, y) position of Pacman, or None if Pacman doesn't exist
+        """
         # self.pacman_player stores "ai_pacman" in AI mode or the player_id in PVP
         if self.pacman_player:
             return self.player_positions.get(self.pacman_player)
         return None
 
     def initialize_ai_pacman_position(self):
-        """Initialize the position of AI-controlled Pacman"""
+        """
+        Initialize the position of AI-controlled Pacman.
+        
+        Sets the AI Pacman's starting position to the layout's designated Pacman
+        start position and sets its initial direction to STOP.
+        """
         # Start AI Pacman at the layout's Pacman start position
         for is_pacman, pos in self.layout.agentPositions:
             if is_pacman:
@@ -827,8 +1056,30 @@ class GameSession:
                 break
 
 class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
-    """Implementation of the PacmanGame service"""
+    """
+    Implementation of the PacmanGame gRPC service with Raft consensus.
+    
+    This class combines the gRPC service implementation with Raft consensus
+    through the SyncObj library. It handles client requests for creating games,
+    listing games, and playing games while ensuring state consistency across
+    multiple server instances through replicated operations.
+    
+    Key features:
+    - Distributed fault tolerance using Raft consensus
+    - Leader election for write operations
+    - State replication for game creation and player actions
+    - Bidirectional streaming for real-time gameplay
+    """
     def __init__(self, port: int, data_dir: str, self_addr: str, partner_addrs: List[str]):
+        """
+        Initialize the PacmanServicer with Raft consensus.
+        
+        Args:
+            port: Port number this server instance is listening on
+            data_dir: Directory for storing Raft log and snapshots
+            self_addr: Address of this server node (host:port)
+            partner_addrs: List of addresses of other server nodes in the cluster
+        """
         # --- initialise Raft first ---
         conf = SyncObjConf(
             dataDir=data_dir,
@@ -850,7 +1101,20 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
 
     @replicated
     def _create_game(self, game_id: str, layout_name: str, max_players: int, game_mode: pacman_pb2.GameMode, ai_difficulty: pacman_pb2.AIDifficulty) -> None:
-        """Replicated helper that actually inserts the GameSession."""
+        """
+        Replicated helper that actually inserts the GameSession.
+        
+        This method is decorated with @replicated from the Raft framework, ensuring
+        that the game creation is performed consistently across all server nodes.
+        It is called by the CreateGame RPC method after validating request parameters.
+        
+        Args:
+            game_id: Unique identifier for the new game
+            layout_name: Name of the layout/map to use
+            max_players: Maximum number of players allowed
+            game_mode: Type of game (PVP or AI_PACMAN)
+            ai_difficulty: Difficulty level for AI Pacman
+        """
         # Access the self address via self.selfNode as provided by SyncObj
         node_addr = str(self.selfNode) # Correctly obtain node address here
         with self.games_lock:
@@ -865,7 +1129,20 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
                 logger.warning("Raft: Game %s already exists on node %s, not creating.", game_id, node_addr) # Corrected line
 
     def CreateGame(self, request: pacman_pb2.GameConfig, context):
-        """RPC method to create a new game"""
+        """
+        RPC method to create a new game.
+        
+        Handles client requests to create a new game session. Validates the request
+        parameters, generates a unique game ID, and initiates the replicated game
+        creation operation through the Raft consensus mechanism.
+        
+        Args:
+            request: Protocol buffer message containing game configuration parameters
+            context: gRPC context for the request
+            
+        Returns:
+            GameSession: Protocol buffer response with game creation result
+        """
         try:
             game_id = str(uuid.uuid4())
             layout_name = request.layout_name
@@ -936,7 +1213,20 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
             )
 
     def ListGames(self, request, context):
-        """RPC method to list available games"""
+        """
+        RPC method to list available games.
+        
+        Retrieves a list of currently available game sessions that haven't finished yet.
+        This is a read-only operation that doesn't require Raft consensus, so any node
+        can serve the request.
+        
+        Args:
+            request: Empty protocol buffer message
+            context: gRPC context for the request
+            
+        Returns:
+            GamesList: Protocol buffer response with list of available games
+        """
         try:
             games_list = []
             # Reading state does NOT need to be replicated. Any node can serve reads.
@@ -964,7 +1254,18 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
     # --- Replicated methods for player actions ---
     @replicated
     def _replicated_join(self, game_id: str, player_id: str, is_ghost: bool) -> None:
-        """Replicates the join action to all nodes."""
+        """
+        Replicates the join action to all nodes.
+        
+        This replicated method ensures that player join operations are consistently
+        applied across all server nodes. It updates the game state to record that
+        a player has joined with the specified role.
+        
+        Args:
+            game_id: ID of the game being joined
+            player_id: ID of the player joining
+            is_ghost: Whether the player should join as a ghost
+        """
         # Access the self address via self.selfNode as provided by SyncObj
         node_addr = str(self.selfNode) # Correctly obtain node address here
         with self.games_lock:
@@ -987,7 +1288,17 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
 
     @replicated
     def _replicated_leave(self, game_id: str, player_id: str) -> None:
-        """Replicates the leave action to all nodes."""
+        """
+        Replicates the leave action to all nodes.
+        
+        This replicated method ensures that player leave operations are consistently
+        applied across all server nodes. It updates the game state to remove the
+        player from the specified game.
+        
+        Args:
+            game_id: ID of the game being left
+            player_id: ID of the player leaving
+        """
         # Access the self address via self.selfNode as provided by SyncObj
         node_addr = str(self.selfNode) # Correctly obtain node address here
         with self.games_lock:
@@ -1009,7 +1320,19 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
 
     @replicated
     def _replicated_player_action(self, game_id: str, player_id: str, action_type: pacman_pb2.ActionType, direction: pacman_pb2.Direction) -> None:
-        """Replicates a player action (like MOVE) to all nodes."""
+        """
+        Replicates a player action (like MOVE) to all nodes.
+        
+        This replicated method ensures that player actions are consistently applied
+        across all server nodes. It updates the game state to process the player's
+        action in the specified game.
+        
+        Args:
+            game_id: ID of the game in which the action occurs
+            player_id: ID of the player performing the action
+            action_type: Type of action (e.g., MOVE)
+            direction: Direction for movement actions
+        """
         # Access the self address via self.selfNode as provided by SyncObj
         node_addr = str(self.selfNode) # Correctly obtain node address here
         with self.games_lock:
@@ -1036,7 +1359,18 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
 
     @replicated
     def _replicate_game_state(self, game_id: str, serialized_state: str, state_version: int) -> None:
-        """Replicate game state from leader to followers"""
+        """
+        Replicate game state from leader to followers.
+        
+        This replicated method ensures that the full game state is periodically
+        synchronized across all server nodes. It applies the serialized state
+        from the leader to follower nodes to prevent state drift over time.
+        
+        Args:
+            game_id: ID of the game whose state is being replicated
+            serialized_state: JSON string representation of the game state
+            state_version: Version number for ordered state application
+        """
         with self.games_lock:
             if game_id in self.games:
                 game = self.games[game_id]
@@ -1045,7 +1379,20 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
     # --- End Replicated methods ---
 
     def PlayGame(self, request_iterator, context):
-        """RPC method for bidirectional streaming gameplay"""
+        """
+        RPC method for bidirectional streaming gameplay.
+        
+        Handles the bidirectional streaming connection with clients for gameplay.
+        Processes player actions from the client stream and sends game state updates
+        back through the server stream, maintaining real-time gameplay communication.
+        
+        Args:
+            request_iterator: Iterator for incoming player action messages
+            context: gRPC context for the streaming connection
+            
+        Yields:
+            GameState messages with updated game state for the client
+        """
         player_id = None
         game_id = None
         game = None
@@ -1127,6 +1474,16 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
 
             # Handle player actions in a separate thread
             def process_actions():
+                """
+                Process player actions from the request stream.
+                
+                Reads player actions from the request iterator, validates them, and forwards
+                them to the appropriate game session for processing through the Raft consensus
+                mechanism. Handles JOIN, LEAVE, and MOVE actions from players.
+                
+                Raises:
+                    Exception: If errors occur during processing that should terminate the stream
+                """
                 try:
                     for action in request_iterator:
                         # Handle player's action based on action type
@@ -1176,7 +1533,22 @@ class PacmanServicer(pacman_pb2_grpc.PacmanGameServicer, SyncObj):
             logger.info(f"PlayGame stream ended for player {player_id} in game {game_id}")
 
 def serve(port: int, data_dir: str, self_addr: str, partner_addrs: List[str]):
-    """Start the gRPC server"""
+    """
+    Start the gRPC server.
+    
+    Creates and starts a gRPC server with the PacmanServicer, configuring it
+    for concurrent execution with a thread pool and proper shutdown handling.
+    
+    Args:
+        port: Port number to listen on
+        data_dir: Directory for storing Raft log and snapshots
+        self_addr: Address of this server node (host:port)
+        partner_addrs: List of addresses of other server nodes in the cluster
+        
+    Note:
+        This function blocks until the server is terminated with Ctrl+C
+        or another termination signal.
+    """
     os.makedirs(data_dir, exist_ok=True)
     os.makedirs("logs", exist_ok=True)
 
@@ -1202,7 +1574,15 @@ def serve(port: int, data_dir: str, self_addr: str, partner_addrs: List[str]):
         server.stop(0)
 
 def load_config():
-    """Load configuration from config.json file"""
+    """
+    Load configuration from config.json file.
+    
+    Attempts to read and parse the config.json file for server configuration.
+    Falls back to default values if the file is not found or is invalid.
+    
+    Returns:
+        dict: Configuration dictionary with server settings
+    """
     config = {}
     config_path = Path(__file__).parent / "config.json"
 

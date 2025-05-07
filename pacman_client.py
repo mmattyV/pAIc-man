@@ -1,6 +1,17 @@
 #!/usr/bin/env python3
 """
 pAIcMan Client - A corrected implementation that works with the gRPC server
+
+This module implements a client for the pAIcMan game using gRPC for communication with
+the game server. It provides both a programmatic API (PacmanClient) and a graphical
+user interface (PacmanGUI) for interacting with the game server.
+
+The client supports:
+- Creating and joining games
+- Player vs Player (PVP) and AI Pacman game modes
+- Different AI difficulty levels
+- Automatic reconnection to leader nodes in a distributed server cluster
+- Bidirectional streaming of game states and player actions
 """
 import grpc
 import uuid
@@ -39,7 +50,14 @@ logging.basicConfig(
 logger = logging.getLogger("client")
 
 class GameStateAdapter:
-    """Adapts gRPC GameState messages to Pacman GameState objects"""
+    """
+    Adapts gRPC GameState messages to Pacman GameState objects.
+    
+    This class serves as a bridge between the protobuf representation of the game state
+    received from the server and the internal GameState objects used by the Pacman game
+    engine. It handles the conversion of coordinates, directions, agent states, food
+    positions, and other game elements.
+    """
     def __init__(self, layout_name):
         # Load the layout with more robust path checking
         self.layout = None
@@ -69,7 +87,20 @@ class GameStateAdapter:
         self.data = self.game_state.data
 
     def update_from_proto(self, proto_state):
-        """Update the game state from a protobuf message"""
+        """
+        Update the game state from a protobuf message.
+        
+        This method takes a game state protobuf message from the server and updates the
+        local GameState object to match. It handles conversion between protocol buffer
+        types and the Pacman game types for food, capsules, agents, and other game elements.
+        
+        Args:
+            proto_state: A protocol buffer GameState message containing the current
+                game state information from the server.
+                
+        Returns:
+            The updated GameState object.
+        """
         try:
             # Update score
             self.data.score = proto_state.score
@@ -240,8 +271,25 @@ class GameStateAdapter:
             return self.game_state
 
 class PacmanClient:
-    """Client implementation for pAIcMan game"""
+    """
+    Client implementation for pAIcMan game.
+    
+    This class handles all communication with the gRPC-based game server, including
+    creating games, listing available games, joining games, sending player actions,
+    and receiving game state updates. It also implements robust error handling with
+    automatic leader failover and reconnection for distributed server setups.
+    """
     def __init__(self, server_address):
+        """
+        Initialize the PacmanClient.
+        
+        Sets up the client with the specified server address and initializes communication
+        channels, game state, and configuration parameters. Automatically connects to the
+        server upon initialization.
+        
+        Args:
+            server_address: The address of the gRPC server in the format 'host:port'
+        """
         self.server_address = server_address
         self.player_id = str(uuid.uuid4())[:8]  # Generate random player ID
         self.stub = None
@@ -285,7 +333,15 @@ class PacmanClient:
         self.connect()
 
     def connect(self):
-        """Connect to the gRPC server"""
+        """
+        Connect to the gRPC server.
+        
+        Establishes a connection to the specified server address and creates a stub
+        for making RPC calls.
+        
+        Returns:
+            bool: True if the connection was successful, False otherwise.
+        """
         try:
             logger.info(f"Connecting to server at {self.server_address}")
             self.channel = grpc.insecure_channel(self.server_address)
@@ -299,7 +355,16 @@ class PacmanClient:
             return False
 
     def reconnect_to_leader(self):
-        """Try to reconnect to a different node in the cluster that might be the leader"""
+        """
+        Try to reconnect to a different node in the cluster that might be the leader.
+        
+        This method attempts to find and connect to the leader node in a distributed
+        server setup. It keeps track of recently failed nodes to avoid quick retries to
+        the same non-functioning servers.
+        
+        Returns:
+            bool: True if successfully reconnected to a leader node, False otherwise.
+        """
         # Close current connection
         if self.channel:
             self.channel.close()
@@ -331,7 +396,12 @@ class PacmanClient:
         return False
 
     def disconnect(self):
-        """Disconnect from the server"""
+        """
+        Disconnect from the server.
+        
+        Cleanly terminates the connection to the server, including leaving any active
+        game session and closing the gRPC channel.
+        """
         if self.running:
             self.leave_game()
 
@@ -342,7 +412,21 @@ class PacmanClient:
             logger.info("Disconnected from server")
 
     def create_game(self, layout_name="mediumClassic", max_players=4, game_mode=pacman_pb2.PVP, ai_difficulty=pacman_pb2.MEDIUM):
-        """Create a new game on the server"""
+        """
+        Create a new game on the server.
+        
+        Makes an RPC call to create a new game with the specified parameters. If the current
+        node is not the leader, it will attempt to reconnect to the leader and retry.
+        
+        Args:
+            layout_name (str): Name of the game layout/map to use.
+            max_players (int): Maximum number of players allowed in the game.
+            game_mode: The game mode (PVP or AI_PACMAN).
+            ai_difficulty: The difficulty level for AI Pacman mode (EASY, MEDIUM, or HARD).
+            
+        Returns:
+            str: The game ID if creation was successful, None otherwise.
+        """
         try:
             # Store mode and difficulty settings
             self.game_mode = game_mode
@@ -390,7 +474,16 @@ class PacmanClient:
             return None
 
     def list_games(self):
-        """List available games on the server"""
+        """
+        List available games on the server.
+        
+        Makes an RPC call to retrieve all available games from the server.
+        Handles reconnection to the leader node if needed.
+        
+        Returns:
+            list: A list of game information objects from the server, or an empty list if
+                 the call fails or no games are available.
+        """
         try:
             response = self.stub.ListGames(pacman_pb2.Empty())
             logger.info(f"Found {len(response.games)} games")
@@ -408,7 +501,19 @@ class PacmanClient:
             return []
 
     def join_game(self, game_id, layout_name="mediumClassic"):
-        """Join a game by ID"""
+        """
+        Join a game by ID.
+        
+        Sets up the client to join an existing game and starts a background thread
+        for bidirectional streaming with the server.
+        
+        Args:
+            game_id (str): The ID of the game to join.
+            layout_name (str): The layout/map name of the game.
+            
+        Returns:
+            bool: True if successfully joined the game, False otherwise.
+        """
         if self.running:
             logger.warning("Already in a game. Call leave_game() first.")
             return False
@@ -436,10 +541,19 @@ class PacmanClient:
 
     def _game_thread_func(self):
         """
-        Handle bidirectional streaming with the server, including:
-        • initial JOIN
-        • automatic reconnect/leader failover with backoff
-        • optional clean LEAVE when the user quits
+        Handle bidirectional streaming with the server.
+        
+        This background thread manages the bidirectional gRPC stream for gameplay,
+        including:
+        • Sending the initial JOIN message to enter the game
+        • Forwarding player actions from the action queue to the server
+        • Receiving and processing game state updates from the server
+        • Implementing automatic reconnection with exponential backoff
+        • Handling leader failover in a distributed server cluster
+        • Sending a clean LEAVE message when the user intentionally quits
+        
+        The method runs in a loop until self.running is set to False or max retries
+        are exceeded during connection failures.
         """
         retry_count = 0
         max_retries = 5  # Increased retries to handle more failure cases
@@ -453,6 +567,19 @@ class PacmanClient:
                 # 1. generator that yields PlayerAction messages to server
                 # ----------------------------------------------------------
                 def generate_actions():
+                    """
+                    Generator that yields PlayerAction messages to the server.
+                    
+                    This is used internally by the bidirectional streaming RPC to send
+                    actions to the server. It first sends a JOIN message (or a MOVE with
+                    STOP direction when reconnecting), then continuously forwards actions
+                    from the action_queue, and finally sends a LEAVE message if the game
+                    is being intentionally left.
+                    
+                    Yields:
+                        PlayerAction protocol buffer messages containing actions to send
+                        to the server.
+                    """
                     nonlocal retry_count, retry_delay
 
                     # First action is always JOIN, unless we're reconnecting
@@ -564,7 +691,18 @@ class PacmanClient:
         logger.info(f"Game thread for {self.game_id} ended")
 
     def send_move(self, direction):
-        """Send a move action to the server"""
+        """
+        Send a move action to the server.
+        
+        Creates a MOVE action with the specified direction and adds it to the
+        action queue for processing by the game thread.
+        
+        Args:
+            direction: The direction to move (one of the protocol buffer direction constants).
+            
+        Returns:
+            bool: True if the action was queued successfully, False otherwise.
+        """
         if not self.running:
             return False
 
@@ -584,7 +722,13 @@ class PacmanClient:
     # This method is not used - the PacmanGUI class handles display updates
 
     def play_game(self, game_id, choice):
-        """Start playing the game with the selected role"""
+        """
+        Start playing the game with the selected role.
+        
+        Args:
+            game_id (str): The ID of the game to play.
+            choice: The player's choice of role or other game option.
+        """
         if not self.connected:
             logger.error("Not connected to server")
             return
@@ -615,8 +759,25 @@ class PacmanClient:
 
 
 class PacmanGUI:
-    """GUI application for the Pacman client"""
+    """
+    GUI application for the Pacman client.
+    
+    This class implements a Tkinter-based graphical user interface for interacting
+    with the Pacman game. It wraps the PacmanClient class and provides UI elements
+    for connecting to servers, creating games, listing available games, joining games,
+    and controlling the Pacman character or ghosts during gameplay.
+    """
     def __init__(self, root, server_address=None):
+        """
+        Initialize the PacmanGUI.
+        
+        Sets up the Tkinter UI components and creates a PacmanClient instance.
+        
+        Args:
+            root: The Tkinter root window.
+            server_address (str, optional): The address of the game server to connect to.
+                If None, the address from the configuration file will be used.
+        """
         self.root = root
         self.root.title("pAIcMan Client")
 
@@ -767,7 +928,16 @@ class PacmanGUI:
         self.root.after(100, self.update_ui)  # 10 FPS for UI updates
 
     def build_ui(self):
-        """Build the user interface"""
+        """
+        Build the user interface.
+        
+        Creates all the Tkinter UI elements including:
+        - Server connection controls
+        - Game creation options (layout, max players, game mode, difficulty)
+        - Game listing and joining options
+        - Status displays
+        - Keyboard bindings for game control
+        """
         # Main frame
         main_frame = tk.Frame(self.root, padx=10, pady=10)
         main_frame.pack(fill=tk.BOTH, expand=True)
@@ -853,7 +1023,12 @@ class PacmanGUI:
         self.root.bind("d", lambda e: self.send_move(pacman_pb2.EAST))
 
     def connect(self):
-        """Connect to the server"""
+        """
+        Connect to the server.
+        
+        Gets the server address from the UI field, disconnects from any current
+        server, connects to the new server, and refreshes the game list if successful.
+        """
         address = self.server_var.get()
         self.client.disconnect()  # Close any existing connection
 
@@ -868,14 +1043,25 @@ class PacmanGUI:
             self.status_var.set("Failed to connect")
 
     def toggle_difficulty_display(self):
-        """Show or hide the difficulty frame based on game mode"""
+        """
+        Show or hide the difficulty frame based on game mode.
+        
+        Shows the AI difficulty options only when AI_PACMAN mode is selected,
+        and hides them for PVP mode.
+        """
         if self.game_mode_var.get() == pacman_pb2.AI_PACMAN:
             self.difficulty_frame.grid(row=2, column=0, columnspan=2, sticky=tk.W+tk.E, padx=5, pady=5)
         else:
             self.difficulty_frame.grid_remove()
 
     def create_game(self):
-        """Create a new game"""
+        """
+        Create a new game.
+        
+        Collects all game creation parameters from the UI (layout, mode, difficulty,
+        max players) and calls the client's create_game method. Updates the status
+        display and refreshes the game list if successful.
+        """
         layout = self.layout_var.get()
         game_mode = self.game_mode_var.get()
         ai_difficulty = self.ai_difficulty_var.get() if game_mode == pacman_pb2.AI_PACMAN else pacman_pb2.MEDIUM
@@ -902,7 +1088,13 @@ class PacmanGUI:
             self.status_var.set("Failed to create game")
 
     def refresh_games(self):
-        """Refresh the list of available games"""
+        """
+        Refresh the list of available games.
+        
+        Clears and repopulates the games listbox with up-to-date information about
+        available games from the server. Each game entry shows the game ID, layout,
+        mode, difficulty (for AI games), player count, and game status.
+        """
         # Clear listbox
         self.games_listbox.delete(0, tk.END)
         self.game_info.clear()
@@ -952,7 +1144,12 @@ class PacmanGUI:
         self.status_var.set(f"Found {len(games)} games")
 
     def join_selected_game(self):
-        """Join the selected game"""
+        """
+        Join the selected game.
+        
+        Gets the selected game from the listbox and extracts its ID and layout name,
+        then calls the join_game method to join that game.
+        """
         selection = self.games_listbox.curselection()
         if not selection:
             tkinter.messagebox.showerror("Error", "No game selected")
@@ -967,7 +1164,20 @@ class PacmanGUI:
         self.join_game(game_id, layout_name)
 
     def join_game(self, game_id, layout_name):
-        """Join a game and initialize display"""
+        """
+        Join a game and initialize display.
+        
+        Args:
+            game_id (str): The ID of the game to join.
+            layout_name (str): The layout/map name of the game.
+            
+        This method:
+        1. Creates a GameStateAdapter for the specified layout
+        2. Initializes the Pacman graphics display
+        3. Sets up tracking for food and capsule counts to detect resets
+        4. Calls the client's join_game method to start the game stream
+        5. Updates the UI status
+        """
         try:
             # Initialize game adapter
             self.adapter = GameStateAdapter(layout_name)
@@ -1012,7 +1222,15 @@ class PacmanGUI:
             self.adapter = None
 
     def send_move(self, direction):
-        """Send a move command to the server"""
+        """
+        Send a move command to the server.
+        
+        Forwards the movement direction to the client's send_move method if the
+        client is currently running a game. Logs the movement with the player's role.
+        
+        Args:
+            direction: The direction to move (one of the protocol buffer direction constants).
+        """
         if self.client.running:
             # Get the player's current role
             current_role = self.role_var.get() if hasattr(self, 'role_var') else "Unknown"
@@ -1142,7 +1360,12 @@ class PacmanGUI:
         self.root.after(16, self.update_ui)  # Approx 60 FPS
 
     def on_close(self):
-        """Handle window close event"""
+        """
+        Handle window close event.
+        
+        Ensures that any active game is properly left and the client disconnects
+        cleanly from the server before destroying the Tkinter root window.
+        """
         if self.client.running:
             self.client.leave_game()
 
@@ -1151,7 +1374,18 @@ class PacmanGUI:
 
 
 def main():
-    """Main entry point"""
+    """
+    Main entry point for the pAIcMan client application.
+    
+    This function:
+    1. Loads the configuration from config.json if available
+    2. Parses command-line arguments for server address
+    3. Ensures the logs directory exists
+    4. Creates and starts the Tkinter GUI application
+    
+    The application can be configured with a custom server address through either
+    the config.json file or the --server command-line argument.
+    """
     # Load configuration
     config = {}
     try:

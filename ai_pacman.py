@@ -17,7 +17,19 @@ class AIPacmanAgent:
         self.last_action = Directions.STOP
 
     def get_action(self, game_state):
-        """Get the action for Pacman given the current game state"""
+        """
+        Get the action for Pacman given the current game state.
+        
+        Args:
+            game_state: A GameState object containing the current state of the game
+                including pacman position, ghost positions, food positions, etc.
+        
+        Returns:
+            A direction from Directions (NORTH, SOUTH, EAST, WEST, or STOP)
+        
+        Raises:
+            NotImplementedError: This is an abstract method that must be implemented by subclasses
+        """
         raise NotImplementedError("Subclasses must implement get_action")
 
 class EasyAIPacman(AIPacmanAgent):
@@ -27,6 +39,20 @@ class EasyAIPacman(AIPacmanAgent):
     Simply moves randomly but avoids walls and tries not to stop
     """
     def get_action(self, game_state):
+        """
+        Get the action for Easy AI Pacman given the current game state.
+        
+        This implementation makes random moves, with a slight preference for continuing
+        in the same direction if possible (60% probability). It avoids the STOP action
+        unless there are no other legal actions available.
+        
+        Args:
+            game_state: A GameState object containing the current state of the game
+                including pacman position, ghost positions, food positions, etc.
+        
+        Returns:
+            A direction from Directions (NORTH, SOUTH, EAST, WEST, or STOP)
+        """
         # Get the legal actions for pacman excluding STOP
         legal_actions = [action for action in game_state.pacman_legal_actions if action != Directions.STOP]
         
@@ -51,10 +77,30 @@ class MediumAIPacman(AIPacmanAgent):
     avoids ghosts when they are close.
     """
     def __init__(self):
+        """
+        Initialize the Medium difficulty AI Pacman agent.
+        
+        Sets the fear_distance parameter that determines at what distance
+        the agent starts avoiding ghosts.
+        """
         super().__init__()
         self.fear_distance = 3  # Distance at which pacman becomes afraid of ghosts
     
     def get_action(self, game_state):
+        """
+        Get the action for Medium AI Pacman given the current game state.
+        
+        This implementation uses a greedy approach that scores actions based on:
+        1. Proximity to food (higher score for actions leading to closer food)
+        2. Avoiding non-scared ghosts that are within the fear_distance
+        
+        Args:
+            game_state: A GameState object containing the current state of the game
+                including pacman position, ghost positions, food positions, etc.
+        
+        Returns:
+            A direction from Directions (NORTH, SOUTH, EAST, WEST, or STOP)
+        """
         # Get the legal actions for pacman excluding STOP
         legal_actions = [action for action in game_state.pacman_legal_actions if action != Directions.STOP]
         
@@ -107,12 +153,37 @@ class HardAIPacman(AIPacmanAgent):
     Considers capsules to strategically hunt ghosts when advantageous.
     """
     def __init__(self):
+        """
+        Initialize the Hard difficulty AI Pacman agent.
+        
+        Sets various parameters that determine the agent's behavior:
+        - fear_distance: Distance at which pacman starts avoiding ghosts (larger than medium)
+        - close_ghost_threshold: Distance at which a ghost is considered dangerously close
+        - capsule_attraction: Multiplier to prioritize pursuing power capsules
+        """
         super().__init__()
         self.fear_distance = 4  # Increased awareness of ghosts
         self.close_ghost_threshold = 2  # Distance at which a ghost is considered "close"
         self.capsule_attraction = 5.0  # Higher value to prioritize capsules
     
     def get_action(self, game_state):
+        """
+        Get the action for Hard AI Pacman given the current game state.
+        
+        This advanced implementation scores actions based on multiple factors:
+        1. Proximity to food (higher score for actions leading to closer food)
+        2. Strategic pursuit of power capsules, especially when ghosts are nearby
+        3. Avoiding non-scared ghosts with increased awareness range
+        4. Chasing scared ghosts when it's safe to do so
+        5. Maintaining smooth movement patterns when no immediate threats/opportunities
+        
+        Args:
+            game_state: A GameState object containing the current state of the game
+                including pacman position, ghost positions, food positions, etc.
+        
+        Returns:
+            A direction from Directions (NORTH, SOUTH, EAST, WEST, or STOP)
+        """
         # Get the legal actions for pacman excluding STOP
         legal_actions = [action for action in game_state.pacman_legal_actions if action != Directions.STOP]
         
@@ -197,7 +268,22 @@ class HardAIPacman(AIPacmanAgent):
         return self.last_action
 
 def create_ai_agent(difficulty):
-    """Factory function to create an AI Pacman agent of the specified difficulty"""
+    """
+    Factory function to create an AI Pacman agent of the specified difficulty.
+    
+    Args:
+        difficulty (str): The difficulty level for the AI agent.
+            Must be one of "EASY", "MEDIUM", or "HARD".
+    
+    Returns:
+        AIPacmanAgent: An instance of the appropriate AI agent class based on
+            the specified difficulty. Defaults to MediumAIPacman if an invalid
+            difficulty is provided.
+    
+    Note:
+        If an invalid difficulty is specified, a warning will be logged and the
+        function will default to returning a MediumAIPacman agent.
+    """
     if difficulty == "EASY":
         return EasyAIPacman()
     elif difficulty == "MEDIUM":

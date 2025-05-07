@@ -5,6 +5,7 @@ Multiplayer pac-man built on a distributed system with AI agents playing the gho
 
 - Python 3.10+
 - Git
+- Conda
 
 ## Initial Setup
 
@@ -65,13 +66,13 @@ python pacman_server.py --port 50052
 
 #### Running a Fault-Tolerant Server Cluster
 
-To run a 3-node Raft cluster for fault tolerance:
+To run a 5-node Raft cluster for fault tolerance:
 
 ```bash
 ./start_cluster.sh
 ```
 
-This will start three server instances on ports 50051, 50052, and 50053 with shared state replication.
+This will start three server instances on ports 50051, 50052, 50053, 50054 and 50055 with shared state replication.
 
 ### 2. Run the Client
 
@@ -88,12 +89,13 @@ Client options:
 Example connecting to remote server:
 ```bash
 python pacman_client.py --server 192.168.1.100:50051
-``'
+```
 
 ### 3. Testing Fault Tolerance
 
 One of the key features of pAIc-man is its fault tolerance through Raft consensus. You can test this by deliberately killing one of the server instances while playing:
 
+```
 # Find the process ID of the server running on a specific port (e.g., 50052)
 lsof -i :50052 | grep LISTEN | awk '{print $2}'
 
@@ -103,7 +105,7 @@ kill <process_id>
 
 Alternatively, if you're running the servers in separate terminal windows, you can simply press `Ctrl+C` in the terminal of the server you want to kill.
 
-The system is designed to maintain game state and continue operation as long as a majority of servers (2 out of 3 in a standard setup) remain functional. After killing a server:
+The system is designed to maintain game state and continue operation as long as a majority of servers (3 out of 5 in a standard setup) remain functional. After killing a server:
 
 1. If you killed a follower server, gameplay should continue uninterrupted
 2. If you killed the leader server, there might be a brief pause while a new leader is elected, but the system should recover automatically

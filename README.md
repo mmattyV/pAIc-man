@@ -1,6 +1,9 @@
 # pAIc-man
 Multiplayer pac-man built on a distributed system with AI agents playing the ghosts or pac-man.
 
+## Demonstration
+[https://youtu.be/PIKjqm1SOO0](https://youtu.be/PIKjqm1SOO0)
+
 ## Prerequisites
 
 - Python 3.10+
